@@ -2,6 +2,11 @@
 //
 #include "resource.h"
 
+// Generated Help ID header file
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "resource.hm"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -49,13 +54,13 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "Cellosoft\0"
-            VALUE "FileDescription", "Mode 7 Ex Object for Clickteam's Multimedia Fusion.\\n\\nhttp://www.cellosoft.com/\\nhttp://www.cellosoft.com/extensions/\0"
-            VALUE "FileVersion", "0.96b\0"
+            VALUE "FileDescription", "Mode 7 ex Object for Multimedia Fusion.\0"
+            VALUE "FileVersion", VERSION_NUM "\0"
             VALUE "InternalName", "mode7\0"
             VALUE "LegalCopyright", "Copyright © 2000-2002 Marcello Bastea-Forte\0"
-            VALUE "OriginalFilename", "mode7.cox\0"
-            VALUE "ProductName", "Mode 7 Ex Object\0"
-            VALUE "ProductVersion", "2, 0, 9, 6 (0.96b)\0"
+            VALUE "OriginalFilename", "mode7ex.cox\0"
+            VALUE "ProductName", "Mode 7 ex\0"
+            VALUE "ProductVersion", "2, 1, 10, 2 (" VERSION_NUM ")\0"
             VALUE "SpecialBuild", "1\0"
         END
     END
@@ -84,8 +89,8 @@ END
 // Bitmap
 //
 
-EXO_ICON                BITMAP  MOVEABLE PURE   "EXTICON.BMP"
-EXO_IMAGE               BITMAP  MOVEABLE PURE   "EXTIMG.BMP"
+EXO_ICON                BITMAP  MOVEABLE PURE   "icon.bmp"
+EXO_IMAGE               BITMAP  MOVEABLE PURE   "icon.bmp"
 EXO_ABOUT               BITMAP  MOVEABLE PURE   "about.bmp"
 EXO_BUTTON              BITMAP  MOVEABLE PURE   "button.bmp"
 
@@ -214,8 +219,12 @@ BEGIN
             END
             POPUP "Wrap Mode"
             BEGIN
-                MENUITEM "Enable",                      IDMN_ACTION_WRAP_ON
-                MENUITEM "Disable",                     IDMN_ACTION_WRAP_OFF
+                MENUITEM "Enable Horizontal Wrap",      IDMN_ACTION_WRAPX_ON
+                MENUITEM "Disable Horizontal Wrap",     IDMN_ACTION_WRAPX_OFF
+
+                MENUITEM "Enable Vertical Wrap",        IDMN_ACTION_WRAPY_ON
+                MENUITEM "Disable Vertical Wrap",       IDMN_ACTION_WRAPY_OFF
+
             END
             POPUP "Fog"
             BEGIN
@@ -240,26 +249,26 @@ BEGIN
                 MENUITEM "Set Amount",                  IDMN_ACTION_SETFOGDISTANCE
 
             END
-            MENUITEM SEPARATOR
-            MENUITEM "Set Vanishing Point",         IDMN_ACTION_SET_VANISH
-            , GRAYED
+            //MENUITEM SEPARATOR
+            //MENUITEM "Set Vanishing Point",         IDMN_ACTION_SET_VANISH
+            //, GRAYED
             MENUITEM SEPARATOR
             MENUITEM "Set Zoom factor",             IDMN_ACTION_SET_ZOOM
         END
         MENUITEM SEPARATOR
         POPUP "Rotation"
         BEGIN
-            MENUITEM "Tilt Angle (X)",              IDMN_ACTION_SET_TILT
-            , GRAYED
+            //MENUITEM "Tilt Angle (X)",              IDMN_ACTION_SET_TILT
+            //, GRAYED
             MENUITEM "Rotation Angle (Y)",          IDMN_ACTION_SET_ANGLE
-            MENUITEM "Roll (Z)",                    IDMN_ACTION_SET_ROLL
-            , GRAYED
+            //MENUITEM "Roll (Z)",                    IDMN_ACTION_SET_ROLL
+            //, GRAYED
             MENUITEM SEPARATOR
-            MENUITEM "Adjust Tilt Angle (X)",       IDMN_ACTION_ADJUST_TILT
-            , GRAYED
+            //MENUITEM "Adjust Tilt Angle (X)",       IDMN_ACTION_ADJUST_TILT
+            //, GRAYED
             MENUITEM "Adjust Rotation Angle (Y)",   IDMN_ACTION_ADJUST_ANGLE
-            MENUITEM "Adjust Roll (Z)",             IDMN_ACTION_ADJUST_ROLL
-            , GRAYED
+            //MENUITEM "Adjust Roll (Z)",             IDMN_ACTION_ADJUST_ROLL
+            //, GRAYED
         END
         POPUP "Set Origin"
         BEGIN
@@ -401,7 +410,8 @@ BEGIN
             END
             POPUP "Wrap Mode"
             BEGIN
-                MENUITEM "Get Enabled (1=on)",          IDMN_EXP_GET_WRAP
+                MENUITEM "Get Horizontal (1=on)",       IDMN_EXP_GET_WRAPX
+                MENUITEM "Get Vertical (1=on)",         IDMN_EXP_GET_WRAPY
             END
             POPUP "Fog"
             BEGIN
@@ -420,20 +430,20 @@ BEGIN
                 MENUITEM "Get Amount",                  IDMN_EXP_GET_FOGDISTANCE
 
             END
-            MENUITEM SEPARATOR
-            MENUITEM "Get Vanishing Point",         IDMN_EXP_GET_VANISH
-            , GRAYED
+            //MENUITEM SEPARATOR
+            //MENUITEM "Get Vanishing Point",         IDMN_EXP_GET_VANISH
+            //, GRAYED
             MENUITEM SEPARATOR
             MENUITEM "Get Zoom factor",             IDMN_EXP_GET_ZOOM
         END
         MENUITEM SEPARATOR
         POPUP "Rotation"
         BEGIN
-            MENUITEM "Get Tilt Angle (X)",          IDMN_EXP_GET_TILT
-            , GRAYED
+            //MENUITEM "Get Tilt Angle (X)",          IDMN_EXP_GET_TILT
+            //, GRAYED
             MENUITEM "Get Rotation Angle (Y)",      IDMN_EXP_GET_ANGLE
-            MENUITEM "Get Roll (Z)",                IDMN_EXP_GET_ROLL
-            , GRAYED
+            //MENUITEM "Get Roll (Z)",                IDMN_EXP_GET_ROLL
+            //, GRAYED
         END
         POPUP "Origin"
         BEGIN
@@ -454,30 +464,16 @@ BEGIN
             MENUITEM "Get on-screen X from X,Y",    IDMN_EXP_GET_MAPX
             MENUITEM "Get on-screen Y from X,Y",    IDMN_EXP_GET_MAPY
             MENUITEM "Get on-screen width from X,Y,W,H", 
-                                                    IDMN_EXP_GET_MAPWIDTH2
+                                                    IDMN_EXP_GET_MAPWIDTH
             MENUITEM "Get on-screen height from X,Y,W,H", 
-                                                    IDMN_EXP_GET_MAPHEIGHT2
+                                                    IDMN_EXP_GET_MAPHEIGHT
             MENUITEM SEPARATOR
             MENUITEM "Get on-screen X from X,Y,Z",  IDMN_EXP_GET_MAPXZ
             MENUITEM "Get on-screen Y from X,Y,Z",  IDMN_EXP_GET_MAPYZ
             MENUITEM SEPARATOR
             MENUITEM "Get on-screen angle from X,Y,A", IDMN_EXP_GET_MAPANGLE
-            MENUITEM "Visible at X,Y,W,H (1=visible)", 
-                                                    IDMN_EXP_GET_MAPVISIBLE2
-            MENUITEM SEPARATOR
-            POPUP "Old routines"
-            BEGIN
-                MENUITEM "Get on-screen height from X,Y,H", 
-                                                        IDMN_EXP_GET_MAPHEIGHT
-
-                MENUITEM "Get on-screen width from X,Y,W,H", 
-                                                        IDMN_EXP_GET_MAPWIDTH
-
-                MENUITEM SEPARATOR
-                MENUITEM "Visible at X,Y,W,H (1=visible)", 
-                                                        IDMN_EXP_GET_MAPVISIBLE
-
-            END
+            MENUITEM "Visible at X,Y,W,H (1=visible)",  IDMN_EXP_GET_MAPVISIBLE
+            MENUITEM "Visible at X,Y,Z,W,H (1=visible)",  IDMN_EXP_GET_MAPVISIBLEZ
         END
         MENUITEM SEPARATOR
         POPUP "Redraw"
@@ -493,47 +489,63 @@ END
 // Dialog
 //
 
-DB_SETUP DIALOGEX 31, 57, 192, 146
+DB_SETUP DIALOGEX 31, 57, 191, 214
 STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Mode 7 Ex Options"
-FONT 8, "MS Sans Serif", 0, 0, 0x1
+EXSTYLE WS_EX_CONTEXTHELP
+CAPTION "Mode 7 ex Options"
+FONT 8, "MS Sans Serif"
 BEGIN
     CONTROL         401,IDC_STATIC,"Static",SS_BITMAP | SS_REALSIZEIMAGE,3,3,
                     24,22,WS_EX_CLIENTEDGE
-    LTEXT           "Mode 7 Object Ex v0.96b\nBy Marcello Bastea-Forte",
-                    IDC_STATIC,32,6,102,17
-    RTEXT           "Image:",IDC_STATIC,9,86,29,9
-    EDITTEXT        ID_EDITPATH,41,84,97,13,ES_AUTOHSCROLL,WS_EX_ACCEPTFILES
-    PUSHBUTTON      "&Browse",ID_EDITBROWSE,142,84,34,13
-    CONTROL         "",ID_IMAGEVIEW,"Static",SS_SIMPLE | SS_SUNKEN,10,35,57,
-                    32
-    LTEXT           "ID:",IDC_STATIC,85,34,9,8
-    RTEXT           "0",IDC_IMAGENUM,95,34,17,8
-    PUSHBUTTON      "<",IDC_PREVIMAGE,115,32,9,11
-    PUSHBUTTON      ">",IDC_NEXTIMAGE,126,32,9,11
-    PUSHBUTTON      "&Edit",ID_EDITDRAW,74,58,28,11
-    PUSHBUTTON      "&Delete",IDC_REMOVE,104,58,31,11
-    PUSHBUTTON      "Insert Before",IDC_INSERTBEFORE,138,58,45,11
-    PUSHBUTTON      "Insert After",IDC_INSERTAFTER,138,45,45,11
-    EDITTEXT        IDC_EDITIMAGENAME,96,44,40,12,ES_AUTOHSCROLL | NOT 
+    LTEXT           "Mode 7 ex v1.01\nCopyright © 2000-2002 Marcello Bastéa-Forte",
+                    IDC_STATIC,27,6,144,17
+    CONTROL         "",ID_IMAGEVIEW,"Static",SS_SIMPLE | SS_SUNKEN,12,62,69,
+                    49
+    LTEXT           "ID #:",IDC_STATIC,12,52,15,8
+    RTEXT           "0",IDC_IMAGENUM,31,52,17,8
+    PUSHBUTTON      "<",IDC_PREVIMAGE,51,51,14,9
+    PUSHBUTTON      ">",IDC_NEXTIMAGE,67,51,14,9
+    PUSHBUTTON      "&Edit Image",ID_EDITDRAW,84,63,42,11
+    PUSHBUTTON      "&Delete Image",IDC_REMOVE,129,63,51,11
+    PUSHBUTTON      "Insert &Before",IDC_INSERTBEFORE,110,36,70,11
+    PUSHBUTTON      "&Insert",IDC_INSERTAFTER,65,36,41,11
+    EDITTEXT        IDC_EDITIMAGENAME,107,50,73,12,ES_AUTOHSCROLL | NOT 
                     WS_BORDER,WS_EX_CLIENTEDGE
-    GROUPBOX        "Options",IDC_STATIC,3,74,185,50
-    CONTROL         "Transparency Mode (Black (0,0,0) is Transparent)",
-                    IDC_TRANS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,98,172,
-                    10
-    CONTROL         "Tile image (wrap-mode)",IDC_WRAP,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,8,111,101,10
-    DEFPUSHBUTTON   "&OK",IDOK,18,128,50,14
-    PUSHBUTTON      "&About",ID_ABOUT,75,128,50,14
-    PUSHBUTTON      "&Cancel",IDCANCEL,132,128,50,14
-    GROUPBOX        "Internal Images",IDC_STATIC,3,25,185,48
-    LTEXT           "Name:",IDC_STATIC,74,46,21,8
-    PUSHBUTTON      "Import File",IDC_IMPORTIMAGE,138,32,45,11,WS_DISABLED
+    GROUPBOX        "Render Options",IDC_STATIC,3,120,184,47
+    CONTROL         "Use Black-&Transparency",IDC_TRANS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,90,128,92,10,0,HIDC_TRANS
+    CONTROL         "&Wrap Image",IDC_WRAP,"Button",BS_AUTO3STATE | 
+                    WS_TABSTOP,8,128,53,10
+    DEFPUSHBUTTON   "&OK",IDOK,7,196,46,14
+    PUSHBUTTON      "&About",ID_ABOUT,60,196,46,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,138,196,46,14
+    GROUPBOX        "Internal Images",IDC_STATIC,3,25,184,93
+    LTEXT           "Name:",IDC_STATIC,84,52,21,8
+    PUSHBUTTON      "Import &File",IDC_IMPORTIMAGE,20,36,41,11,WS_DISABLED
+    CONTROL         "Enable &Mip-Mapping",IDC_MIP_MAP,"Button",BS_AUTO3STATE | 
+                    WS_TABSTOP,8,148,79,10
+    CONTROL         "&Main Image",IDC_MAIN_IMAGE,"Button",BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP,100,84,70,9
+    CONTROL         "&Secondary Image",IDC_SECOND_IMAGE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,100,93,70,9
+    CONTROL         "&Height Map",IDC_HEIGHT_MAP,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,100,102,70,9
+    LTEXT           "Use this Image as:",IDC_STATIC,85,76,56,9
+    CONTROL         "Enable &Fog",IDC_FOG,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,8,138,51,10
+    CONTROL         "Enable Inter&polation",IDC_INTERPOLATE,"Button",
+                    BS_AUTO3STATE | WS_TABSTOP,90,138,92,10
+    PUSHBUTTON      "&Advanced...",ID_ADVANCED,129,151,53,12
+    CONTROL         "Auto-&Locate Camera",IDC_LOCATE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,86,178,78,10
+    CONTROL         "Enable Auto-&Redraw",IDC_AUTO_REDRAW,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,8,178,78,10
+    GROUPBOX        "Miscellaneous Options",IDC_STATIC,3,169,184,22
 END
 
 DB_ABOUT DIALOG DISCARDABLE  0, 0, 268, 66
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "About Mode 7 Ex Object"
+CAPTION "About Mode 7 ex Object"
 FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,211,7,50,14
@@ -541,8 +553,67 @@ BEGIN
                     BS_VCENTER
     CONTROL         102,ID_MODE7IMAGE,"Static",SS_BITMAP | SS_CENTERIMAGE | 
                     SS_SUNKEN,5,14,46,35
-    LTEXT           "Mode 7 Ex Object v0.x Beta\n\nCopyright © 2000-2002 Marcello Bastéa-Forte, All rights reserved.\n\nhttp://www.cellosoft.com/extensions/",
+    LTEXT           "Mode 7 ex v1.01\n\nCopyright © 2000-2002 Marcello Bastéa-Forte and Cellosoft, All rights reserved.\n\nhttp://www.cellosoft.com/extensions/",
                     IDC_STATIC,56,7,153,50
+END
+
+DB_ADVSETUP DIALOGEX 0, 0, 260, 158
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Mode 7 ex Advanced Options"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,90,140,31,14
+    PUSHBUTTON      "Cancel",IDCANCEL,139,140,31,14
+    GROUPBOX        "Wrap",IDC_STATIC,92,102,78,31
+    CONTROL         "Wrap &Horizontally",IDC_WRAPH,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,97,111,69,10
+    CONTROL         "Wrap &Vertically",IDC_WRAPV,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,97,120,67,11
+    GROUPBOX        "Fog",IDC_STATIC,92,23,78,76
+    PUSHBUTTON      "&Choose",IDC_FOGCOLOR,126,83,38,10
+    EDITTEXT        IDC_FOGAMOUNT,123,43,43,12,ES_AUTOHSCROLL | ES_NUMBER
+    RTEXT           "Amount:",IDC_STATIC,94,45,25,8
+    LTEXT           "",IDC_FOGCBOX,98,83,23,10,SS_SUNKEN | NOT WS_GROUP
+    CONTROL         "Slider1",IDC_SLIDER,"msctls_trackbar32",TBS_AUTOTICKS | 
+                    WS_TABSTOP,97,56,68,15
+    GROUPBOX        "Mip-Mapping",IDC_STATIC,4,57,80,66
+    CONTROL         "Main Image",IDC_MIP_MAP,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,9,67,71,10
+    CONTROL         "Secondary Image",IDC_MIP_MAP2,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,9,76,71,10
+    CONTROL         "Height Mapping",IDC_MIP_MAPH,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,9,85,71,10
+    GROUPBOX        "Interpolation",IDC_STATIC,4,23,80,31
+    CONTROL         "Image",IDC_INTERPOLATE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,8,32,71,10
+    CONTROL         "Height Map",IDC_INTERPOLATEH,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,8,42,71,9
+    LTEXT           "",IDC_MMCBOX,10,107,23,10,SS_SUNKEN | NOT WS_GROUP
+    PUSHBUTTON      "&Choose",IDC_MMCOLOR,39,107,40,10
+    LTEXT           "Fog Color:",IDC_STATIC,96,73,32,8
+    GROUPBOX        "Height Mapping",IDC_STATIC,177,23,79,41
+    GROUPBOX        "Resolution",IDC_STATIC,177,67,79,54
+    EDITTEXT        IDC_THICKNESS,218,33,33,12,ES_AUTOHSCROLL | ES_NUMBER
+    RTEXT           "Thickness:",IDC_STATIC,181,35,34,8
+    EDITTEXT        IDC_RESX,202,78,20,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_RESY,231,78,22,12,ES_AUTOHSCROLL
+    CTEXT           "x",IDC_STATIC,223,79,8,8
+    LTEXT           "Size:",IDC_STATIC,185,80,16,8
+    COMBOBOX        IDC_RESMODE,181,104,47,59,CBS_DROPDOWNLIST | 
+                    CBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_RESPARAM,231,104,20,12,ES_AUTOHSCROLL
+    COMBOBOX        IDC_THICKMODE,204,47,47,46,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    RTEXT           "Mode:",IDC_STATIC,180,49,21,8
+    LTEXT           "Resolution Mode:",IDC_STATIC,183,94,54,9
+    CONTROL         401,IDC_STATIC,"Static",SS_BITMAP | SS_REALSIZEIMAGE,3,3,
+                    24,22,WS_EX_CLIENTEDGE
+    LTEXT           "Mode 7 ex v1.01\nCopyright © 2000-2002 Marcello Bastéa-Forte",
+                    IDC_STATIC,26,4,148,17
+    CONTROL         "Transparent Color:",IDC_MMTRANS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,9,97,72,10
+    CONTROL         "Enable &Fog",IDC_FOG2,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,95,32,72,10
 END
 
 
@@ -587,17 +658,26 @@ BEGIN
     DB_SETUP, DIALOG
     BEGIN
         LEFTMARGIN, 3
-        RIGHTMARGIN, 188
+        RIGHTMARGIN, 187
         TOPMARGIN, 3
-        BOTTOMMARGIN, 142
+        BOTTOMMARGIN, 210
     END
 
     DB_ABOUT, DIALOG
     BEGIN
         LEFTMARGIN, 4
         RIGHTMARGIN, 261
+        VERTGUIDE, 177
         TOPMARGIN, 7
         BOTTOMMARGIN, 57
+    END
+
+    DB_ADVSETUP, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 256
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 154
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -611,9 +691,9 @@ END
 STRINGTABLE DISCARDABLE 
 BEGIN
     KPX_MARK                "CC2"
-    KPX_NAME                "Mode 7 Ex Object"
-    KPX_CREATETITLE         "Create a new Mode 7 Ex Object"
-    M_DESC                  " %s : Mode 7 Ex object"
+    KPX_NAME                "Mode 7 ex"
+    KPX_CREATETITLE         "Create a new Mode 7 ex Object"
+    M_DESC                  " %s : Mode 7 ex"
 END
 
 STRINGTABLE DISCARDABLE 
@@ -648,127 +728,17 @@ BEGIN
     M_ACTION_WALK_BACK      "01Walk backward %s."
     M_ACTION_WALK_LEFT      "01Walk left (strafe) %s."
     M_ACTION_WALK_RIGHT     "01Walk right (strafe) %s."
-    M_ACTION_WRAP_ON        "00Wrap mode on."
-    M_ACTION_WRAP_OFF       "00Wrap mode off."
+    M_ACTION_WRAPX_ON       "00Horizontal wrap on."
+    M_ACTION_WRAPX_OFF      "00Horizontal wrap off."
+    M_ACTION_WRAPY_ON       "00Vertical wrap on."
+    M_ACTION_WRAPY_OFF      "00Vertical wrap off."
     M_EXP_GET_WIDTH         "Width("
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
     M_EXP_GET_HEIGHT        "Height("
     M_EXP_GET_IMAGE_WIDTH   "ImageWidth("
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    M_EXP_GET_MAPY          "GetMapY("
-    M_EXP_GET_MAPXZ         "GetMapXZ("
-    M_EXP_GET_MAPYZ         "GetMapYZ("
-    M_EXP_GET_MAPWIDTH      "GetMapWidth("
-    M_EXP_GET_MAPHEIGHT     "GetMapHeight("
-    M_EXP_GET_MAPWIDTHZ     "GetMapWidthZ("
-    M_EXP_GET_MAPHEIGHTZ    "GetMapHeightZ("
-    M_EXP_GET_MAPANGLE      "GetMapAngle("
-    M_EXP_GET_MAPVISIBLE    "GetMapVisible("
-    M_ACTION_SET_RES        "01Set resolution to %sx%s."
-    M_ACTION_SET_RESMODE    "Set resolution mode to %0 (param: %1)."
-    M_ACTION_SET_THICK      "Set thickness to %0."
-    M_EXP_GET_RESX          "ResolutionX("
-    M_EXP_GET_RESY          "ResolutionY("
-    M_EXP_GET_RESMODE       "ResolutionMode("
-    M_EXP_GET_RESMODEPARAM  "ResolutionModeParam("
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    M_EXP_GET_THICK         "Thickness("
-    M_ACTION_ADJUST_TILT    "01Adjust Tilt (X) Angle by %s degrees."
-    M_ACTION_ADJUST_ROLL    "01Adjust Roll (Z) Angle by %s degrees."
-    M_ACTION_SET_XRES       "Set horizontal resolution to %0."
-    M_ACTION_SET_YRES       "Set vertical resolution to %0."
-    M_ACTION_LOAD_IMAGENUM  "Load Image %0 into Main Image Map."
-    M_ACTION_LOAD_IMAGENAME "Load Image %0 into Main Image Map."
-    M_ACTION_LOAD_IMAGE2    "Load File %0 into Secondary Image Map."
-    M_ACTION_LOAD_IMAGE2NUM "Load Image %0 into Secondary Image Map."
-    M_ACTION_LOAD_IMAGE2NAME "Load Image %0 into Secondary Image Map."
-    M_ACTION_LOAD_IMAGEH    "Load File %0 into Image Height Map."
-    M_ACTION_LOAD_IMAGEHNUM "Load Image %0 into Image Height Map."
-    M_ACTION_LOAD_IMAGEHNAME "Load Image %0 into Image Height Map."
-    M_EXP_GET_IMAGE_NUM     "ImageNumber("
-    M_EXP_GET_IMAGE2_WIDTH  "SecondaryImageWidth("
-    M_EXP_GET_IMAGE2_HEIGHT "SecondaryImageHeight("
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    M_EXP_GET_IMAGE2_NUM    "SecondaryImageNumber("
-    M_EXP_GET_IMAGE2_FILE   "SecondaryImageName$("
-    M_EXP_GET_IMAGEH_WIDTH  "HeightImageWidth("
-    M_EXP_GET_IMAGEH_HEIGHT "HeightImageHeight("
-    M_EXP_GET_IMAGEH_NUM    "HeightImageNumber("
-    M_EXP_GET_IMAGEH_FILE   "HeightImagName$("
-    M_EXP_GET_IMAGE_HEIGHT_AT "HeightAt("
-    M_ACTION_UNLOAD_IMAGE2  "Unload Image from Secondary Image Map."
-    M_ACTION_UNLOAD_IMAGEH  "Unload Image from Image Height Map."
-    M_ACTION_FOG_ON         "Enable Fog"
-    M_ACTION_FOG_OFF        "Disable Fog"
-    M_ACTION_CHOOSEFOGCOLOR "Set Fog Color to %0."
-    M_ACTION_SETFOGCOLOR    "Set Fog Color to RGB( %0 , %1, %2 )."
-    M_ACTION_SETFOGRED      "Set Fog Red to %0."
-    M_ACTION_SETFOGGREEN    "Set Fog Green to %0."
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    M_ACTION_SETFOGBLUE     "Set Fog Blue to %0."
-    M_ACTION_SETFOGDISTANCE "Set Fog Distance to %0."
-    M_EXP_GET_FOG           "Fog("
-    M_EXP_GET_FOGRED        "FogRed("
-    M_EXP_GET_FOGGREEN      "FogGreen("
-    M_EXP_GET_FOGBLUE       "FogBlue("
-    M_EXP_GET_FOGDISTANCE   "FogDistance("
-    M_ACTION_SET_XOFFSET2   "Set X Origin of Secondary Layer to %0."
-    M_ACTION_SET_YOFFSET2   "Set Y Origin of Secondary Layer to %0."
-    M_ACTION_ADJUST_XOFFSET2 "Slide X Origin of Secondary Layer to %0."
-    M_ACTION_ADJUST_YOFFSET2 "Slide Y Origin of Secondary Layer to %0."
-    M_ACTION_SET_ANGLE2     "Set Rotation Angle (Y) of Secondary Layer to %0 degrees."
-    M_ACTION_ADJUST_ANGLE2  "Adjust Rotation Angle (Y) of Secondary Layer by %0 degrees."
-    M_EXP_GET_XOFFSET2      "SecondaryXOffset("
-    M_EXP_GET_YOFFSET2      "SecondaryYOffset("
-    M_EXP_GET_ANGLE2        "SecondaryAngle("
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    M_ACTION_SET_THICKNESSMODE "Set Thickness Mode to %0."
-    M_EXP_GET_THICKNESSMODE "ThicknessMode("
-    M_ACTION_INTERPOL_ON    "Enable Image Interpolation"
-    M_ACTION_INTERPOL_OFF   "Disable Image Interpolation"
-    M_ACTION_HINTERPOL_ON   "Enable Elevation Interpolation"
-    M_ACTION_HINTERPOL_OFF  "Disable Elevation Interpolation"
-    M_EXP_GET_INTERPOL      "ImageInterpolation("
-    M_EXP_GET_HINTERPOL     "ElevationInterpolation("
-    M_ACTION_MIPMAP_ON      "Enable Image Mip-Mapping"
-    M_ACTION_MIPMAP_OFF     "Disable Image Mip-Mapping"
-    M_ACTION_MIPMAP2_ON     "Enable Secondary Image Mip-Mapping"
-    M_ACTION_MIPMAP2_OFF    "Disable Secondary Image Mip-Mapping"
-    M_ACTION_MIPMAPH_ON     "Enable Image Height Map Mip-Mapping"
-    M_ACTION_MIPMAPH_OFF    "Disable Image Height Map Mip-Mapping"
-    M_EXP_GET_MIPMAP        "ImageMipMap("
-    M_EXP_GET_MIPMAP2       "SecondaryImageMipMap("
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    M_EXP_GET_MIPMAPH       "ElevationMipMap("
-    M_ACTION_AUTOREDRAW_ON  "Enable Auto-Redraw"
-    M_ACTION_AUTOREDRAW_OFF "Disable Auto-Redraw"
-    M_EXP_GET_AUTOREDRAW    "AutoRedraw("
-    M_ACTION_MIPMAP_TRANS   "Set Mip-Map Transparent Color to %0"
-    M_ACTION_MIPMAP_TRANS_OFF "Clear Mip-Map Transparency Color"
-    M_EXP_GET_MAPWIDTH2     "GetMapWidthN("
-    M_EXP_GET_MAPHEIGHT2    "GetMapHeightN("
-    M_EXP_GET_MAPVISIBLE2   "GetMapVisibleN("
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
     M_EXP_GET_IMAGE_HEIGHT  "ImageHeight("
     M_EXP_GET_FILE          "ImageName$("
     M_EXP_GET_TRANS         "Transparency("
@@ -783,8 +753,119 @@ BEGIN
     M_EXP_GET_YCENTER       "Y Center("
     M_EXP_GET_VANISH        "Vanishing Point("
     M_EXP_GET_ZOOM          "Zoom("
-    M_EXP_GET_WRAP          "Wrap("
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    M_EXP_GET_WRAPX         "WrapX("
+    M_EXP_GET_WRAPY         "WrapY("
     M_EXP_GET_MAPX          "GetMapX("
+    M_EXP_GET_MAPY          "GetMapY("
+    M_EXP_GET_MAPXZ         "GetMapXZ("
+    M_EXP_GET_MAPYZ         "GetMapYZ("
+    M_EXP_GET_MAPWIDTH      "GetMapWidth("
+    M_EXP_GET_MAPHEIGHT     "GetMapHeight("
+    M_EXP_GET_MAPWIDTHZ     "GetMapWidthZ("
+    M_EXP_GET_MAPHEIGHTZ    "GetMapHeightZ("
+    M_EXP_GET_MAPANGLE      "GetMapAngle("
+    M_EXP_GET_MAPVISIBLE    "GetMapVisible("
+    M_EXP_GET_MAPVISIBLEZ   "GetMapVisibleZ("
+    M_ACTION_SET_RES        "01Set resolution to %sx%s."
+    M_ACTION_SET_RESMODE    "Set resolution mode to %0 (param: %1)."
+    M_ACTION_SET_THICK      "Set thickness to %0."
+    M_EXP_GET_RESX          "ResolutionX("
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    M_EXP_GET_RESY          "ResolutionY("
+    M_EXP_GET_RESMODE       "ResolutionMode("
+    M_EXP_GET_RESMODEPARAM  "ResolutionModeParam("
+    M_EXP_GET_THICK         "Thickness("
+    M_ACTION_ADJUST_TILT    "01Adjust Tilt (X) Angle by %s degrees."
+    M_ACTION_ADJUST_ROLL    "01Adjust Roll (Z) Angle by %s degrees."
+    M_ACTION_SET_XRES       "Set horizontal resolution to %0."
+    M_ACTION_SET_YRES       "Set vertical resolution to %0."
+    M_ACTION_LOAD_IMAGENUM  "Load Image %0 into Main Image Map."
+    M_ACTION_LOAD_IMAGENAME "Load Image %0 into Main Image Map."
+    M_ACTION_LOAD_IMAGE2    "Load File %0 into Secondary Image Map."
+    M_ACTION_LOAD_IMAGE2NUM "Load Image %0 into Secondary Image Map."
+    M_ACTION_LOAD_IMAGE2NAME "Load Image %0 into Secondary Image Map."
+    M_ACTION_LOAD_IMAGEH    "Load File %0 into Image Height Map."
+    M_ACTION_LOAD_IMAGEHNUM "Load Image %0 into Image Height Map."
+    M_ACTION_LOAD_IMAGEHNAME "Load Image %0 into Image Height Map."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    M_EXP_GET_IMAGE_NUM     "ImageNumber("
+    M_EXP_GET_IMAGE2_WIDTH  "SecondaryImageWidth("
+    M_EXP_GET_IMAGE2_HEIGHT "SecondaryImageHeight("
+    M_EXP_GET_IMAGE2_NUM    "SecondaryImageNumber("
+    M_EXP_GET_IMAGE2_FILE   "SecondaryImageName$("
+    M_EXP_GET_IMAGEH_WIDTH  "HeightImageWidth("
+    M_EXP_GET_IMAGEH_HEIGHT "HeightImageHeight("
+    M_EXP_GET_IMAGEH_NUM    "HeightImageNumber("
+    M_EXP_GET_IMAGEH_FILE   "HeightImagName$("
+    M_EXP_GET_IMAGE_HEIGHT_AT "HeightAt("
+    M_ACTION_UNLOAD_IMAGE2  "Unload Image from Secondary Image Map."
+    M_ACTION_UNLOAD_IMAGEH  "Unload Image from Image Height Map."
+    M_ACTION_FOG_ON         "Enable Fog"
+    M_ACTION_FOG_OFF        "Disable Fog"
+    M_ACTION_CHOOSEFOGCOLOR "Set Fog Color to %0."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    M_ACTION_SETFOGCOLOR    "Set Fog Color to RGB( %0 , %1, %2 )."
+    M_ACTION_SETFOGRED      "Set Fog Red to %0."
+    M_ACTION_SETFOGGREEN    "Set Fog Green to %0."
+    M_ACTION_SETFOGBLUE     "Set Fog Blue to %0."
+    M_ACTION_SETFOGDISTANCE "Set Fog Distance to %0."
+    M_EXP_GET_FOG           "Fog("
+    M_EXP_GET_FOGRED        "FogRed("
+    M_EXP_GET_FOGGREEN      "FogGreen("
+    M_EXP_GET_FOGBLUE       "FogBlue("
+    M_EXP_GET_FOGDISTANCE   "FogDistance("
+    M_ACTION_SET_XOFFSET2   "Set X Origin of Secondary Layer to %0."
+    M_ACTION_SET_YOFFSET2   "Set Y Origin of Secondary Layer to %0."
+    M_ACTION_ADJUST_XOFFSET2 "Slide X Origin of Secondary Layer to %0."
+    M_ACTION_ADJUST_YOFFSET2 "Slide Y Origin of Secondary Layer to %0."
+    M_ACTION_SET_ANGLE2     "Set Rotation Angle (Y) of Secondary Layer to %0 degrees."
+    M_ACTION_ADJUST_ANGLE2  "Adjust Rotation Angle (Y) of Secondary Layer by %0 degrees."
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    M_EXP_GET_XOFFSET2      "SecondaryXOffset("
+    M_EXP_GET_YOFFSET2      "SecondaryYOffset("
+    M_EXP_GET_ANGLE2        "SecondaryAngle("
+    M_ACTION_SET_THICKNESSMODE "Set Thickness Mode to %0."
+    M_EXP_GET_THICKNESSMODE "ThicknessMode("
+    M_ACTION_INTERPOL_ON    "Enable Image Interpolation"
+    M_ACTION_INTERPOL_OFF   "Disable Image Interpolation"
+    M_ACTION_HINTERPOL_ON   "Enable Elevation Interpolation"
+    M_ACTION_HINTERPOL_OFF  "Disable Elevation Interpolation"
+    M_EXP_GET_INTERPOL      "ImageInterpolation("
+    M_EXP_GET_HINTERPOL     "ElevationInterpolation("
+    M_ACTION_MIPMAP_ON      "Enable Image Mip-Mapping"
+    M_ACTION_MIPMAP_OFF     "Disable Image Mip-Mapping"
+    M_ACTION_MIPMAP2_ON     "Enable Secondary Image Mip-Mapping"
+    M_ACTION_MIPMAP2_OFF    "Disable Secondary Image Mip-Mapping"
+    M_ACTION_MIPMAPH_ON     "Enable Image Height Map Mip-Mapping"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    M_ACTION_MIPMAPH_OFF    "Disable Image Height Map Mip-Mapping"
+    M_EXP_GET_MIPMAP        "ImageMipMap("
+    M_EXP_GET_MIPMAP2       "SecondaryImageMipMap("
+    M_EXP_GET_MIPMAPH       "ElevationMipMap("
+    M_ACTION_AUTOREDRAW_ON  "Enable Auto-Redraw"
+    M_ACTION_AUTOREDRAW_OFF "Disable Auto-Redraw"
+    M_EXP_GET_AUTOREDRAW    "AutoRedraw("
+    M_ACTION_MIPMAP_TRANS   "Set Mip-Map Transparent Color to %0"
+    M_ACTION_MIPMAP_TRANS_OFF "Clear Mip-Map Transparency Color"
 END
 
 STRINGTABLE DISCARDABLE 
@@ -830,11 +911,11 @@ END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-    IDST_OBJNAME            "Mode 7 Ex Object"
+    IDST_OBJNAME            "Mode 7 ex Object"
     IDST_AUTHOR             "Marcello Bastéa-Forte, Cellosoft"
     IDST_COPYRIGHT          "Copyright © 2000-2002 Marcello Bastéa-Forte, Cellosoft"
-    IDST_COMMENT            "V2 Extension for MMF"
-    IDST_HTTP               "http://www.cellosoft.com"
+    IDST_COMMENT            "Advanced Graphical Extension for MMF"
+    IDST_HTTP               "http://www.cellosoft.com/"
     IDS_DEFNAME             "Image 1"
 END
 

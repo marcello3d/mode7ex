@@ -150,8 +150,7 @@
 #define EXP_GET_MIPMAP2							56
 #define	EXP_GET_MIPMAPH							57
 #define EXP_GET_AUTOREDRAW         				58
-#define EXP_GET_MAPVISIBLEZ						59
-#define	EXP_LAST								60
+#define	EXP_LAST								59
 
 // --------------------------------
 // EDITION OF OBJECT DATA STRUCTURE

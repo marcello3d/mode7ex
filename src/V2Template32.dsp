@@ -25,6 +25,8 @@ CFG=V2Template32 - Win32 Debug
  "Win32 (x86) Dynamic-Link Library")
 !MESSAGE "V2Template32 - Win32 Run Only2" (based on\
  "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "V2Template32 - Win32 Vitalize" (based on\
+ "Win32 (x86) Dynamic-Link Library")
 !MESSAGE 
 
 # Begin Project
@@ -58,7 +60,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ..\lib\cncs32.lib /nologo /dll /machine:I386 /out:"C:\IMSI\MMF15\Programs\Extensions\mode7.cox"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ..\lib\cncs32.lib /nologo /dll /machine:I386 /out:"C:\IMSI\MMF15\Programs\Extensions\mode7ex.cox"
 
 !ELSEIF  "$(CFG)" == "V2Template32 - Win32 Debug"
 
@@ -84,7 +86,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ..\lib\cncs32.lib /nologo /dll /debug /machine:I386 /out:".\Debug/mode7.cox"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ..\lib\cncs32.lib /nologo /dll /debug /machine:I386 /out:"C:\IMSI\MMF15\Programs\Extensions\mode7ex.cox"
 
 !ELSEIF  "$(CFG)" == "V2Template32 - Win32 Run_Only"
 
@@ -111,7 +113,12 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ..\lib\cncs32.lib /nologo /dll /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ..\lib\cncs32.lib /nologo /dll /machine:I386 /out:"C:\IMSI\MMF15\Programs\Data\Runtime\mode7.cox"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ..\lib\cncs32.lib /nologo /dll /machine:I386 /out:"C:\Program Files\Common Files\Vitalize\mode7ex.mox"
+# Begin Special Build Tool
+SOURCE=$(InputPath)
+PostBuild_Desc=Compress
+PostBuild_Cmds=c:\upx\upx C:\Program Files\Common Files\Vitalize\mode7ex.mox
+# End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "V2Template32 - Win32 Run Only2"
 
@@ -138,7 +145,39 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ..\lib\cncs32.lib /nologo /dll /machine:I386 /out:"C:\IMSI\MMFusion\Programs\Extensions\mode7.cox"
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ..\lib\cncs32.lib /nologo /dll /machine:I386 /out:"C:\IMSI\MMF15\Programs\Data\Runtime\mode7.cox"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ..\lib\cncs32.lib /nologo /dll /machine:I386 /out:"C:\IMSI\MMF15\Programs\Data\Runtime\mode7ex.cox"
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Vitalize"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 0
+# PROP BASE Output_Dir "V2Templ0"
+# PROP BASE Intermediate_Dir "V2Templ0"
+# PROP BASE Ignore_Export_Lib 0
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 0
+# PROP Output_Dir "V2Templ0"
+# PROP Intermediate_Dir "V2Templ0"
+# PROP Ignore_Export_Lib 0
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /W3 /GX /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "STRICT" /D "RUN_ONLY" /YX /FD /c
+# ADD CPP /nologo /W3 /GX /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "STRICT" /D "RUN_ONLY" /D "VITALIZE" /YX /FD /c
+# ADD BASE MTL /nologo /D "NDEBUG" /D "RUN_ONLY" /mktyplib203 /win32
+# ADD MTL /nologo /D "NDEBUG" /D "RUN_ONLY" /mktyplib203 /win32
+# ADD BASE RSC /l 0x409 /d "NDEBUG" /d "RUN_ONLY"
+# ADD RSC /l 0x409 /d "NDEBUG" /d "RUN_ONLY"
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LINK32=link.exe
+# ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ..\lib\cncs32.lib /nologo /dll /machine:I386 /out:"C:\IMSI\MMF15\Programs\Data\Runtime\mode7ex.cox"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ..\lib\cncs32.lib /nologo /dll /machine:I386 /out:"C:\Program Files\Common Files\Vitalize\mode7ex.mox"
+# Begin Special Build Tool
+SOURCE=$(InputPath)
+PostBuild_Desc=Compress
+PostBuild_Cmds=c:\upx\upx "C:\Program Files\Common Files\Vitalize\mode7ex.mox"
+# End Special Build Tool
 
 !ENDIF 
 
@@ -148,6 +187,7 @@ LINK32=link.exe
 # Name "V2Template32 - Win32 Debug"
 # Name "V2Template32 - Win32 Run_Only"
 # Name "V2Template32 - Win32 Run Only2"
+# Name "V2Template32 - Win32 Vitalize"
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
@@ -179,6 +219,13 @@ SOURCE=.\Extobj.rc
 # ADD RSC /l 0x409
 
 !ELSEIF  "$(CFG)" == "V2Template32 - Win32 Run Only2"
+
+# PROP BASE Intermediate_Dir ".\Release"
+# PROP Intermediate_Dir ".\Release"
+# ADD BASE RSC /l 0x409
+# ADD RSC /l 0x409
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Vitalize"
 
 # PROP BASE Intermediate_Dir ".\Release"
 # PROP Intermediate_Dir ".\Release"
@@ -231,22 +278,134 @@ SOURCE=.\Resource.h
 # Begin Source File
 
 SOURCE=.\about.bmp
+
+!IF  "$(CFG)" == "V2Template32 - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Debug"
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Run_Only"
+
+# PROP Exclude_From_Build 1
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Run Only2"
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Vitalize"
+
+# PROP BASE Exclude_From_Build 1
+# PROP Exclude_From_Build 1
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=.\button.bmp
+
+!IF  "$(CFG)" == "V2Template32 - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Debug"
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Run_Only"
+
+# PROP Exclude_From_Build 1
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Run Only2"
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Vitalize"
+
+# PROP BASE Exclude_From_Build 1
+# PROP Exclude_From_Build 1
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=.\EXTICON.BMP
+
+!IF  "$(CFG)" == "V2Template32 - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Debug"
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Run_Only"
+
+# PROP Exclude_From_Build 1
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Run Only2"
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Vitalize"
+
+# PROP BASE Exclude_From_Build 1
+# PROP Exclude_From_Build 1
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=.\EXTIMG.BMP
+
+!IF  "$(CFG)" == "V2Template32 - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Debug"
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Run_Only"
+
+# PROP Exclude_From_Build 1
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Run Only2"
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Vitalize"
+
+# PROP BASE Exclude_From_Build 1
+# PROP Exclude_From_Build 1
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\icon.bmp
+
+!IF  "$(CFG)" == "V2Template32 - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Debug"
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Run_Only"
+
+# PROP Exclude_From_Build 1
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Run Only2"
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Vitalize"
+
+# PROP BASE Exclude_From_Build 1
+# PROP Exclude_From_Build 1
+
+!ENDIF 
+
 # End Source File
 # Begin Source File
 
 SOURCE=.\icon1.ico
+
+!IF  "$(CFG)" == "V2Template32 - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Debug"
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Run_Only"
+
+# PROP Exclude_From_Build 1
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Run Only2"
+
+!ELSEIF  "$(CFG)" == "V2Template32 - Win32 Vitalize"
+
+# PROP BASE Exclude_From_Build 1
+# PROP Exclude_From_Build 1
+
+!ENDIF 
+
 # End Source File
 # End Group
 # End Target

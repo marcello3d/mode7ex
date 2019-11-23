@@ -42,4 +42,19 @@ void UpdateMipMaps2(LPRDATA);
 void UpdateMipMapsH(LPRDATA);
 
 
+#ifdef _DEBUG
+#define DEBUGMSG(s)		MessageBox(0,s,"Mode 7 ex " VERSION_STR,MB_OK)
+#else
+#define DEBUGMSG(s)
+#endif
+
+#define CNC_RETURN_FLOAT(f)		float _freturn=(float)f;\
+								long _lreturn;\
+								memcpy((void *)&_lreturn,(void *)&_freturn,sizeof(float));\
+								rdPtr->rHo.hoFlags |= HOF_FLOAT;\
+								return((long)_lreturn)
+
+//#define CNC_FLOAT_PARAM1()		*((float*)CNC_GetFloatValue(rdPtr, 0))
+#define CNC_FLOAT_PARAM1()		(float)(int)param1;//*((float*)CNC_GetFloatParameter(rdPtr))
+
 #endif

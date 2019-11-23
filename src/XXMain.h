@@ -150,8 +150,7 @@
 #define EXP_GET_MIPMAP2							56
 #define	EXP_GET_MIPMAPH							57
 #define EXP_GET_AUTOREDRAW         				58
-#define EXP_GET_MAPVISIBLEZ						59
-#define	EXP_LAST								60
+#define	EXP_LAST								59
 
 // --------------------------------
 // EDITION OF OBJECT DATA STRUCTURE
@@ -272,9 +271,9 @@ typedef struct tagRDATA
 	// vars
 	//
 	//angles
-	int				rTilt;
-	int				rAngle;
-	int				rRoll;
+	double			rTilt;
+	double			rAngle;
+	double			rRoll;
 	// Origins
 	double			rXOffset;
 	double			rYOffset;
@@ -282,13 +281,13 @@ typedef struct tagRDATA
 		// secondary layer
 	double			rXOffset2;
 	double			rYOffset2;
-	int				rAngle2;
+	double			rAngle2;
 
 	//extra
 	int				rXCenter;
 	int				rYCenter;
 	float			rVanish;
-	int				rZoom;
+	float			rZoom;
 	int				rResX;
 	int				rResY;
 	int				rResMode;

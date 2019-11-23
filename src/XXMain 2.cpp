@@ -112,16 +112,16 @@ short expressionsInfos[]=
 		IDMN_EXP_GET_FILE,				M_EXP_GET_FILE,				EXP_GET_FILE, 				EXPFLAG_STRING, 0,
 		IDMN_EXP_GET_TRANS,				M_EXP_GET_TRANS,			EXP_GET_TRANS, 				0, 0,
 		IDMN_EXP_GET_SHOW,				M_EXP_GET_SHOW,				EXP_GET_SHOW, 				0, 0,
-		IDMN_EXP_GET_TILT,				M_EXP_GET_TILT,				EXP_GET_TILT, 				0, 0,
-		IDMN_EXP_GET_ANGLE,				M_EXP_GET_ANGLE,			EXP_GET_ANGLE, 				0, 0,
-		IDMN_EXP_GET_ROLL,				M_EXP_GET_ROLL,				EXP_GET_ROLL, 				0, 0,
-		IDMN_EXP_GET_XOFFSET,			M_EXP_GET_XOFFSET,			EXP_GET_XOFFSET, 			0, 0,
-		IDMN_EXP_GET_ELEVATION,			M_EXP_GET_ELEVATION,		EXP_GET_ELEVATION, 			0, 0,
-		IDMN_EXP_GET_YOFFSET,			M_EXP_GET_YOFFSET,			EXP_GET_YOFFSET, 			0, 0,
+		IDMN_EXP_GET_TILT,				M_EXP_GET_TILT,				EXP_GET_TILT, 				EXPFLAG_DOUBLE, 0,
+		IDMN_EXP_GET_ANGLE,				M_EXP_GET_ANGLE,			EXP_GET_ANGLE, 				EXPFLAG_DOUBLE, 0,
+		IDMN_EXP_GET_ROLL,				M_EXP_GET_ROLL,				EXP_GET_ROLL, 				EXPFLAG_DOUBLE, 0,
+		IDMN_EXP_GET_XOFFSET,			M_EXP_GET_XOFFSET,			EXP_GET_XOFFSET, 			EXPFLAG_DOUBLE, 0,
+		IDMN_EXP_GET_ELEVATION,			M_EXP_GET_ELEVATION,		EXP_GET_ELEVATION, 			EXPFLAG_DOUBLE, 0,
+		IDMN_EXP_GET_YOFFSET,			M_EXP_GET_YOFFSET,			EXP_GET_YOFFSET, 			EXPFLAG_DOUBLE, 0,
 		IDMN_EXP_GET_XCENTER,			M_EXP_GET_XCENTER,			EXP_GET_XCENTER, 			0, 0,
 		IDMN_EXP_GET_YCENTER,			M_EXP_GET_YCENTER,			EXP_GET_YCENTER, 			0, 0,
 		IDMN_EXP_GET_VANISH,			M_EXP_GET_VANISH,			EXP_GET_VANISH, 			0, 0,
-		IDMN_EXP_GET_ZOOM,				M_EXP_GET_ZOOM,				EXP_GET_ZOOM, 				0, 0,
+		IDMN_EXP_GET_ZOOM,				M_EXP_GET_ZOOM,				EXP_GET_ZOOM, 				EXPFLAG_DOUBLE, 0,
 		IDMN_EXP_GET_WRAPX,				M_EXP_GET_WRAPX,			EXP_GET_WRAPX, 				0, 0,
 		IDMN_EXP_GET_WRAPY,				M_EXP_GET_WRAPY,			EXP_GET_WRAPY, 				0, 0,
 		IDMN_EXP_GET_MAPX,				M_EXP_GET_MAPX,				EXP_GET_MAPX, 				0, 2, EXPPARAM_LONG, EXPPARAM_LONG, M_ACT_SX, M_ACT_SY,
@@ -154,9 +154,9 @@ short expressionsInfos[]=
 		IDMN_EXP_GET_FOGGREEN,			M_EXP_GET_FOGGREEN,			EXP_GET_FOGGREEN, 			0, 0,
 		IDMN_EXP_GET_FOGBLUE,			M_EXP_GET_FOGBLUE,			EXP_GET_FOGBLUE, 			0, 0,
 		IDMN_EXP_GET_FOGDISTANCE,		M_EXP_GET_FOGDISTANCE,		EXP_GET_FOGDISTANCE, 		0, 0,
-		IDMN_EXP_GET_XOFFSET2,			M_EXP_GET_XOFFSET2,			EXP_GET_XOFFSET2, 			0, 0,
-		IDMN_EXP_GET_YOFFSET2,			M_EXP_GET_YOFFSET2,			EXP_GET_YOFFSET2, 			0, 0,
-		IDMN_EXP_GET_ANGLE2,			M_EXP_GET_ANGLE2,			EXP_GET_ANGLE2, 			0, 0,
+		IDMN_EXP_GET_XOFFSET2,			M_EXP_GET_XOFFSET2,			EXP_GET_XOFFSET2, 			EXPFLAG_DOUBLE, 0,
+		IDMN_EXP_GET_YOFFSET2,			M_EXP_GET_YOFFSET2,			EXP_GET_YOFFSET2, 			EXPFLAG_DOUBLE, 0,
+		IDMN_EXP_GET_ANGLE2,			M_EXP_GET_ANGLE2,			EXP_GET_ANGLE2, 			EXPFLAG_DOUBLE, 0,
 		IDMN_EXP_GET_THICKNESSMODE,		M_EXP_GET_THICKNESSMODE,	EXP_GET_THICKNESSMODE, 		0, 0,
 		IDMN_EXP_GET_INTERPOL,			M_EXP_GET_INTERPOL,			EXP_GET_INTERPOL, 			0, 0,
 		IDMN_EXP_GET_HINTERPOL,			M_EXP_GET_HINTERPOL,		EXP_GET_HINTERPOL, 			0, 0,
@@ -164,7 +164,6 @@ short expressionsInfos[]=
 		IDMN_EXP_GET_MIPMAP2,			M_EXP_GET_MIPMAP2,			EXP_GET_MIPMAP2, 			0, 0,
 		IDMN_EXP_GET_MIPMAPH,			M_EXP_GET_MIPMAPH,			EXP_GET_MIPMAPH, 			0, 0,
 		IDMN_EXP_GET_AUTOREDRAW,		M_EXP_GET_AUTOREDRAW,		EXP_GET_AUTOREDRAW, 		0, 0,
-		IDMN_EXP_GET_MAPVISIBLEZ,		M_EXP_GET_MAPVISIBLEZ,		EXP_GET_MAPVISIBLEZ, 		0, 5, EXPPARAM_LONG, EXPPARAM_LONG, EXPPARAM_LONG, EXPPARAM_LONG, EXPPARAM_LONG, M_ACT_SX, M_ACT_SY, M_ACT_SZ, M_ACT_SWIDTH, M_ACT_SHEIGHT,
 		};
 
 char emptyString[] = "";
@@ -180,33 +179,30 @@ char emptyString[] = "";
 #define MOD1(x,y)  (((x%y)+y)%y)
 #define MOD2(x,y)  MOD((MOD(x,y)+y),y)
 
-inline COLORREF transparency(int color2, int color1, int blend) {
+int transparency(int color2, int color1, int blend) {
 	if (blend<=0) return color2;
 	if (blend>=255) return color1;
-	if (color1==color2) return color1;
 
 	return	(((blend*(((color1>>16)&255)-((color2>>16)&255))>>8)+((color2>>16)&255))<<16) |
 			(((blend*(((color1>>8)&255)-((color2>>8)&255))>>8)+((color2>>8)&255))<<8) |
 			 ((blend*((color1&255)-(color2&255))>>8)+(color2&255));
 }
-inline COLORREF transparency2(int color2, int color1, int blend) {
+int transparency2(int color2, int color1, int blend) {
 	if (blend<=0) return color2;
 	if (blend>=255) return color1;
 	if (!color2) return color1;
 	if (!color1) return color2;
-	if (color1==color2) return color1;
 
 	return	(((blend*(((color1>>16)&255)-((color2>>16)&255))>>8)+((color2>>16)&255))<<16) |
 			(((blend*(((color1>>8)&255)-((color2>>8)&255))>>8)+((color2>>8)&255))<<8) |
 			 ((blend*((color1&255)-(color2&255))>>8)+(color2&255));
 }
-inline BYTE transparency256(BYTE color2, BYTE color1, BYTE blend) {
-	if (color1==color2) return color1;
+int transparency256(BYTE color2, BYTE color1, BYTE blend) {
 	if (blend<=0) return color2;
 	if (blend>=255) return color1;
 	return (blend*((color1)-(color2))>>8)+(color2);
 }
-COLORREF getPixel(LPSURFACE surface, float x, float y) {
+int getPixel(LPSURFACE surface, float x, float y) {
 	int xi=(int)x;
 	int yi=(int)y;
 	float xf=x-xi;
@@ -215,8 +211,7 @@ COLORREF getPixel(LPSURFACE surface, float x, float y) {
 		COLORREF tempColor=0; surface->GetPixel(xi,yi,tempColor);
 		return tempColor;
 	}
-	int xp=0, yp=0;
-	COLORREF c1=0, c2=0, c3=0, c4=0, c12, c34;
+	int xp=0, yp=0, c1=0, c2=0, c3=0, c4=0, c12, c34;
 	if (xf!=0) {
 		xp=(int)(xf*0xFF);
 		surface->GetPixel(xi,  yi,c1);
@@ -231,7 +226,7 @@ COLORREF getPixel(LPSURFACE surface, float x, float y) {
 	} else return c12;
 	return transparency(c12, c34, yp);
 }
-COLORREF getPixel2(LPSURFACE surface, int width, int height, bool repeatx, bool repeaty, float x, float y) {
+int getPixel2(LPSURFACE surface, int width, int height, bool repeatx, bool repeaty, float x, float y) {
 	int xi=(int)x;
 	int yi=(int)y;
 	float xf=x-xi;
@@ -240,8 +235,7 @@ COLORREF getPixel2(LPSURFACE surface, int width, int height, bool repeatx, bool 
 		COLORREF tempColor=0; surface->GetPixel(xi,yi,tempColor);
 		return tempColor;
 	}
-	int xp=0, yp=0;
-	COLORREF c1=0, c2=0, c3=0, c4=0, c12, c34;
+	int xp=0, yp=0, c1=0, c2=0, c3=0, c4=0, c12, c34;
 	int xi1=repeatx?MOD1(xi+1,width):min(xi+1,width);
 	if (xf!=0) {
 		xp=(int)(xf*0xFF);
@@ -267,28 +261,23 @@ BYTE getPixel256(LPSURFACE surface, int width, int height, bool repeatx, bool re
 		COLORREF tempColor=0; surface->GetPixel(xi,yi,tempColor);
 		return GetRValue(tempColor);
 	}
-	int xp=0, yp=0;
-	COLORREF t;
-	BYTE c1=0, c2=0, c3=0, c4=0,c12, c34;
+	int xp=0, yp=0, c1=0, c2=0, c3=0, c4=0, c12, c34;
 	int xi1=repeatx?MOD1(xi+1,width):min(xi+1,width);
 	if (xf!=0) {
 		xp=(int)(xf*0xFF);
-		surface->GetPixel(xi, yi,t);
-		c1=GetRValue(t);
-		surface->GetPixel(xi1,yi,t);
-		c2=GetRValue(t);
+		surface->GetPixel(xi, yi,c1);
+		surface->GetPixel(xi1,yi,c2);
+		c1=GetRValue(c1);
+		c2=GetRValue(c2);
 		c12=transparency256(c1, c2, xp);
-	} else {
-		surface->GetPixel(xi,yi,t);
-		c12=GetRValue(t);
-	}
+	} else surface->GetPixel(xi,yi,c12);
 	int yi1=repeaty?MOD1(yi+1,height):min(yi+1,height);
 	if (yf!=0) {
 		yp=(int)(yf*0xFF);
-		surface->GetPixel(xi, yi1,t);
-		c3=GetRValue(t);
-		surface->GetPixel(xi1,yi1,t);
-		c4=GetRValue(t);
+		surface->GetPixel(xi, yi1,c3);
+		surface->GetPixel(xi1,yi1,c4);
+		c3=GetRValue(c3);
+		c4=GetRValue(c4);
 		c34=transparency256(c3, c4, xp);
 	} else return c12;
 	return transparency256(c12, c34, yp);
@@ -323,7 +312,7 @@ void setPixel(LPRDATA rdPtr, int x, int y, COLORREF color) {
 		rdPtr->rSf->SetPixel(xx,y,color);
 }
 void UpdateMipMaps(LPRDATA rdPtr) {
-	if (rdPtr->rMipmap && rdPtr->rImage != NULL && rdPtr->rImage->IsValid()) {
+	if (rdPtr->rMipmap) {
 		int ow=rdPtr->rImageWidth,oh=rdPtr->rImageHeight;
 		rdPtr->rNMipLevels=0;
 		for (int i=0; i<12; i++)
@@ -347,7 +336,7 @@ void UpdateMipMaps(LPRDATA rdPtr) {
 				w=1<<i;
 				h=1<<i;
 				if (rdPtr->rMipmaps[i]!=NULL) {
-					if (!rdPtr->rMipmaps[i]->IsValid() || rdPtr->rMipmaps[i]->GetWidth()!=w || rdPtr->rMipmaps[i]->GetHeight()!=h)
+					if (rdPtr->rMipmaps[i]->GetWidth()!=w || rdPtr->rMipmaps[i]->GetHeight()!=h)
 						rdPtr->rMipmaps[i]->Create(w,h,rdPtr->rImage);
 					HDC dstdc = rdPtr->rMipmaps[i]->GetDC();
 					SetStretchBltMode(dstdc,HALFTONE);
@@ -391,7 +380,7 @@ void UpdateMipMaps(LPRDATA rdPtr) {
 	}
 }
 void UpdateMipMaps2(LPRDATA rdPtr) {
-	if (rdPtr->rMipmap2 && rdPtr->rImage2 != NULL && rdPtr->rImage2->IsValid()) {
+	if (rdPtr->rMipmap2) {
 		int ow=rdPtr->rImage2Width,oh=rdPtr->rImage2Height;
 		rdPtr->rNMipLevels2=0;
 		for (int i=0; i<12; i++)
@@ -410,7 +399,7 @@ void UpdateMipMaps2(LPRDATA rdPtr) {
 				w=1<<i;
 				h=1<<i;
 				if (rdPtr->rMipmaps2[i]!=NULL) {
-					if (!rdPtr->rMipmaps2[i]->IsValid() || rdPtr->rMipmaps2[i]->GetWidth()!=w || rdPtr->rMipmaps2[i]->GetHeight()!=h)
+					if (rdPtr->rMipmaps2[i]->GetWidth()!=w || rdPtr->rMipmaps2[i]->GetHeight()!=h)
 						rdPtr->rMipmaps2[i]->Create(w,h,rdPtr->rImage2);
 					HDC dstdc = rdPtr->rMipmaps2[i]->GetDC();
 					SetStretchBltMode(dstdc,HALFTONE);
@@ -425,7 +414,7 @@ void UpdateMipMaps2(LPRDATA rdPtr) {
 	}
 }
 void UpdateMipMapsH(LPRDATA rdPtr) {
-	if (rdPtr->rMipmapH && rdPtr->rImageH != NULL && rdPtr->rImageH->IsValid()) {
+	if (rdPtr->rMipmapH) {
 		int ow=rdPtr->rImageHWidth,oh=rdPtr->rImageHHeight;
 		rdPtr->rNMipLevelsH=0;
 		for (int i=0; i<12; i++)
@@ -444,15 +433,13 @@ void UpdateMipMapsH(LPRDATA rdPtr) {
 				w=1<<i;
 				h=1<<i;
 				if (rdPtr->rMipmapsH[i]!=NULL) {
-					if (!rdPtr->rMipmaps[i]->IsValid() || rdPtr->rMipmapsH[i]->GetWidth()!=w || rdPtr->rMipmapsH[i]->GetHeight()!=h)
+					if (rdPtr->rMipmapsH[i]->GetWidth()!=w || rdPtr->rMipmapsH[i]->GetHeight()!=h)
 						rdPtr->rMipmapsH[i]->Create(w,h,rdPtr->rImageH);
-					if (rdPtr->rMipmapsH[i]->IsValid()) {
-						HDC dstdc = rdPtr->rMipmapsH[i]->GetDC();
-						SetStretchBltMode(dstdc,HALFTONE);
-						SetBrushOrgEx(srcdc,0,0,NULL);
-						StretchBlt(dstdc, 0, 0, w, h, srcdc, 0 , 0, ow, oh, SRCCOPY);
-						rdPtr->rMipmapsH[i]->ReleaseDC(dstdc);
-					}
+					HDC dstdc = rdPtr->rMipmapsH[i]->GetDC();
+					SetStretchBltMode(dstdc,HALFTONE);
+					SetBrushOrgEx(srcdc,0,0,NULL);
+					StretchBlt(dstdc, 0, 0, w, h, srcdc, 0 , 0, ow, oh, SRCCOPY);
+					rdPtr->rMipmapsH[i]->ReleaseDC(dstdc);
 
 				}
 			}
@@ -534,6 +521,15 @@ void RedrawScene(LPRDATA rdPtr, bool redraw) {
 					distance = sqrt((cimgx-imgx)*(cimgx-imgx)+(cimgy-imgy)*(cimgy-imgy)) - 0.3f;
 				}
 
+				//	distance = sqrt(	(rdPtr->rXOffset+imgx)*(rdPtr->rXOffset+imgx) + // x
+				//						(rdPtr->rYOffset+imgy)*(rdPtr->rYOffset+imgy) + // y
+				//						(rdPtr->rElevation*rdPtr->rElevation/1000)		// z
+				//						);
+				/*if (y==10&&x==50) {
+		char buf[128];
+		sprintf(buf,"distance:%f",distance);
+		MessageBox(0,buf,"mode 7 debug",MB_OK);
+				}*/
 				if (rdPtr->rRepeatX && interpolate) imgx=MOD2(imgx,rdPtr->rImageWidth);
 				if (rdPtr->rRepeatY && interpolate) imgy=MOD2(imgy,rdPtr->rImageHeight);
 				int xi = (int)imgx;
@@ -667,8 +663,8 @@ void RedrawScene(LPRDATA rdPtr, bool redraw) {
 								if (rdPtr->rImageHNum>=-1) {
 									BYTE rvalue=0;
 									if (rdPtr->rInterpolateHeight) {
-										cimgx=MOD2(cimgx,rdPtr->rImageHWidth);
-										cimgy=MOD2(cimgy,rdPtr->rImageHHeight);
+										if (!rdPtr->rRepeatX) cimgx=MOD2(cimgx,rdPtr->rImageHWidth);
+										if (!rdPtr->rRepeatY) cimgy=MOD2(cimgy,rdPtr->rImageHHeight);
 										if (!rdPtr->rMipmapH||distance2<=1)
 											rvalue = getPixel256(	rdPtr->rImageH,
 																	rdPtr->rImageHWidth,
@@ -687,8 +683,8 @@ void RedrawScene(LPRDATA rdPtr, bool redraw) {
 																	cimgx*w/rdPtr->rImageHWidth,cimgy*h/rdPtr->rImageHHeight);
 										}
 									} else {
-										cxi=MOD1(cxi,rdPtr->rImageHWidth);
-										cyi=MOD1(cyi,rdPtr->rImageHHeight);
+										if (!rdPtr->rRepeatX) cxi=MOD1(cxi,rdPtr->rImageHWidth);
+										if (!rdPtr->rRepeatY) cyi=MOD1(cyi,rdPtr->rImageHHeight);
 										if (!rdPtr->rMipmapH||distance2<=1)
 											rdPtr->rImageH->GetPixel(cxi, cyi, tempColor3);
 										else {
@@ -805,23 +801,11 @@ short WINAPI DLLExport Act_LoadImage(LPRDATA rdPtr, long param1, long param2) {
 	if (rdPtr->rImage != NULL) { // && _fstricmp (rdPtr->rImageFile,(LPSTR)param1)!=0) {
 		_fstrcpy (rdPtr->rImageFile,(LPSTR)param1);
 		// Load image into surface
-		LPSTR pathname = (LPSTR)param1; // input filename
-#ifdef VITALIZE
-		char fname[_MAX_PATH+1]; // buffer for new filename
-		fprh rhPtr = rdPtr->rHo.hoAdRunHeader;
-		strncpy(fname, pathname, _MAX_PATH);
-		fname[_MAX_PATH] = 0;
-		((mv _far *)rhPtr->rh4.rh4Mv)->mvLoadNetFile (fname);    // downloads file and changes the content of fname
-		pathname = fname;
-#endif
-		rdPtr->rImage->LoadImage(pathname, LI_REMAP);
-		if (rdPtr->rImage->IsValid()) {
-			rdPtr->rImageNum = -1;
-			rdPtr->rImageWidth = rdPtr->rImage->GetWidth();
-			rdPtr->rImageHeight = rdPtr->rImage->GetHeight();
-			UpdateMipMaps(rdPtr);
-		} else
-			rdPtr->rImageNum = -2;
+		rdPtr->rImage->LoadImage(rdPtr->rImageFile, LI_REMAP);
+		rdPtr->rImageNum = -1;
+		rdPtr->rImageWidth = rdPtr->rImage->GetWidth();
+		rdPtr->rImageHeight = rdPtr->rImage->GetHeight();
+		UpdateMipMaps(rdPtr);
 		if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	}
 	return 0;
@@ -850,43 +834,48 @@ short WINAPI DLLExport Act_SetHeight(LPRDATA rdPtr, long param1, long param2) {
 }
 short WINAPI DLLExport Act_SetTilt(LPRDATA rdPtr, long param1, long param2)
 {
-	if (rdPtr->rTilt == (int)(param1)) return 0;
-	rdPtr->rTilt = (int)(param1);
+	float p1 = CNC_FLOAT_PARAM1();
+	if (rdPtr->rTilt == p1) return 0;
+	rdPtr->rTilt = p1;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
 short WINAPI DLLExport Act_SetAngle(LPRDATA rdPtr, long param1, long param2)
 {
-	if (rdPtr->rAngle == (int)(param1)) return 0;
-	rdPtr->rAngle = (int)(param1);
+	float p1 = CNC_FLOAT_PARAM1();
+	if (rdPtr->rAngle == p1) return 0;
+	rdPtr->rAngle = p1;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
 short WINAPI DLLExport Act_SetRoll(LPRDATA rdPtr, long param1, long param2)
 {
-	if (rdPtr->rRoll == (int)(param1)) return 0;
-	rdPtr->rRoll = (int)(param1);
+	float p1 = CNC_FLOAT_PARAM1();
+	if (rdPtr->rRoll == p1) return 0;
+	rdPtr->rRoll = p1;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
 short WINAPI DLLExport Act_SetXOffset(LPRDATA rdPtr, long param1, long param2)
 {
-	if (rdPtr->rXOffset == (int)(param1)) return 0;
-	rdPtr->rXOffset = (int)(param1);
+	float p1 = CNC_FLOAT_PARAM1();
+	if (rdPtr->rXOffset == p1) return 0;
+	rdPtr->rXOffset = p1;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
 short WINAPI DLLExport Act_SetElevation(LPRDATA rdPtr, long param1, long param2)
 {
-	if (rdPtr->rElevation == (int)(param1)) return 0;
-	rdPtr->rElevation = (int)(param1);
+	if (rdPtr->rElevation == (int)param1) return 0;
+	rdPtr->rElevation = (int)param1;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
 short WINAPI DLLExport Act_SetYOffset(LPRDATA rdPtr, long param1, long param2)
 {
-	if (rdPtr->rYOffset == (int)(param1)) return 0;
-	rdPtr->rYOffset = (int)(param1);
+	float p1 = CNC_FLOAT_PARAM1();
+	if (rdPtr->rYOffset == p1) return 0;
+	rdPtr->rYOffset = p1;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
@@ -914,8 +903,9 @@ short WINAPI DLLExport Act_SetVanish(LPRDATA rdPtr, long param1, long param2)
 }
 short WINAPI DLLExport Act_SetZoom(LPRDATA rdPtr, long param1, long param2)
 {
-	if (rdPtr->rZoom == (int)param1) return 0;
-	rdPtr->rZoom = (int)param1;
+	float p1 = CNC_FLOAT_PARAM1();
+	if (rdPtr->rZoom == p1) return 0;
+	rdPtr->rZoom = p1;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
@@ -928,66 +918,73 @@ short WINAPI DLLExport Act_Redraw(LPRDATA rdPtr, long param1, long param2)
 }
 short WINAPI DLLExport Act_AdjustAngle(LPRDATA rdPtr, long param1, long param2)
 {
-	if (!param1) return 0;
-	rdPtr->rAngle += (int)(param1);
+	float p1 = CNC_FLOAT_PARAM1();
+	if (p1==0) return 0;
+	rdPtr->rAngle += p1;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
 short WINAPI DLLExport Act_AdjustXOffset(LPRDATA rdPtr, long param1, long param2)
 {
-	if (!param1) return 0;
-	rdPtr->rXOffset += (int)(param1);
+	float p1 = CNC_FLOAT_PARAM1();
+	if (p1==0) return 0;
+	rdPtr->rXOffset += p1;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
 short WINAPI DLLExport Act_AdjustElevation(LPRDATA rdPtr, long param1, long param2)
 {
 	if (!param1) return 0;
-	rdPtr->rElevation += (int)(param1);
+	rdPtr->rElevation += (int)param1;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
 short WINAPI DLLExport Act_AdjustYOffset(LPRDATA rdPtr, long param1, long param2)
 {
-	if (!param1) return 0;
-	rdPtr->rYOffset += (int)(param1);
+	float p1 = CNC_FLOAT_PARAM1();
+	if (p1==0) return 0;
+	rdPtr->rYOffset += p1;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
 short WINAPI DLLExport Act_WalkForward(LPRDATA rdPtr, long param1, long param2)
 {
-	if (!param1) return 0;
+	float p1 = CNC_FLOAT_PARAM1();
+	if (p1==0) return 0;
 	double dtr = 3.1415926535897932384626433832795 / 180;
-	rdPtr->rXOffset += sin(-rdPtr->rAngle * dtr)*(int)(param1);
-	rdPtr->rYOffset += cos(-rdPtr->rAngle * dtr)*(int)(param1);
+	rdPtr->rXOffset += sin(-rdPtr->rAngle * dtr)*p1;
+	rdPtr->rYOffset += cos(-rdPtr->rAngle * dtr)*p1;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
 short WINAPI DLLExport Act_WalkBack(LPRDATA rdPtr, long param1, long param2)
 {
-	if (!param1) return 0;
+	float p1 = CNC_FLOAT_PARAM1();
+	if (p1==0) return 0;
 	double dtr = 3.1415926535897932384626433832795 / 180;
-	rdPtr->rXOffset -= sin(-rdPtr->rAngle * dtr)*(int)(param1);
-	rdPtr->rYOffset -= cos(-rdPtr->rAngle * dtr)*(int)(param1);
+	rdPtr->rXOffset -= sin(-rdPtr->rAngle * dtr)*p1;
+	rdPtr->rYOffset -= cos(-rdPtr->rAngle * dtr)*p1;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
 short WINAPI DLLExport Act_WalkLeft(LPRDATA rdPtr, long param1, long param2)
 {
-	if (!param1) return 0;
+	float p1 = CNC_FLOAT_PARAM1();
+	if (p1==0) return 0;
 	double dtr = 3.1415926535897932384626433832795 / 180;
-	rdPtr->rXOffset += sin(-(rdPtr->rAngle-90) * dtr)*(int)(param1);
-	rdPtr->rYOffset += cos(-(rdPtr->rAngle-90) * dtr)*(int)(param1);
+	rdPtr->rXOffset += sin(-(rdPtr->rAngle-90) * dtr)*p1;
+	rdPtr->rYOffset += cos(-(rdPtr->rAngle-90) * dtr)*p1;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
 
 short WINAPI DLLExport Act_WalkRight(LPRDATA rdPtr, long param1, long param2)
 {
-	if (!param1) return 0;
+	float p1 = CNC_FLOAT_PARAM1();
+	if (p1==0) return 0;
 	double dtr = 3.1415926535897932384626433832795 / 180;
-	rdPtr->rXOffset -= sin(-(rdPtr->rAngle-90) * dtr)*(int)(param1);
-	rdPtr->rYOffset -= cos(-(rdPtr->rAngle-90) * dtr)*(int)(param1);
+	rdPtr->rXOffset -= sin(-(rdPtr->rAngle-90) * dtr)*p1;
+	rdPtr->rYOffset -= cos(-(rdPtr->rAngle-90) * dtr)*p1;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
@@ -1031,7 +1028,6 @@ short WINAPI DLLExport Act_SetResolution(LPRDATA rdPtr, long param1, long param2
 	rdPtr->rResX = min(max( (int)param1 , 1 ),1000);
 	rdPtr->rResY = min(max( (int)param2 , 1 ),1000);
 	if (rdPtr->rResX==1&&rdPtr->rResY==1) rdPtr->rResMode2=0;
-	else rdPtr->rResMode2=rdPtr->rResMode;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
@@ -1057,55 +1053,50 @@ short WINAPI DLLExport Act_SetThickness(LPRDATA rdPtr, long param1, long param2)
 	return 0;
 }
 short WINAPI DLLExport Act_AdjustTilt(LPRDATA rdPtr, long param1, long param2) {
-	if (!param1) return 0;
-	rdPtr->rTilt += (int)(param1);
+	float p1 = CNC_FLOAT_PARAM1();
+	if (p1==0) return 0;
+	rdPtr->rTilt += p1;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
 short WINAPI DLLExport Act_AdjustRoll(LPRDATA rdPtr, long param1, long param2) {
-	if (!param1) return 0;
-	rdPtr->rRoll += (int)(param1);
+	float p1 = CNC_FLOAT_PARAM1();
+	if (p1==0) return 0;
+	rdPtr->rRoll += p1;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
 short WINAPI DLLExport Act_SetXResolution(LPRDATA rdPtr, long param1, long param2) {
 	if (rdPtr->rResX == min(max( (int)param1 , 1 ),1000)) return 0;
 	rdPtr->rResX = min(max( (int)param1 , 1 ),1000);
-	if (rdPtr->rResX==1&&rdPtr->rResY==1) rdPtr->rResMode2=0;
-	else rdPtr->rResMode2=rdPtr->rResMode;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
 short WINAPI DLLExport Act_SetYResolution(LPRDATA rdPtr, long param1, long param2) {
 	if (rdPtr->rResY = min(max( (int)param1 , 1 ),1000)) return 0;
 	rdPtr->rResY = min(max( (int)param1 , 1 ),1000);
-	if (rdPtr->rResX==1&&rdPtr->rResY==1) rdPtr->rResMode2=0;
-	else rdPtr->rResMode2=rdPtr->rResMode;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
 int LoadImageToSurface(LPRDATA rdPtr, DWORD param, cSurface *surface) {
-	int ok=0;
 	if (rdPtr->rNImages) {
 		if ( param >= rdPtr->rNImages )
 			param = (param % rdPtr->rNImages);
 		fprh rhPtr = rdPtr->rHo.hoAdRunHeader;
 		LPINTERNALIMAGE pii = (LPINTERNALIMAGE)((LPBYTE)rdPtr + sizeof(RUNDATA));
 		cSurface imageSurface;
-		if (::LockImageSurface (rhPtr->rhIdAppli, ((LPINTERNALIMAGE)(pii+param))->cImg, imageSurface) &&
-				imageSurface.IsValid()) {
-			LPSURFACE pProto = NULL;
-			if (GetSurfacePrototype(&pProto, 24, ST_MEMORYWITHDC, SD_DDRAW)||GetSurfacePrototype(&pProto, 24, ST_MEMORYWITHDC, SD_DIB)) {
-				surface->Create(imageSurface.GetWidth(),imageSurface.GetHeight(),pProto);
-				if (surface->IsValid()) {
-					imageSurface.Blit(*surface, 0, 0, BMODE_OPAQUE, BOP_COPY, 0);
-					ok=1;
-				}
-			}
+		::LockImageSurface (rhPtr->rhIdAppli, ((LPINTERNALIMAGE)(pii+param))->cImg, imageSurface);
+
+		LPSURFACE pProto = NULL;
+		if (GetSurfacePrototype(&pProto, 24, ST_MEMORYWITHDC, SD_DDRAW)||GetSurfacePrototype(&pProto, 24, ST_MEMORYWITHDC, SD_DIB)) {
+			surface->Create(imageSurface.GetWidth(),imageSurface.GetHeight(),pProto);
+			imageSurface.Blit(*surface, 0, 0, BMODE_OPAQUE, BOP_COPY, 0);
 		}
 		::UnlockImageSurface (imageSurface);
+		//delete imageSurface;
+		return 1;
 	}
-	return ok;
+	return 0;
 }
 short WINAPI DLLExport Act_LoadImageNumber(LPRDATA rdPtr, long param1, long param2) {
 	if (rdPtr->rImage != NULL && rdPtr->rImageNum != param1 && LoadImageToSurface(rdPtr,param1,rdPtr->rImage)) {
@@ -1144,16 +1135,8 @@ short WINAPI DLLExport Act_LoadImage2(LPRDATA rdPtr, long param1, long param2) {
 	// Nothing to do if image file already loaded
 	if (rdPtr->rImage2 != NULL && _fstricmp (rdPtr->rImage2File,(LPSTR)param1)!=0) {
 		_fstrcpy (rdPtr->rImage2File,(LPSTR)param1);
-		LPSTR pathname = (LPSTR)param1; // input filename
-#ifdef VITALIZE
-		char fname[_MAX_PATH+1]; // buffer for new filename
-		fprh rhPtr = rdPtr->rHo.hoAdRunHeader;
-		strncpy(fname, pathname, _MAX_PATH);
-		fname[_MAX_PATH] = 0;
-		((mv _far *)rhPtr->rh4.rh4Mv)->mvLoadNetFile (fname);    // downloads file and changes the content of fname
-		pathname = fname;
-#endif
-		rdPtr->rImage2->LoadImage(pathname, LI_REMAP);
+		// Load image into surface
+		rdPtr->rImage2->LoadImage(rdPtr->rImage2File, LI_REMAP);
 		rdPtr->rImage2Num = -1;
 		rdPtr->rImage2Width = rdPtr->rImage2->GetWidth();
 		rdPtr->rImage2Height = rdPtr->rImage2->GetHeight();
@@ -1198,16 +1181,8 @@ short WINAPI DLLExport Act_LoadImageH(LPRDATA rdPtr, long param1, long param2) {
 	// Nothing to do if image file already loaded
 	if (rdPtr->rImageH != NULL && _fstricmp (rdPtr->rImageHFile,(LPSTR)param1)!=0) {
 		_fstrcpy (rdPtr->rImageHFile,(LPSTR)param1);
-		LPSTR pathname = (LPSTR)param1; // input filename
-#ifdef VITALIZE
-		char fname[_MAX_PATH+1]; // buffer for new filename
-		fprh rhPtr = rdPtr->rHo.hoAdRunHeader;
-		strncpy(fname, pathname, _MAX_PATH);
-		fname[_MAX_PATH] = 0;
-		((mv _far *)rhPtr->rh4.rh4Mv)->mvLoadNetFile (fname);    // downloads file and changes the content of fname
-		pathname = fname;
-#endif
-		rdPtr->rImageH->LoadImage(pathname, LI_REMAP);
+		// Load image into surface
+		rdPtr->rImageH->LoadImage(rdPtr->rImageHFile, LI_REMAP);
 		rdPtr->rImageHWidth = rdPtr->rImageH->GetWidth();
 		rdPtr->rImageHHeight = rdPtr->rImageH->GetHeight();
 		rdPtr->rImageHNum = -1;
@@ -1326,38 +1301,44 @@ short WINAPI DLLExport Act_SetFogDistance(LPRDATA rdPtr, long param1, long param
 	return 0;
 }
 short WINAPI DLLExport Act_SetXOffset2(LPRDATA rdPtr, long param1, long param2) {
-	if (rdPtr->rXOffset2 == (int)(param1)) return 0;
-	rdPtr->rXOffset2 = (int)(param1);
+	float p1 = CNC_FLOAT_PARAM1();
+	if (rdPtr->rXOffset2 == p1) return 0;
+	rdPtr->rXOffset2 = p1;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
 short WINAPI DLLExport Act_SetYOffset2(LPRDATA rdPtr, long param1, long param2) {
-	if (rdPtr->rYOffset2 == (int)(param1)) return 0;
-	rdPtr->rYOffset2 = (int)(param1);
+	float p1 = CNC_FLOAT_PARAM1();
+	if (rdPtr->rYOffset2 == p1) return 0;
+	rdPtr->rYOffset2 = p1;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
 short WINAPI DLLExport Act_AdjustXOffset2(LPRDATA rdPtr, long param1, long param2) {
-	if (!param1) return 0;
-	rdPtr->rXOffset2 += (int)(param1);
+	float p1 = CNC_FLOAT_PARAM1();
+	if (p1==0) return 0;
+	rdPtr->rXOffset2 += p1;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
 short WINAPI DLLExport Act_AdjustYOffset2(LPRDATA rdPtr, long param1, long param2) {
-	if (!param1) return 0;
-	rdPtr->rYOffset2 += (int)(param1);
+	float p1 = CNC_FLOAT_PARAM1();
+	if (p1==0) return 0;
+	rdPtr->rYOffset2 += p1;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
 short WINAPI DLLExport Act_SetAngle2(LPRDATA rdPtr, long param1, long param2) {
-	if (rdPtr->rAngle2 == (int)(param1)) return 0;
-	rdPtr->rAngle2 = (int)(param1);
+	float p1 = CNC_FLOAT_PARAM1();
+	if (rdPtr->rAngle2 == p1) return 0;
+	rdPtr->rAngle2 = p1;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
 short WINAPI DLLExport Act_AdjustAngle2(LPRDATA rdPtr, long param1, long param2) {
-	if (!param1) return 0;
-	rdPtr->rAngle2 += (int)(param1);
+	float p1 = CNC_FLOAT_PARAM1();
+	if (p1==0) return 0;
+	rdPtr->rAngle2 += p1;
 	if (rdPtr->rAutoRedraw) rdPtr->rNeedRedraw=true;
 	return 0;
 }
@@ -1527,22 +1508,23 @@ long WINAPI DLLExport Exp_GetShow(LPRDATA rdPtr,long param1) {
 	return rdPtr->rShow;
 }
 long WINAPI DLLExport Exp_GetTilt(LPRDATA rdPtr,long param1) {
-	return rdPtr->rTilt;
+	CNC_RETURN_FLOAT(rdPtr->rTilt);
+	//return rdPtr->rTilt;
 }
 long WINAPI DLLExport Exp_GetAngle(LPRDATA rdPtr,long param1) {
-	return rdPtr->rAngle;
+	CNC_RETURN_FLOAT(rdPtr->rAngle);
 }
 long WINAPI DLLExport Exp_GetRoll(LPRDATA rdPtr,long param1) {
-	return rdPtr->rRoll;
+	CNC_RETURN_FLOAT(rdPtr->rRoll);
 }
 long WINAPI DLLExport Exp_GetXOffset(LPRDATA rdPtr,long param1) {
-	return (int)rdPtr->rXOffset;
+	CNC_RETURN_FLOAT(rdPtr->rXOffset);
 }
 long WINAPI DLLExport Exp_GetElevation(LPRDATA rdPtr,long param1) {
-	return rdPtr->rElevation;
+	CNC_RETURN_FLOAT(rdPtr->rElevation);
 }
 long WINAPI DLLExport Exp_GetYOffset(LPRDATA rdPtr,long param1) {
-	return (int)rdPtr->rYOffset;
+	CNC_RETURN_FLOAT(rdPtr->rYOffset);
 }
 long WINAPI DLLExport Exp_GetXCenter(LPRDATA rdPtr,long param1) {
 	return rdPtr->rXCenter;
@@ -1554,14 +1536,14 @@ long WINAPI DLLExport Exp_GetVanish(LPRDATA rdPtr,long param1) {
 	return (int)(rdPtr->rVanish);
 }
 long WINAPI DLLExport Exp_GetZoom(LPRDATA rdPtr,long param1) {
-	return rdPtr->rZoom;
+	CNC_RETURN_FLOAT(rdPtr->rZoom);
 }
 long WINAPI DLLExport Exp_GetMapX(LPRDATA rdPtr,long param1)
 {
-	long p1 = CNC_GetFirstExpressionParameter(rdPtr, param1, TYPE_INT);
-	long p2 = CNC_GetNextExpressionParameter(rdPtr, param1, TYPE_INT);
-	//float fp1 = *(float *)&p1;
-	//float fp2 = *(float *)&p2;
+	long pp1 = CNC_GetFirstExpressionParameter(rdPtr, param1, TYPE_FLOAT);
+	long pp2 = CNC_GetNextExpressionParameter(rdPtr, param1, TYPE_FLOAT);
+	float p1 = *(float *)&pp1;
+	float p2 = *(float *)&pp2;
 
 	double x = p1*100/rdPtr->rZoom-rdPtr->rXOffset;
 	double y = p2*100/rdPtr->rZoom-rdPtr->rYOffset;
@@ -1582,10 +1564,10 @@ long WINAPI DLLExport Exp_GetMapX(LPRDATA rdPtr,long param1)
 }
 long WINAPI DLLExport Exp_GetMapY(LPRDATA rdPtr,long param1)
 {
-	long p1 = CNC_GetFirstExpressionParameter(rdPtr, param1, TYPE_INT);
-	long p2 = CNC_GetNextExpressionParameter(rdPtr, param1, TYPE_INT);
-	//float fp1 = *(float *)&p1;
-	//float fp2 = *(float *)&p2;
+	long pp1 = CNC_GetFirstExpressionParameter(rdPtr, param1, TYPE_FLOAT);
+	long pp2 = CNC_GetNextExpressionParameter(rdPtr, param1, TYPE_FLOAT);
+	float p1 = *(float *)&pp1;
+	float p2 = *(float *)&pp2;
 
 	double x = p1*100/rdPtr->rZoom-rdPtr->rXOffset;
 	double y = p2*100/rdPtr->rZoom-rdPtr->rYOffset;
@@ -1608,13 +1590,13 @@ long WINAPI DLLExport Exp_GetMapY(LPRDATA rdPtr,long param1)
 long WINAPI DLLExport Exp_GetMapXZ(LPRDATA rdPtr,long param1)
 {
 
-	long p1 = CNC_GetFirstExpressionParameter(rdPtr, param1, TYPE_INT);
-	long p2 = CNC_GetNextExpressionParameter(rdPtr, param1, TYPE_INT);
-	long p3 = CNC_GetNextExpressionParameter(rdPtr, param1, TYPE_INT);
+	long pp1 = CNC_GetFirstExpressionParameter(rdPtr, param1, TYPE_FLOAT);
+	long pp2 = CNC_GetNextExpressionParameter(rdPtr, param1, TYPE_FLOAT);
+	long pp3 = CNC_GetNextExpressionParameter(rdPtr, param1, TYPE_FLOAT);
 
-	//float fx = *(float *)&p1;
-	//float fy = *(float *)&p2;
-	//float fz = *(float *)&p3;
+	float p1 = *(float *)&pp1;
+	float p2 = *(float *)&pp2;
+	float p3 = *(float *)&pp3;
 
 
 	double x = p1*100/rdPtr->rZoom-rdPtr->rXOffset;
@@ -1632,18 +1614,18 @@ long WINAPI DLLExport Exp_GetMapXZ(LPRDATA rdPtr,long param1)
 	double y1 = (rdPtr->rElevation-p3)/yy;
 	double x1 = ((-rdPtr->rHo.hoImgWidth*xx)/((rdPtr->rElevation-p3)/y1))+xoff;
 
-	return (int)(x1+rdPtr->rHo.hoX);
+	return (int)(x1+rdPtr->rHo.hoY);
 }
 long WINAPI DLLExport Exp_GetMapYZ(LPRDATA rdPtr,long param1)
 {
 
-	long p1 = CNC_GetFirstExpressionParameter(rdPtr, param1, TYPE_INT);
-	long p2 = CNC_GetNextExpressionParameter(rdPtr, param1, TYPE_INT);
-	long p3 = CNC_GetNextExpressionParameter(rdPtr, param1, TYPE_INT);
+	long pp1 = CNC_GetFirstExpressionParameter(rdPtr, param1, TYPE_FLOAT);
+	long pp2 = CNC_GetNextExpressionParameter(rdPtr, param1, TYPE_FLOAT);
+	long pp3 = CNC_GetNextExpressionParameter(rdPtr, param1, TYPE_FLOAT);
 
-	//float fx = *(float *)&p1;
-	//float fy = *(float *)&p2;
-	//float fz = *(float *)&p3;
+	float p1 = *(float *)&pp1;
+	float p2 = *(float *)&pp2;
+	float p3 = *(float *)&pp3;
 
 
 	double x = p1*100/rdPtr->rZoom-rdPtr->rXOffset;
@@ -1729,8 +1711,9 @@ long WINAPI DLLExport Exp_GetMapAngle(LPRDATA rdPtr,long param1)
 	long a = CNC_GetNextExpressionParameter(rdPtr, param1, TYPE_INT);
 
 
-	a+=rdPtr->rAngle;
-	return MOD1(a,360);
+	a+=(int)rdPtr->rAngle;
+	//return MOD1(a,360);
+	CNC_RETURN_FLOAT(MOD1(a,360));
 }
 /*
 long WINAPI DLLExport Exp_GetMapVisible(LPRDATA rdPtr,long param1)
@@ -1827,8 +1810,8 @@ long WINAPI DLLExport Exp_GetImageHFile(LPRDATA rdPtr,long param1) {
 }
 long WINAPI DLLExport Exp_GetHeightAt(LPRDATA rdPtr,long param1) {
 
-	long x = CNC_GetFirstExpressionParameter(rdPtr, param1, TYPE_INT)*rdPtr->rZoom/100;
-	long y = CNC_GetNextExpressionParameter(rdPtr, param1, TYPE_INT)*rdPtr->rZoom/100;
+	long x = CNC_GetFirstExpressionParameter(rdPtr, param1, TYPE_INT);
+	long y = CNC_GetNextExpressionParameter(rdPtr, param1, TYPE_INT);
 	COLORREF tempColor = 0;
 	int xi=x,yi=y;
 	if (rdPtr->rRepeatX) xi=MOD1(x,rdPtr->rImageWidth);
@@ -1864,13 +1847,13 @@ long WINAPI DLLExport Exp_GetFogDistance(LPRDATA rdPtr,long param1) {
 	return rdPtr->rFogDistance;
 }
 long WINAPI DLLExport Exp_GetXOffset2(LPRDATA rdPtr,long param1) {
-	return (int)rdPtr->rXOffset2;
+	CNC_RETURN_FLOAT(rdPtr->rXOffset2);
 }
 long WINAPI DLLExport Exp_GetYOffset2(LPRDATA rdPtr,long param1) {
-	return (int)rdPtr->rYOffset2;
+	CNC_RETURN_FLOAT(rdPtr->rYOffset2);
 }
 long WINAPI DLLExport Exp_GetAngle2(LPRDATA rdPtr,long param1) {
-	return rdPtr->rAngle2;
+	CNC_RETURN_FLOAT(rdPtr->rAngle2);
 }
 long WINAPI DLLExport Exp_GetThicknessMode(LPRDATA rdPtr,long param1) {
 	return rdPtr->rThicknessMode;
@@ -1991,46 +1974,6 @@ long WINAPI DLLExport Exp_GetMapVisible(LPRDATA rdPtr,long param1)
 					) ? 1 : 0);
 }
 
-
-long WINAPI DLLExport Exp_GetMapVisibleZ(LPRDATA rdPtr,long param1)
-{
-	long p1 = CNC_GetFirstExpressionParameter(rdPtr, param1, TYPE_INT);
-	long p2 = CNC_GetNextExpressionParameter(rdPtr, param1, TYPE_INT);
-	long p3 = CNC_GetNextExpressionParameter(rdPtr, param1, TYPE_INT);
-	long w = CNC_GetNextExpressionParameter(rdPtr, param1, TYPE_INT);
-	long h = CNC_GetNextExpressionParameter(rdPtr, param1, TYPE_INT);
-
-
-	//float fp1 = *(float *)&p1;
-	//float fp2 = *(float *)&p2;
-
-	double x = p1*100/rdPtr->rZoom-rdPtr->rXOffset;
-	double y = p2*100/rdPtr->rZoom-rdPtr->rYOffset;
-
-	int xoff=rdPtr->rHo.hoImgWidth>>1;
-	double dtr = 3.1415926535897932384626433832795 / 180;
-
-	double zcos=cos(-rdPtr->rAngle * dtr);
-	double zsin=sin(-rdPtr->rAngle * dtr);
-	double xx = zcos*x-zsin*y;
-	double yy = zsin*x+zcos*y;
-
-
-	double y1 = (rdPtr->rElevation-p3)/yy;
-	double x1 = ((-rdPtr->rHo.hoImgWidth*xx)/((rdPtr->rElevation-p3)/y1))+xoff;
-	double x2 = ((-rdPtr->rHo.hoImgWidth*(xx+w))/((rdPtr->rElevation-p3)/y1))+xoff;
-
-	int zw = abs((int)(x1-x2));
-	int zh = abs((int)((x1-x2)*h/w));
-	zw>>=1;
-	zh>>=1;
-
-	return (long)((	(x1 >= -zw) &&
-					(x1 <= rdPtr->rHo.hoImgWidth + zw) &&
-					(y1 >= -zh) &&
-					(y1 <= rdPtr->rHo.hoImgHeight)
-					) ? 1 : 0);
-}
 
 
 
@@ -2190,7 +2133,6 @@ long (WINAPI * ExpressionJumps[])(LPRDATA rdPtr, long param) =
 			Exp_GetMipMap2,
 			Exp_GetMipMapH,			
 			Exp_GetAutoRedraw,
-			Exp_GetMapVisibleZ,
 
 			0
 			};

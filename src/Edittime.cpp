@@ -14,6 +14,7 @@
 
 // Prototype of setup procedure
 BOOL CALLBACK DLLExport setupProc(HWND hDlg,uint msgType,WPARAM wParam,LPARAM lParam);
+BOOL CALLBACK DLLExport advsetupProc(HWND hDlg,uint msgType,WPARAM wParam,LPARAM lParam);
 BOOL CALLBACK DLLExport aboutProc(HWND hDlg,uint msgType,WPARAM wParam,LPARAM lParam);
 
 // Prototype for functions...
@@ -22,14 +23,22 @@ LPBITMAPINFO CreateBitmapFromImage(npAppli, LPINTERNALIMAGE);
 // Structure defined to pass edptr and mv into setup box
 typedef struct tagSetP
 {
-	EDITDATA _far *	edpt;
 	mv _far	*		kv;
 	HFRAN			hFran;
-	WORD			nCurrentImage;
-	WORD			nImages;
+	EDITDATA _far *	edpt;
+	EDITDATA 		edPtr;
+	//WORD			nCurrentImage;
+	//WORD			nImages;
 	internalImage	ci[MAX_INTERNALIMAGE];
 } setupParams;
-
+// Structure defined to pass edptr and mv into advsetup box
+typedef struct tagSetP2
+{
+	mv _far	*		kv;
+	HFRAN			hFran;
+	EDITDATA 		edPtr;
+	setupParams	_far * spa;
+} setupParams2;
 
 // -----------------
 // BmpToImg
@@ -226,8 +235,8 @@ void WINAPI DLLExport UnloadObject(mv _far *knpV, LPEDATA edPtr, int reserved)
 void WINAPI DLLExport UpdateFileNames(mv _far *knpV, LPSTR gameName, LPEDATA edPtr, void (WINAPI * lpfnUpdate)(LPSTR, LPSTR))
 {
 	// Call MMF so that it relocates the pathname
-	if ( edPtr->eFilename[0]!=0 )
-		lpfnUpdate (gameName, edPtr->eFilename);
+	//if ( edPtr->eFilename[0]!=0 )
+	//	lpfnUpdate (gameName, edPtr->eFilename);
 }
 
 // --------------------
@@ -318,9 +327,41 @@ int WINAPI DLLExport CreateObject(mv _far *knpV, fpLevObj loPtr, LPEDATA edPtr)
 
 	// Set default object flags
 	edPtr->swidth = 320;
-	edPtr->sheight = 100;
+	edPtr->sheight = 200;
 	edPtr->eNImages = 0;
-	edPtr->eCurrentImage = 0;;
+	edPtr->eCurrentImage = 0;
+	
+
+	edPtr->eImageNum = 0;				// Internal Image ID
+	edPtr->eImage2Num = 1;				// Internal Image ID
+	edPtr->eImageHNum = -2;				// Internal Image ID
+
+	edPtr->eTrans = false;
+
+	edPtr->eRepeatX = false;
+	edPtr->eRepeatY = false;
+	edPtr->eFog = false;
+	edPtr->eInterpolate = false;
+	edPtr->eInterpolateHeight = false;
+	edPtr->eMipmap = true;
+	edPtr->eMipmap2 = true;
+	edPtr->eMipmapH = false;
+	
+	edPtr->eResX = 1;
+	edPtr->eResY = 1;
+	edPtr->eResMode = 1;
+	edPtr->eResModeParam = 128;
+	edPtr->eThickness = 0;
+	edPtr->eThicknessMode = 1;
+	edPtr->eFogColor = 0;
+	edPtr->eFogDistance = 1000;
+	edPtr->eMipTrans = false;
+	edPtr->eMipTransColor = 0;
+	edPtr->eAutoRedraw = true;
+	
+	edPtr->eAutoCamera = true;
+	
+	
 	//edPtr->imgidx = BmpToImg(EXO_ABOUT, knpV->mvIdAppli);
 
 	// Call setup (remove this and return 0 if your object does not need a setup)
@@ -353,10 +394,13 @@ int WINAPI DLLExport SelectPopup(mv _far *knpV, int modif, fpObjInfo oiPtr, fpLe
 		spa.edpt = edPtr;
 		spa.hFran = oiPtr->oiHFran;
 		spa.kv = knpV;
-		spa.nCurrentImage = edPtr->eCurrentImage;
-		spa.nImages = edPtr->eNImages;
+		
+		memcpy(&spa.edPtr, (LPBYTE)edPtr, sizeof(EDITDATA));
+		
+		//spa.nCurrentImage = edPtr->eCurrentImage;
+		//spa.nImages = edPtr->eNImages;
 		if (edPtr->eNImages)
-			memcpy(spa.ci, (LPBYTE)edPtr + sizeof(EDITDATA), spa.nImages * sizeof(internalImage));
+			memcpy(spa.ci, (LPBYTE)edPtr + sizeof(EDITDATA), edPtr->eNImages * sizeof(internalImage));
 
 		if (0 == DialOpen(hInstLib, MAKEINTRESOURCE(DB_SETUP), knpV->mvHEditWin, (FARPROC)setupProc, 0, 0, DL_MODAL | DL_CENTER_WINDOW, (LPARAM)(LPBYTE)&spa))
 			return MODIF_HFRAN;
@@ -404,40 +448,85 @@ BOOL CALLBACK DLLExport aboutProc(HWND hDlg,uint msgType,WPARAM wParam,LPARAM lP
 
 
 // Enable / Disable setup dialog buttons
-static void UpdateDialog (HWND hDlg, setupParams FAR * ps) {
+static void UpdateDialog (HWND hDlg, setupParams FAR * ps, bool initialize= false) {
 	// Enable Old External File edit/buttons
 	//EnableWindow(GetDlgItem(hDlg, ID_EDITPATH), (ps->nImages == 0));
 	//EnableWindow(GetDlgItem(hDlg, ID_EDITBROWSE), (ps->nImages == 0));
 
 	// Enable "Edit" button
-	EnableWindow(GetDlgItem(hDlg, ID_EDITDRAW), (ps->nImages != 0));
+	EnableWindow(GetDlgItem(hDlg, ID_EDITDRAW), (ps->edPtr.eNImages != 0));
 
 	// Enable Name edit box
-	EnableWindow(GetDlgItem(hDlg, IDC_EDITIMAGENAME), (ps->nImages != 0));
+	EnableWindow(GetDlgItem(hDlg, IDC_EDITIMAGENAME), (ps->edPtr.eNImages != 0));
 
 	// Enable "Previous" button
-	EnableWindow(GetDlgItem(hDlg, IDC_PREVIMAGE), (ps->nCurrentImage > 0));
+	EnableWindow(GetDlgItem(hDlg, IDC_PREVIMAGE), (ps->edPtr.eCurrentImage > 0));
 
 	// Enable "Next" button
-	EnableWindow(GetDlgItem(hDlg, IDC_NEXTIMAGE), ((ps->nCurrentImage+1) < ps->nImages));
+	EnableWindow(GetDlgItem(hDlg, IDC_NEXTIMAGE), ((ps->edPtr.eCurrentImage+1) < ps->edPtr.eNImages));
 
 	// Enable "Insert" buttons
-	EnableWindow(GetDlgItem(hDlg, IDC_INSERTBEFORE), ps->nImages && (ps->nImages < MAX_INTERNALIMAGE));
-	EnableWindow(GetDlgItem(hDlg, IDC_INSERTAFTER), (ps->nImages < MAX_INTERNALIMAGE));
+	EnableWindow(GetDlgItem(hDlg, IDC_INSERTBEFORE), ps->edPtr.eNImages && (ps->edPtr.eNImages < MAX_INTERNALIMAGE));
+	EnableWindow(GetDlgItem(hDlg, IDC_INSERTAFTER), (ps->edPtr.eNImages < MAX_INTERNALIMAGE));
 
 	// Enable "Remove" button
-	EnableWindow(GetDlgItem(hDlg, IDC_REMOVE), (ps->nImages != 0));
+	EnableWindow(GetDlgItem(hDlg, IDC_REMOVE), (ps->edPtr.eNImages != 0));
 
 	// Set name text & hot spot coords
-	if (ps->nImages) {
+	if (ps->edPtr.eNImages) {
 		SendDlgItemMessage(hDlg, IDC_EDITIMAGENAME, EM_LIMITTEXT, MAX_IMAGE_NAME-1, 0);
-		SetDlgItemText(hDlg, IDC_EDITIMAGENAME, ps->ci[ps->nCurrentImage].cName);
-		SetDlgItemInt(hDlg, IDC_IMAGENUM, ps->nCurrentImage, TRUE);
+		SetDlgItemText(hDlg, IDC_EDITIMAGENAME, ps->ci[ps->edPtr.eCurrentImage].cName);
+		SetDlgItemInt(hDlg, IDC_IMAGENUM, ps->edPtr.eCurrentImage, TRUE);
 		SetDlgItemText(hDlg,IDC_INSERTAFTER, "Insert After");
 	} else {
 		SetDlgItemText(hDlg, IDC_EDITIMAGENAME, "");
 		SetDlgItemText(hDlg,IDC_INSERTAFTER, "Add Image");
 		SetDlgItemInt(hDlg, IDC_IMAGENUM, 0, TRUE);
+	}
+	EnableWindow(GetDlgItem(hDlg, IDC_MAIN_IMAGE),ps->edPtr.eNImages);
+	EnableWindow(GetDlgItem(hDlg, IDC_SECOND_IMAGE),ps->edPtr.eNImages);
+	EnableWindow(GetDlgItem(hDlg, IDC_HEIGHT_MAP),ps->edPtr.eNImages);
+	
+	CheckDlgButton(hDlg, IDC_MAIN_IMAGE, ps->edPtr.eNImages && (ps->edPtr.eImageNum == ps->edPtr.eCurrentImage));
+	CheckDlgButton(hDlg, IDC_SECOND_IMAGE, ps->edPtr.eNImages && (ps->edPtr.eImage2Num == ps->edPtr.eCurrentImage));
+	CheckDlgButton(hDlg, IDC_HEIGHT_MAP, ps->edPtr.eNImages && (ps->edPtr.eImageHNum == ps->edPtr.eCurrentImage));
+	
+	if (initialize) {
+		// both checked
+		if (ps->edPtr.eRepeatX && ps->edPtr.eRepeatY)
+			CheckDlgButton(hDlg, IDC_WRAP, BST_CHECKED);
+		// none checked
+		else if (!ps->edPtr.eRepeatX && !ps->edPtr.eRepeatY)
+			CheckDlgButton(hDlg, IDC_WRAP, BST_UNCHECKED);
+		// other combo
+		else
+			SendDlgItemMessage(hDlg, IDC_WRAP, BM_SETCHECK, BST_INDETERMINATE, 0);
+			
+		// If mip map and mip map 2 checked ONLY
+		if (ps->edPtr.eMipmap && ps->edPtr.eMipmap2 && !ps->edPtr.eMipmapH)
+			CheckDlgButton(hDlg, IDC_MIP_MAP, BST_CHECKED);
+		// If none are checked
+		else if (!ps->edPtr.eMipmap && !ps->edPtr.eMipmap2 && !ps->edPtr.eMipmapH)
+			CheckDlgButton(hDlg, IDC_MIP_MAP, BST_UNCHECKED);
+		// If some other combination are checked
+		else 
+			SendDlgItemMessage(hDlg, IDC_MIP_MAP, BM_SETCHECK, BST_INDETERMINATE, 0);
+			
+		// Image interpolation checked
+		if (ps->edPtr.eInterpolate && !ps->edPtr.eInterpolateHeight)
+			CheckDlgButton(hDlg, IDC_INTERPOLATE, BST_CHECKED);
+		// neither checked
+		else if (!ps->edPtr.eInterpolate && !ps->edPtr.eInterpolateHeight)
+			CheckDlgButton(hDlg, IDC_INTERPOLATE, BST_UNCHECKED);
+		// other combo
+		else 
+			SendDlgItemMessage(hDlg, IDC_INTERPOLATE, BM_SETCHECK, BST_INDETERMINATE, 0);
+			
+		
+		CheckDlgButton(hDlg, IDC_TRANS, ps->edPtr.eTrans);
+		CheckDlgButton(hDlg, IDC_AUTO_REDRAW, ps->edPtr.eAutoRedraw);
+		CheckDlgButton(hDlg, IDC_LOCATE, ps->edPtr.eAutoCamera);
+		CheckDlgButton(hDlg, IDC_FOG, ps->edPtr.eFog);
 	}
 }
 
@@ -453,7 +542,7 @@ static BOOL CreateUniqueName(setupParams FAR * spa, WORD nImage)
 		LoadString(hInstLib, IDS_DEFNAME, name, MAX_IMAGE_NAME-1);
 	}
 	// Make name unique
-	for (WORD w=0; w<spa->nImages; w++) {
+	for (WORD w=0; w<spa->edPtr.eNImages; w++) {
 		if ( w != nImage && _fstricmp(spa->ci[w].cName, name) == 0 ) {
 			int l = _fstrlen (name);
 			if ( l > MAX_IMAGE_NAME - 3 )	// avoid overflow
@@ -491,19 +580,19 @@ static BOOL CreateUniqueName(setupParams FAR * spa, WORD nImage)
 
 // Change image name
 static void OnChangeName(HWND hDlg, setupParams FAR * spa) {
-	if ( spa->nImages != 0 ) {
+	if ( spa->edPtr.eNImages != 0 ) {
 		char name[MAX_IMAGE_NAME];
 		GetDlgItemText(hDlg, IDC_EDITIMAGENAME, name, MAX_IMAGE_NAME-1);
 		// Name is empty ? create unique name
 		if ( *name == 0 ) {
-			CreateUniqueName(spa, spa->nCurrentImage);
+			CreateUniqueName(spa, spa->edPtr.eCurrentImage);
 			UpdateDialog(hDlg, spa);
 		} else { // Non empty name
 			// Modified ?
-			if ( _fstricmp(spa->ci[spa->nCurrentImage].cName, name) != 0 ) {
-				_fstrcpy(spa->ci[spa->nCurrentImage].cName, name);
-				if ( CreateUniqueName(spa, spa->nCurrentImage) ) {
-					MessageBox(hDlg, "The current image name has been modified because it was already used by another image", "Cursor", MB_OK);
+			if ( _fstricmp(spa->ci[spa->edPtr.eCurrentImage].cName, name) != 0 ) {
+				_fstrcpy(spa->ci[spa->edPtr.eCurrentImage].cName, name);
+				if ( CreateUniqueName(spa, spa->edPtr.eCurrentImage) ) {
+					MessageBox(hDlg, "The current image name has been modified because it was already used by another image", "Mode 7 ex", MB_OK);
 					UpdateDialog(hDlg, spa);
 				}
 			}
@@ -514,6 +603,231 @@ static void OnChangeName(HWND hDlg, setupParams FAR * spa) {
 
 
 
+// --------------------
+// SetupProc
+// --------------------
+// This routine is yours. You may even not need a setup dialog box.
+// I have put it as an example...
+BOOL CALLBACK DLLExport advsetupProc(HWND hDlg,uint msgType,WPARAM wParam,LPARAM lParam) {
+	setupParams2	_far *	spa = NULL;
+	EDITDATA _far *		edPtr = NULL;
+	BOOL				bEditCurrentImage = FALSE;
+	
+#ifdef RUN_ONLY2
+	MessageBox(0,"You are not supposed to be using this version!","Mode 7 Error!",MB_OK);
+#endif
+	static COLORREF fogColor= 0;
+	static COLORREF	mmColor = 0;
+
+	static HBRUSH hStaticBrush;
+			
+	char buf[30];
+
+	switch (msgType) {
+		case WM_INITDIALOG: {
+
+			// Store edPtr
+			SetWindowLong(hDlg, DWL_USER, lParam);
+			spa = (setupParams2 FAR *)lParam;
+			//edPtr->imgidx=1;
+
+			// Set up parameters
+			
+			// Populate Combo boxes
+			SendDlgItemMessage(hDlg, IDC_THICKMODE, CB_ADDSTRING, 0, (LPARAM)(LPCTSTR)"Fast");
+			SendDlgItemMessage(hDlg, IDC_THICKMODE, CB_ADDSTRING, 0, (LPARAM)(LPCTSTR)"Fill");
+			SendDlgItemMessage(hDlg, IDC_THICKMODE, CB_ADDSTRING, 0, (LPARAM)(LPCTSTR)"Full");
+
+			SendDlgItemMessage(hDlg, IDC_RESMODE, CB_ADDSTRING, 0, (LPARAM)(LPCTSTR)"Quick");
+			SendDlgItemMessage(hDlg, IDC_RESMODE, CB_ADDSTRING, 0, (LPARAM)(LPCTSTR)"Full");
+			SendDlgItemMessage(hDlg, IDC_RESMODE, CB_ADDSTRING, 0, (LPARAM)(LPCTSTR)"Scanlines");
+			SendDlgItemMessage(hDlg, IDC_RESMODE, CB_ADDSTRING, 0, (LPARAM)(LPCTSTR)"% Scanlines");
+
+			SendDlgItemMessage(hDlg, IDC_SLIDER, TBM_SETRANGE, TRUE, MAKELONG(0, 20000));
+			SendDlgItemMessage(hDlg, IDC_SLIDER, TBM_SETTICFREQ, 1000,0);
+			
+			
+			
+			// Interpolation
+			CheckDlgButton(hDlg, IDC_INTERPOLATE, spa->edPtr.eInterpolate);
+			CheckDlgButton(hDlg, IDC_INTERPOLATEH, spa->edPtr.eInterpolateHeight);
+			
+			// Mipmapping
+			CheckDlgButton(hDlg, IDC_MIP_MAP, spa->edPtr.eMipmap);
+			CheckDlgButton(hDlg, IDC_MIP_MAP2, spa->edPtr.eMipmap2);
+			CheckDlgButton(hDlg, IDC_MIP_MAPH, spa->edPtr.eMipmapH);
+			CheckDlgButton(hDlg, IDC_MMTRANS, spa->edPtr.eMipTrans);
+			mmColor = spa->edPtr.eMipTransColor;
+			
+			// Fog
+			CheckDlgButton(hDlg, IDC_FOG2, spa->edPtr.eFog);
+			ltoa(spa->edPtr.eFogDistance, buf, 10); SetDlgItemText(hDlg, IDC_FOGAMOUNT, buf);
+			SendDlgItemMessage(hDlg, IDC_SLIDER, TBM_SETPOS, TRUE, spa->edPtr.eFogDistance);
+			fogColor = spa->edPtr.eFogColor;
+			
+			// Wrap/Repeat modes
+			CheckDlgButton(hDlg, IDC_WRAPH, spa->edPtr.eRepeatX);
+			CheckDlgButton(hDlg, IDC_WRAPV, spa->edPtr.eRepeatY);
+			
+			// Thickness
+			ltoa(spa->edPtr.eThickness, buf, 10); SetDlgItemText(hDlg, IDC_THICKNESS, buf);
+			SendDlgItemMessage(hDlg, IDC_THICKMODE, CB_SETCURSEL, spa->edPtr.eThicknessMode, 0);
+			
+			
+			// Resolution
+			ltoa(spa->edPtr.eResX, buf, 10); SetDlgItemText(hDlg, IDC_RESX, buf);
+			ltoa(spa->edPtr.eResY, buf, 10); SetDlgItemText(hDlg, IDC_RESY, buf);			
+			SendDlgItemMessage(hDlg, IDC_RESMODE, CB_SETCURSEL, spa->edPtr.eResMode, 0);
+			ltoa(spa->edPtr.eResModeParam, buf, 10); SetDlgItemText(hDlg, IDC_RESPARAM, buf);
+
+			// Enable/Disable controls
+			
+			EnableWindow(GetDlgItem(hDlg, IDC_FOGAMOUNT), IsDlgButtonChecked(hDlg, IDC_FOG2));
+			EnableWindow(GetDlgItem(hDlg, IDC_SLIDER), IsDlgButtonChecked(hDlg, IDC_FOG2));
+			EnableWindow(GetDlgItem(hDlg, IDC_FOGCOLOR), IsDlgButtonChecked(hDlg, IDC_FOG2));
+			
+			EnableWindow(GetDlgItem(hDlg, IDC_MMCOLOR), IsDlgButtonChecked(hDlg, IDC_MMTRANS));
+			EnableWindow(GetDlgItem(hDlg, IDC_RESPARAM), SendDlgItemMessage(hDlg, IDC_RESMODE, CB_GETCURSEL, 0, 0)==3);
+
+			// Ok
+			return TRUE;
+		} break;
+		// Slider control
+		case WM_HSCROLL:
+			char buf[30];
+			ltoa(SendDlgItemMessage(hDlg,IDC_SLIDER1, TBM_GETPOS, 0, 0), buf, 10);
+			SetDlgItemText(hDlg,IDC_FOGAMOUNT,buf);
+			
+			
+			break;
+
+		case WM_CTLCOLORSTATIC:
+			if ( (HWND)lParam  == GetDlgItem(hDlg, IDC_MMCBOX) ) {
+				if( hStaticBrush != NULL ) DeleteObject(hStaticBrush);
+
+				hStaticBrush = CreateSolidBrush(mmColor);
+				return reinterpret_cast<long>(hStaticBrush);
+			}
+			if ( (HWND)lParam  == GetDlgItem(hDlg, IDC_FOGCBOX) ) {
+				if( hStaticBrush != NULL ) DeleteObject(hStaticBrush);
+
+				hStaticBrush = CreateSolidBrush(fogColor);
+				return reinterpret_cast<long>(hStaticBrush);
+			}
+			break;
+
+		case WM_DESTROY:
+			if( hStaticBrush != NULL ) DeleteObject(hStaticBrush);
+			break;
+		case WM_COMMAND:
+
+			// Retrieve edPtr
+			spa = (setupParams2 far *)GetWindowLong(hDlg, DWL_USER);
+
+			// Command messages
+			switch (wmCommandID) {
+				case IDC_RESMODE:
+					EnableWindow(GetDlgItem(hDlg, IDC_RESPARAM), SendDlgItemMessage(hDlg, IDC_RESMODE, CB_GETCURSEL, 0, 0)==3);
+					break;
+				case IDC_FOG2:
+					EnableWindow(GetDlgItem(hDlg, IDC_FOGAMOUNT), IsDlgButtonChecked(hDlg, IDC_FOG2));
+					EnableWindow(GetDlgItem(hDlg, IDC_SLIDER), IsDlgButtonChecked(hDlg, IDC_FOG2));
+					EnableWindow(GetDlgItem(hDlg, IDC_FOGCOLOR), IsDlgButtonChecked(hDlg, IDC_FOG2));
+					break;
+				case IDC_FOGAMOUNT:
+					char buf[30];
+					GetDlgItemText(hDlg, IDC_FOGAMOUNT, buf, 30);
+					SendDlgItemMessage(hDlg, IDC_SLIDER, TBM_SETPOS, TRUE, atol(buf));
+					break;
+				case IDC_MMTRANS:
+					EnableWindow(GetDlgItem(hDlg, IDC_MMCOLOR), IsDlgButtonChecked(hDlg, IDC_MMTRANS));
+					break;
+				case IDC_MMCOLOR:
+				case IDC_FOGCOLOR:
+					static CHOOSECOLOR	ccf;
+					static COLORREF 	crefCustColor[16];
+
+					_fmemset(&ccf, 0, sizeof(CHOOSECOLOR));
+					ccf.lStructSize = sizeof(CHOOSECOLOR);
+					ccf.hwndOwner = hDlg;
+					if (wmCommandID==IDC_MMCOLOR)
+						ccf.rgbResult = mmColor;
+					else 
+						ccf.rgbResult = fogColor;
+					ccf.lpCustColors = crefCustColor;
+					ccf.Flags = CC_RGBINIT|CC_ANYCOLOR;
+					if (ChooseColor(&ccf)) {
+						if (wmCommandID==IDC_MMCOLOR)
+							mmColor=ccf.rgbResult;
+						else
+							fogColor=ccf.rgbResult;
+						InvalidateRect(hDlg, NULL, FALSE);
+					}
+					return 0;
+				case IDOK:
+
+					// Store options
+					
+
+					// Interpolation
+					spa->edPtr.eInterpolate = IsDlgButtonChecked(hDlg, IDC_INTERPOLATE) ? true : false;
+					spa->edPtr.eInterpolateHeight = IsDlgButtonChecked(hDlg, IDC_INTERPOLATEH) ? true : false;
+
+					// Mipmapping
+					spa->edPtr.eMipmap = IsDlgButtonChecked(hDlg, IDC_MIP_MAP) ? true : false;
+					spa->edPtr.eMipmap2 = IsDlgButtonChecked(hDlg, IDC_MIP_MAP2) ? true : false;
+					spa->edPtr.eMipmapH = IsDlgButtonChecked(hDlg, IDC_MIP_MAPH) ? true : false;
+					spa->edPtr.eMipTrans = IsDlgButtonChecked(hDlg, IDC_MMTRANS) ? true : false;
+					spa->edPtr.eMipTransColor = mmColor;
+
+					// Fog
+					spa->edPtr.eFog = IsDlgButtonChecked(hDlg, IDC_FOG2) ? true : false;
+
+					GetDlgItemText(hDlg, IDC_FOGAMOUNT, buf, 30);
+					spa->edPtr.eFogDistance = atoi(buf);
+
+					spa->edPtr.eFogColor = fogColor;
+
+					// Wrap/Repeat modes
+					spa->edPtr.eRepeatX = IsDlgButtonChecked(hDlg, IDC_WRAPH) ? true : false;
+					spa->edPtr.eRepeatY = IsDlgButtonChecked(hDlg, IDC_WRAPV) ? true : false;
+
+					// Thickness
+					GetDlgItemText(hDlg, IDC_THICKNESS, buf, 30);
+					spa->edPtr.eThickness = atoi(buf);
+
+					spa->edPtr.eThicknessMode = SendDlgItemMessage(hDlg, IDC_THICKMODE, CB_GETCURSEL, 0, 0);
+
+
+					// Resolution
+					GetDlgItemText(hDlg, IDC_RESX, buf, 30);
+					spa->edPtr.eResX = atoi(buf);
+
+					GetDlgItemText(hDlg, IDC_RESY, buf, 30);
+					spa->edPtr.eResY = atoi(buf);
+					spa->edPtr.eResMode = SendDlgItemMessage(hDlg, IDC_RESMODE, CB_GETCURSEL, 0, 0);
+
+					GetDlgItemText(hDlg, IDC_RESPARAM, buf, 30);
+					spa->edPtr.eResModeParam = atoi(buf);
+					
+					
+					// Copy new info over
+					memcpy(&spa->spa->edPtr, &spa->edPtr, sizeof(EDITDATA));
+
+					// End dialog box
+					EndDialog(hDlg, 0);
+					return 0;
+				case IDCANCEL:
+					// End dialog box
+					EndDialog(hDlg, -1);
+					return 0;
+			}
+			break;
+	}
+
+
+	return FALSE;
+}
 
 
 
@@ -538,26 +852,19 @@ BOOL CALLBACK DLLExport setupProc(HWND hDlg,uint msgType,WPARAM wParam,LPARAM lP
 			SetWindowLong(hDlg, DWL_USER, lParam);
 			spa = (setupParams FAR *)lParam;
 			edPtr = spa->edpt;
-			//edPtr->imgidx=1;
-
-			// Set up parameters
-			SetDlgItemText(hDlg, ID_EDITPATH, edPtr->eFilename);
-
-			CheckDlgButton(hDlg, IDC_TRANS, edPtr->eTrans);
-			CheckDlgButton(hDlg, IDC_WRAP, edPtr->eRepeat);
-
+			
 			// Inc image counters and init spa variables
-			for (w=0; w<spa->nImages; w++) {
+			for (w=0; w<spa->edPtr.eNImages; w++) {
 				if ( spa->ci[w].cImg != 0 )
 					IncImageCount(spa->kv->mvIdAppli, spa->ci[w].cImg);
 			}
-
+			
 			// Update dialog controls
-			UpdateDialog(hDlg, spa);
+			UpdateDialog(hDlg, spa, true);
 
 			// Ok
 			return TRUE;
-		}
+		} break;
 		case WM_PAINT:
 			spa = (setupParams far *)GetWindowLong(hDlg, DWL_USER);
 			edPtr = spa->edpt;
@@ -579,8 +886,8 @@ BOOL CALLBACK DLLExport setupProc(HWND hDlg,uint msgType,WPARAM wParam,LPARAM lP
 						FillRect(hdc, &rc, hbr);
 						DeleteObject(hbr);
 
-						// Cursor
-						LPBITMAPINFO pBmi = CreateBitmapFromImage(spa->kv->mvIdAppli, &spa->ci[spa->nCurrentImage]);
+						// Draw image
+						LPBITMAPINFO pBmi = CreateBitmapFromImage(spa->kv->mvIdAppli, &spa->ci[spa->edPtr.eCurrentImage]);
 						if ( pBmi != NULL ) {
 							int width,height,wi,hi;
 							width = wi = pBmi->bmiHeader.biWidth;
@@ -617,6 +924,45 @@ BOOL CALLBACK DLLExport setupProc(HWND hDlg,uint msgType,WPARAM wParam,LPARAM lP
 
 			// Command messages
 			switch (wmCommandID) {
+				case IDC_MAIN_IMAGE:
+					if (IsDlgButtonChecked(hDlg,IDC_MAIN_IMAGE))
+						spa->edPtr.eImageNum = 	spa->edPtr.eCurrentImage;
+					else if (spa->edPtr.eImageNum == spa->edPtr.eCurrentImage)
+						spa->edPtr.eImageNum = -2;
+					break;
+					
+				case IDC_SECOND_IMAGE:
+					if (IsDlgButtonChecked(hDlg,IDC_SECOND_IMAGE))
+						spa->edPtr.eImage2Num = spa->edPtr.eCurrentImage;
+					else if (spa->edPtr.eImage2Num == spa->edPtr.eCurrentImage)
+						spa->edPtr.eImage2Num = -2;
+					break;
+
+				case IDC_HEIGHT_MAP:
+					if (IsDlgButtonChecked(hDlg,IDC_HEIGHT_MAP))
+						spa->edPtr.eImageHNum = spa->edPtr.eCurrentImage;
+					else if (spa->edPtr.eImageHNum == spa->edPtr.eCurrentImage)
+						spa->edPtr.eImageHNum = -2;
+					break;
+					
+					
+				case IDC_WRAP:
+					if (IsDlgButtonChecked(hDlg,IDC_WRAP)==BST_INDETERMINATE) CheckDlgButton(hDlg,IDC_WRAP,BST_UNCHECKED);
+					spa->edPtr.eRepeatX=IsDlgButtonChecked(hDlg,IDC_WRAP) ? true : false;
+					spa->edPtr.eRepeatY=IsDlgButtonChecked(hDlg,IDC_WRAP) ? true : false;
+					break;
+				case IDC_INTERPOLATE:
+					if (IsDlgButtonChecked(hDlg,IDC_INTERPOLATE)==BST_INDETERMINATE) CheckDlgButton(hDlg,IDC_INTERPOLATE,BST_UNCHECKED);
+					spa->edPtr.eInterpolate=IsDlgButtonChecked(hDlg,IDC_INTERPOLATE) ? true : false;
+					spa->edPtr.eInterpolateHeight=false;
+					break;
+				case IDC_MIP_MAP:
+					if (IsDlgButtonChecked(hDlg,IDC_MIP_MAP)==BST_INDETERMINATE) CheckDlgButton(hDlg,IDC_MIP_MAP,BST_UNCHECKED);
+					spa->edPtr.eMipmap=IsDlgButtonChecked(hDlg,IDC_MIP_MAP) ? true : false;
+					spa->edPtr.eMipmap2=IsDlgButtonChecked(hDlg,IDC_MIP_MAP) ? true : false;
+					spa->edPtr.eMipmapH=false;
+					break;
+					
 				case IDC_EDITIMAGENAME:
 					if ( wmCommandNotif == EN_KILLFOCUS )
 						OnChangeName(hDlg, spa);
@@ -624,8 +970,8 @@ BOOL CALLBACK DLLExport setupProc(HWND hDlg,uint msgType,WPARAM wParam,LPARAM lP
 
 				// Previous image
 				case IDC_PREVIMAGE:
-					if (spa->nCurrentImage>0) {
-						spa->nCurrentImage--;
+					if (spa->edPtr.eCurrentImage>0) {
+						spa->edPtr.eCurrentImage--;
 						UpdateDialog(hDlg, spa);
 						InvalidateRect(hDlg, NULL, FALSE);
 					}
@@ -633,8 +979,8 @@ BOOL CALLBACK DLLExport setupProc(HWND hDlg,uint msgType,WPARAM wParam,LPARAM lP
 
 				// Next image
 				case IDC_NEXTIMAGE:
-					if ((spa->nCurrentImage+1) < spa->nImages) {
-						spa->nCurrentImage++;
+					if ((spa->edPtr.eCurrentImage+1) < spa->edPtr.eNImages) {
+						spa->edPtr.eCurrentImage++;
 						UpdateDialog(hDlg, spa);
 						InvalidateRect(hDlg, NULL, FALSE);
 					}
@@ -642,18 +988,21 @@ BOOL CALLBACK DLLExport setupProc(HWND hDlg,uint msgType,WPARAM wParam,LPARAM lP
 
 				// Insert before
 				case IDC_INSERTBEFORE:
-					if ( spa->nImages < MAX_INTERNALIMAGE ) {
-						if (spa->nImages) {
+					if ( spa->edPtr.eNImages < MAX_INTERNALIMAGE ) {
+						if (spa->edPtr.eNImages) {
 							// Décaler les images supérieures
-							_fmemmove(&spa->ci[spa->nCurrentImage+1], &spa->ci[spa->nCurrentImage], (spa->nImages-spa->nCurrentImage) * sizeof(internalImage));
+							_fmemmove(&spa->ci[spa->edPtr.eCurrentImage+1], &spa->ci[spa->edPtr.eCurrentImage], (spa->edPtr.eNImages-spa->edPtr.eCurrentImage) * sizeof(internalImage));
 
 							// Incrémenter image usage count
-							if (spa->ci[spa->nCurrentImage].cImg)
-								IncImageCount(spa->kv->mvIdAppli, spa->ci[spa->nCurrentImage].cImg);
+							if (spa->ci[spa->edPtr.eCurrentImage].cImg)
+								IncImageCount(spa->kv->mvIdAppli, spa->ci[spa->edPtr.eCurrentImage].cImg);
 						}
+						if (spa->edPtr.eImageNum>=spa->edPtr.eCurrentImage) spa->edPtr.eImageNum++;
+						if (spa->edPtr.eImage2Num>=spa->edPtr.eCurrentImage) spa->edPtr.eImage2Num++;
+						if (spa->edPtr.eImageHNum>=spa->edPtr.eCurrentImage) spa->edPtr.eImageHNum++;
 
-						spa->nImages++;
-						CreateUniqueName(spa, spa->nCurrentImage);
+						spa->edPtr.eNImages++;
+						CreateUniqueName(spa, spa->edPtr.eCurrentImage);
 						UpdateDialog(hDlg, spa);
 						//InvalidateRect(hDlg, NULL, FALSE);
 						if ( spa->kv->mvEditImage2) {
@@ -665,19 +1014,24 @@ BOOL CALLBACK DLLExport setupProc(HWND hDlg,uint msgType,WPARAM wParam,LPARAM lP
 
 				// Insert after
 				case IDC_INSERTAFTER:
-					if (spa->nImages < MAX_INTERNALIMAGE) {
-						if (spa->nImages) {
+					if (spa->edPtr.eNImages < MAX_INTERNALIMAGE) {
+						if (spa->edPtr.eNImages) {
 							// Décaler images supérieures
-							_fmemmove(&spa->ci[spa->nCurrentImage+1], &spa->ci[spa->nCurrentImage], (spa->nImages-spa->nCurrentImage) * sizeof(internalImage));
+							_fmemmove(&spa->ci[spa->edPtr.eCurrentImage+1], &spa->ci[spa->edPtr.eCurrentImage], (spa->edPtr.eNImages-spa->edPtr.eCurrentImage) * sizeof(internalImage));
 
 							// Increase image usage count
-							spa->nCurrentImage++;
-							if (spa->ci[spa->nCurrentImage].cImg)
-								IncImageCount(spa->kv->mvIdAppli, spa->ci[spa->nCurrentImage].cImg);
+							spa->edPtr.eCurrentImage++;
+							if (spa->ci[spa->edPtr.eCurrentImage].cImg)
+								IncImageCount(spa->kv->mvIdAppli, spa->ci[spa->edPtr.eCurrentImage].cImg);
+						}
+						if (spa->edPtr.eNImages) {
+							if (spa->edPtr.eImageNum>=spa->edPtr.eCurrentImage) spa->edPtr.eImageNum++;
+							if (spa->edPtr.eImage2Num>=spa->edPtr.eCurrentImage) spa->edPtr.eImage2Num++;
+							if (spa->edPtr.eImageHNum>=spa->edPtr.eCurrentImage) spa->edPtr.eImageHNum++;
 						}
 
-						spa->nImages++;
-						CreateUniqueName(spa, spa->nCurrentImage);
+						spa->edPtr.eNImages++;
+						CreateUniqueName(spa, spa->edPtr.eCurrentImage);
 						UpdateDialog(hDlg, spa);
 						//InvalidateRect(hDlg, NULL, FALSE);
 						if ( spa->kv->mvEditImage2) {
@@ -688,20 +1042,20 @@ BOOL CALLBACK DLLExport setupProc(HWND hDlg,uint msgType,WPARAM wParam,LPARAM lP
 					break;
 				case IDC_IMPORTIMAGE: {
 					/*
-					if (spa->nImages < MAX_INTERNALIMAGE) {
-						if (spa->nImages) {
+					if (spa->edPtr.eNImages < MAX_INTERNALIMAGE) {
+						if (spa->edPtr.eNImages) {
 							// Décaler images supérieures
-							_fmemmove(&spa->ci[spa->nCurrentImage+1], &spa->ci[spa->nCurrentImage], (spa->nImages-spa->nCurrentImage) * sizeof(internalImage));
+							_fmemmove(&spa->ci[spa->edPtr.eCurrentImage+1], &spa->ci[spa->edPtr.eCurrentImage], (spa->edPtr.eNImages-spa->edPtr.eCurrentImage) * sizeof(internalImage));
 
 							// Increase image usage count
-							spa->nCurrentImage++;
-							if (spa->ci[spa->nCurrentImage].cImg) {
-								IncImageCount(spa->kv->mvIdAppli, spa->ci[spa->nCurrentImage].cImg);
+							spa->edPtr.eCurrentImage++;
+							if (spa->ci[spa->edPtr.eCurrentImage].cImg) {
+								IncImageCount(spa->kv->mvIdAppli, spa->ci[spa->edPtr.eCurrentImage].cImg);
 							}
 						}
 
-						spa->nImages++;
-						CreateUniqueName(spa, spa->nCurrentImage);
+						spa->edPtr.eNImages++;
+						CreateUniqueName(spa, spa->edPtr.eCurrentImage);
 						//UpdateDialog(hDlg, spa);
 						//InvalidateRect(hDlg, NULL, FALSE);
 						//goto cok;
@@ -710,25 +1064,37 @@ BOOL CALLBACK DLLExport setupProc(HWND hDlg,uint msgType,WPARAM wParam,LPARAM lP
 				}
 				// Remove current image
 				case IDC_REMOVE:
-					if (spa->nImages) {
+					if (spa->edPtr.eNImages) {
 						// Delete current image
-						if ( spa->ci[spa->nCurrentImage].cImg != 0 )
-							DelImage(spa->kv->mvIdAppli, spa->ci[spa->nCurrentImage].cImg);
+						if ( spa->ci[spa->edPtr.eCurrentImage].cImg != 0 )
+							DelImage(spa->kv->mvIdAppli, spa->ci[spa->edPtr.eCurrentImage].cImg);
 
+
+						if (spa->edPtr.eImageNum==spa->edPtr.eCurrentImage) spa->edPtr.eImageNum=-2;
+						else if (spa->edPtr.eImageNum>spa->edPtr.eCurrentImage) spa->edPtr.eImageNum--;
+						
+						if (spa->edPtr.eImage2Num==spa->edPtr.eCurrentImage) spa->edPtr.eImage2Num=-2;
+						else if (spa->edPtr.eImage2Num>spa->edPtr.eCurrentImage) spa->edPtr.eImage2Num--;
+						
+						if (spa->edPtr.eImageHNum==spa->edPtr.eCurrentImage) spa->edPtr.eImageHNum=-2;
+						else if (spa->edPtr.eImageHNum>spa->edPtr.eCurrentImage) spa->edPtr.eImageHNum--;
+						
 						// Remove structure
-						if (spa->nCurrentImage == (spa->nImages-1)) {
-							if (spa->nCurrentImage)
-								spa->nCurrentImage--;
+						if (spa->edPtr.eCurrentImage == (spa->edPtr.eNImages-1)) {
+							if (spa->edPtr.eCurrentImage)
+								spa->edPtr.eCurrentImage--;
 						} else
-							_fmemmove(&spa->ci[spa->nCurrentImage], &spa->ci[spa->nCurrentImage+1], sizeof(internalImage) * (spa->nImages - (spa->nCurrentImage+1)));
-						spa->nImages--;
-						_fmemset(&spa->ci[spa->nImages], 0, sizeof(internalImage));
+							_fmemmove(&spa->ci[spa->edPtr.eCurrentImage], &spa->ci[spa->edPtr.eCurrentImage+1], sizeof(internalImage) * (spa->edPtr.eNImages - (spa->edPtr.eCurrentImage+1)));
+							
+						
+						spa->edPtr.eNImages--;
+						_fmemset(&spa->ci[spa->edPtr.eNImages], 0, sizeof(internalImage));
 						UpdateDialog(hDlg, spa);
 						InvalidateRect(hDlg, NULL, FALSE);
 					}
 					break;
 
-
+/*
 				case ID_EDITBROWSE: {
 					OPENFILENAME	ofn;
 					char			szFile[_MAX_PATH];
@@ -749,38 +1115,49 @@ BOOL CALLBACK DLLExport setupProc(HWND hDlg,uint msgType,WPARAM wParam,LPARAM lP
 
 					// Ok
 					return 0;
-				}
-				case ID_ABOUT: {
+				}*/
+				case ID_ADVANCED:
+					setupParams2 spa2;
+					
+					// Store single-state options
+					spa->edPtr.eTrans = IsDlgButtonChecked(hDlg, IDC_TRANS) ? true : false;
+					spa->edPtr.eAutoCamera = IsDlgButtonChecked(hDlg, IDC_LOCATE) ? true : false;
+					spa->edPtr.eAutoRedraw = IsDlgButtonChecked(hDlg, IDC_AUTO_REDRAW) ? true : false;
+					spa->edPtr.eFog = IsDlgButtonChecked(hDlg, IDC_FOG) ? true : false;
+					
+					spa2.spa = spa;
+					spa2.kv = spa->kv;
+					spa2.hFran = spa->hFran;
+					
+					memcpy(&spa2.edPtr, &spa->edPtr, sizeof(EDITDATA));
+					
+					DialOpen(hInstLib, MAKEINTRESOURCE(DB_ADVSETUP), hDlg, (FARPROC)advsetupProc, 0, 0, DL_MODAL|DL_CENTER_WINDOW, (LPARAM)(LPBYTE)&spa2);
+						
+					// Update dialog controls
+					UpdateDialog(hDlg, spa, true);
+					
+					break;
+				case ID_ABOUT:
 					DialOpen(hInstLib, MAKEINTRESOURCE(DB_ABOUT), hDlg, (FARPROC)aboutProc, 0, 0, DL_MODAL|DL_CENTER_WINDOW, 0);
 					return 0;
-				}
 				case ID_EDITDRAW:
 					if ( spa->kv->mvEditImage2) {
 						bEditCurrentImage = TRUE;
 						goto cok;
 					}
+					break;
 				case IDOK:
 					cok: {
 					// Save parameters
-					GetDlgItemText(hDlg, ID_EDITPATH, edPtr->eFilename, _MAX_PATH);
+					//GetDlgItemText(hDlg, ID_EDITPATH, edPtr->eFilename, _MAX_PATH);
 
-					edPtr->eTrans = IsDlgButtonChecked(hDlg, IDC_TRANS) ? TRUE : FALSE;
-					edPtr->eRepeat = IsDlgButtonChecked(hDlg, IDC_WRAP) ? TRUE : FALSE;
 
-					// Get 24bit prototype
-					LPSURFACE proto;
-					GetSurfacePrototype(&proto, 24, ST_MEMORY, SD_DIB);
 
-					// Create surface, load image into surface and get image dimensions
-					cSurface sf;
-					sf.Create(320, 100, proto);
-					sf.LoadImage(edPtr->eFilename);
-					if (edPtr->swidth  <= 0) edPtr->swidth = sf.GetWidth();
-					if (edPtr->sheight <= 0) edPtr->sheight = sf.GetHeight();
-
-					//if ( bEditCurrentImage == TRUE )
-					//	spa->kv->mvEditImage2( (DWORD)spa->hFran, (LPBYTE)edPtr, 0);
-
+					// Store single-state options
+					spa->edPtr.eTrans = IsDlgButtonChecked(hDlg, IDC_TRANS) ? true : false;
+					spa->edPtr.eAutoCamera = IsDlgButtonChecked(hDlg, IDC_LOCATE) ? true : false;
+					spa->edPtr.eAutoRedraw = IsDlgButtonChecked(hDlg, IDC_AUTO_REDRAW) ? true : false;
+					spa->edPtr.eFog = IsDlgButtonChecked(hDlg, IDC_FOG) ? true : false;
 
 					// Update data
 					OnChangeName(hDlg, spa);
@@ -788,41 +1165,47 @@ BOOL CALLBACK DLLExport setupProc(HWND hDlg,uint msgType,WPARAM wParam,LPARAM lP
 					// Delete old images
 					if (edPtr->eNImages) {
 						LPINTERNALIMAGE pii = (LPINTERNALIMAGE)((LPBYTE)edPtr + sizeof(EDITDATA));
-						for (w=0; w<edPtr->eNImages; w++, pii++) {
+						for (w=0; w<edPtr->eNImages; w++, pii++)
 							if (pii->cImg)
 								DelImage(spa->kv->mvIdAppli, pii->cImg);
-						}
 					}
 
 					// Update edPtr
-					edPtr->eCurrentImage = spa->nCurrentImage;
-					edPtr->eNImages = spa->nImages;
-					if (spa->nImages)
-						memcpy((LPBYTE)edPtr + sizeof(EDITDATA), spa->ci, spa->nImages * sizeof(internalImage));
+					//edPtr->eCurrentImage = spa->edPtr.eCurrentImage;
+					//edPtr->eNImages = spa->edPtr.eNImages;
+					
+					// Copy temporary edit struct to real edit struct pointer
+					memcpy((LPBYTE)edPtr, &spa->edPtr, sizeof(EDITDATA));
+					
+					if (spa->edPtr.eNImages)
+						memcpy((LPBYTE)edPtr + sizeof(EDITDATA), spa->ci, spa->edPtr.eNImages * sizeof(internalImage));
 
 					// Update size of edPtr
 					edPtr->eHeader.extSize = sizeof(EDITDATA) + edPtr->eNImages * sizeof(internalImage);
 
 					// Edit image ?
 					if ( bEditCurrentImage )
-						if (spa->kv->mvEditAnimation)
+						if (IS_COMPATIBLE(spa->kv)) // MMF 1.5-only feature
 							spa->kv->mvEditAnimation((HFRAN)spa->hFran, (LPBYTE)edPtr, edPtr->eCurrentImage, 0);
 						else
 							spa->kv->mvEditImage2((DWORD)spa->hFran, (LPBYTE)edPtr, edPtr->eCurrentImage);
-
+						
 					// End dialog box
 					EndDialog(hDlg, 0);
 					return 0;
 				}
 				case IDCANCEL: {
 					// Delete new images
-					for (w=0; w<spa->nImages; w++) {
+					for (w=0; w<spa->edPtr.eNImages; w++) {
 						if (spa->ci[w].cImg)
 							DelImage(spa->kv->mvIdAppli, spa->ci[w].cImg);
 					}
 
-					// Update size of edPtr
-					edPtr->eHeader.extSize = sizeof(EDITDATA) + edPtr->eNImages * sizeof(internalImage);
+					// !!! This isn't needed, is it?
+					// Update size of edPtr 
+					//edPtr->eHeader.extSize = sizeof(EDITDATA) + edPtr->eNImages * sizeof(internalImage);
+					
+					
 					// End dialog box
 					EndDialog(hDlg, -1);
 					return 0;
@@ -830,7 +1213,7 @@ BOOL CALLBACK DLLExport setupProc(HWND hDlg,uint msgType,WPARAM wParam,LPARAM lP
 
 			}
 			break;
-		}
+		} break;
 	}
 	return FALSE;
 }
@@ -986,20 +1369,20 @@ BOOL WINAPI	DLLExport UsesFile (LPSTR fileName)
 void WINAPI	DLLExport CreateFromFile (LPSTR fileName, LPEDATA edPtr)
 {
 	// Set default object flags
-	_fstrcpy (edPtr->eFilename, fileName);
+	//_fstrcpy (edPtr->eFilename, fileName);
 
 	// Get 65000 colors surface prototype
-	LPSURFACE proto;
-	GetSurfacePrototype(&proto, 16, ST_MEMORY, SD_DIB);
+	//LPSURFACE proto;
+	//GetSurfacePrototype(&proto, 16, ST_MEMORY, SD_DIB);
 
 	// Create surface and load image
-	cSurface sf;
-	sf.Create(4, 4, proto);
-	sf.LoadImage(fileName);
+	//cSurface sf;
+	//sf.Create(4, 4, proto);
+	//sf.LoadImage(fileName);
 
 	// Get image dimensions
-	edPtr->swidth = sf.GetWidth();
-	edPtr->sheight = sf.GetHeight();
+	//edPtr->swidth = sf.GetWidth();
+	//edPtr->sheight = sf.GetHeight();
 }
 
 // ---------------------

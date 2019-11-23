@@ -26,6 +26,8 @@ ushort WINAPI DLLExport GetRunObjectDataSize(fprh rhPtr, LPEDATA edPtr)
 //
 short WINAPI DLLExport CreateRunObject(LPRDATA rdPtr, LPEDATA edPtr, fpcob cobPtr) {
 
+	DEBUGMSG("CreateRunObject() Init");
+
 	fpry    ryPtr;
 	fprh    rhPtr;
  	rhPtr = rdPtr->rHo.hoAdRunHeader;
@@ -36,11 +38,44 @@ short WINAPI DLLExport CreateRunObject(LPRDATA rdPtr, LPEDATA edPtr, fpcob cobPt
 	rdPtr->rHo.hoY = cobPtr->cobY;
 	rdPtr->rHo.hoImgWidth = edPtr->swidth;
 	rdPtr->rHo.hoImgHeight = edPtr->sheight;
-	rdPtr->rTrans = edPtr->eTrans;
 	rdPtr->rShow = true;
-	rdPtr->rVanish = 100;
-	rdPtr->rRepeat = edPtr->eRepeat;
+	rdPtr->rTrans = edPtr->eTrans;
+	rdPtr->rRepeatX = edPtr->eRepeatX;
+	rdPtr->rRepeatY = edPtr->eRepeatY;
+	
+	rdPtr->rImageNum = -2;
+	rdPtr->rImage2Num = -2;
+	rdPtr->rImageHNum = -2;
+	
+	rdPtr->rZoom = 100;
+	rdPtr->rResX = edPtr->eResX;
+	rdPtr->rResY = edPtr->eResY;
+	rdPtr->rResMode = rdPtr->rResMode2 = edPtr->eResMode; // Full draw mode
+	rdPtr->rResModeParam = edPtr->eResModeParam;
+	rdPtr->rThickness = edPtr->eThickness;
+	rdPtr->rThicknessMode = edPtr->eThicknessMode; // Fill thickness mode
+	rdPtr->rZoom = 100;
+	rdPtr->rFog = edPtr->eFog;
+	rdPtr->rFogColor = edPtr->eFogColor;
+	rdPtr->rFogDistance = edPtr->eFogDistance;
+	rdPtr->rMipmap = edPtr->eMipmap;
+	rdPtr->rMipmap2 = edPtr->eMipmap2;
+	rdPtr->rMipmapH = edPtr->eMipmapH;
+	rdPtr->rAutoRedraw = edPtr->eAutoRedraw;
+	rdPtr->rNeedRedraw = true;
+	rdPtr->rInterpolate = edPtr->eInterpolate;
+	rdPtr->rInterpolateHeight = edPtr->eInterpolateHeight;
+		
+	rdPtr->rElevation = 5000;
+		
+	rdPtr->rImageWidth=0;
+	rdPtr->rImageHeight=0;
+	rdPtr->rImage2Width=0;
+	rdPtr->rImage2Height=0;
+	rdPtr->rImageHWidth=0;
+	rdPtr->rImageHHeight=0;
 
+		
 	// Internal image transfer
 
 	rdPtr->rNImages = edPtr->eNImages;
@@ -52,21 +87,45 @@ short WINAPI DLLExport CreateRunObject(LPRDATA rdPtr, LPEDATA edPtr, fpcob cobPt
 	LPSURFACE wSurf = WinGetSurface((int)rhPtr->rhIdEditWin);
 	rdPtr->rSf = NULL;
 	rdPtr->rImage = NULL;
-	//if ( wSurf != NULL ) {
+	//if ( wSurf != NULL ) {}
 	LPSURFACE pProto = NULL;
 	if (GetSurfacePrototype(&pProto, 24, ST_MEMORYWITHDC, SD_DDRAW)||GetSurfacePrototype(&pProto, 24, ST_MEMORYWITHDC, SD_DIB)) {
 		// OK
 		rdPtr->rSf = new cSurface;
 		rdPtr->rSf->Create(edPtr->swidth, edPtr->sheight, pProto);
+		if (!rdPtr->rSf->IsValid()) {
+			GetSurfacePrototype(&pProto, 24, ST_MEMORYWITHDC, SD_DIB);
+			rdPtr->rSf->Create(edPtr->swidth, edPtr->sheight, pProto);
+		}
 		if (wSurf != NULL) {
 			if ((rdPtr->rImage = new cSurface) != NULL)
 				rdPtr->rImage->Create(1, 1, wSurf);
+
 			if ((rdPtr->rImage2 = new cSurface) != NULL)
 				rdPtr->rImage2->Create(1, 1, wSurf);
+
 			if ((rdPtr->rImageH = new cSurface) != NULL)
 				rdPtr->rImageH->Create(1, 1, wSurf);
 		}
 	}
+	
+	if (rdPtr->rSf != NULL && !rdPtr->rSf->IsValid()) {
+		DEBUGMSG("rSf is NOT valid (deleting)!");
+		delete rdPtr->rSf;
+	}
+	if (rdPtr->rImage != NULL && !rdPtr->rImage->IsValid()) {
+		DEBUGMSG("rImage is NOT valid (deleting)!");
+		delete rdPtr->rImage;
+	}
+	if (rdPtr->rImage2 != NULL && !rdPtr->rImage2->IsValid()) {
+		DEBUGMSG("rImage2 is NOT valid (deleting)!");
+		delete rdPtr->rImage2;
+	}
+	if (rdPtr->rImageH != NULL && !rdPtr->rImageH->IsValid()) {
+		DEBUGMSG("rImageH is NOT valid (deleting)!");
+		delete rdPtr->rImageH;
+	}
+	
 
 /* alternative engine
 	rdPtr->pBits;
@@ -76,72 +135,111 @@ short WINAPI DLLExport CreateRunObject(LPRDATA rdPtr, LPEDATA edPtr, fpcob cobPt
 	rdPtr->pBits = rdPtr->adDib + sizeof(BITMAPINFOHEADER);
 	rdPtr->rSf->SaveImage ((LPBITMAPINFO)(rdPtr->adDib), rdPtr->pBits, SI_NONE);
 */
+	if (rdPtr->rSf == NULL)
+		DEBUGMSG("failed to create rSf!");
 
-
-	// Load image into surface (remap it if 256 colors)
-	if (rdPtr->rImage != NULL) {
-		// Transfer internal image to surface...
-
-		_fstrcpy(rdPtr->rImageFile, edPtr->eFilename);
-		if (rdPtr->rImage->LoadImage(rdPtr->rImageFile, LI_REMAP))
-			rdPtr->rImageNum = -1;
-		else if (rdPtr->rNImages) {
+	// Transfer internal image to surface...
+	
+	// First check we have any images
+	if (rdPtr->rNImages) { 
+	
+		// If main image is set and is a valid id
+		if (edPtr->eImageNum>=0 && edPtr->eImageNum < rdPtr->rNImages) {
+			// Get internal image struct (pointer to an array) from the end of run data struct
+			LPINTERNALIMAGE pii = (LPINTERNALIMAGE)((LPBYTE)rdPtr + sizeof(RUNDATA));
+			// cSurface object to load internal image into
+			cSurface imageSurface;
+			// LockImageSurface loads in a surface check valid
+			if (::LockImageSurface (rhPtr->rhIdAppli, ((LPINTERNALIMAGE)(pii+(rdPtr->rImageNum = edPtr->eImageNum)))->cImg, imageSurface, LOCKIMAGE_READBLITONLY) && 
+					imageSurface.IsValid()) {
+				// Create new surface from our current prototype or the imageSurface's
+				rdPtr->rImage->Create(imageSurface.GetWidth(), imageSurface.GetHeight(), pProto!=NULL ? pProto : &imageSurface);
+				if (rdPtr->rImage->IsValid()) {
+					rdPtr->rImageWidth = rdPtr->rImage->GetWidth();
+					rdPtr->rImageHeight = rdPtr->rImage->GetHeight();
+					imageSurface.Blit(*rdPtr->rImage, 0, 0, BMODE_OPAQUE, BOP_COPY, 0);
+				}
+			}
+			::UnlockImageSurface (imageSurface);
+		}
+		
+		// If secondary image is set and is a valid id
+		if (edPtr->eImage2Num>=0 && edPtr->eImage2Num < rdPtr->rNImages) {
 			LPINTERNALIMAGE pii = (LPINTERNALIMAGE)((LPBYTE)rdPtr + sizeof(RUNDATA));
 			cSurface imageSurface;
-			::LockImageSurface (rhPtr->rhIdAppli, pii->cImg, imageSurface, LOCKIMAGE_READBLITONLY);
-			rdPtr->rImage->Create(imageSurface.GetWidth(),imageSurface.GetHeight(),pProto);
-			imageSurface.Blit(*rdPtr->rImage, 0, 0, BMODE_OPAQUE, BOP_COPY, 0);
+			if (::LockImageSurface (rhPtr->rhIdAppli, ((LPINTERNALIMAGE)(pii+(rdPtr->rImage2Num = edPtr->eImage2Num)))->cImg, imageSurface, LOCKIMAGE_READBLITONLY)&&
+					imageSurface.IsValid()) {
+				rdPtr->rImage2->Create(imageSurface.GetWidth(), imageSurface.GetHeight(), pProto!=NULL ? pProto : &imageSurface);
+				if (rdPtr->rImage2->IsValid()) {
+					imageSurface.Blit(*rdPtr->rImage2, 0, 0, BMODE_OPAQUE, BOP_COPY, 0);
+					rdPtr->rImage2Width = rdPtr->rImage2->GetWidth();
+					rdPtr->rImage2Height = rdPtr->rImage2->GetHeight();
+				}
+			}
 			::UnlockImageSurface (imageSurface);
-			rdPtr->rImageNum = 0;
 		}
-
-		rdPtr->rImageWidth = rdPtr->rImage->GetWidth();
-		rdPtr->rImageHeight = rdPtr->rImage->GetHeight();
-		rdPtr->rImage2Width = rdPtr->rImage2->GetWidth();
-		rdPtr->rImage2Height = rdPtr->rImage2->GetHeight();
-		rdPtr->rImageHWidth = rdPtr->rImageH->GetWidth();
-		rdPtr->rImageHHeight = rdPtr->rImageH->GetHeight();
-		rdPtr->rImage2Num = -2;
-		rdPtr->rImageHNum = -2;
-		rdPtr->rAngle = 180;
-		rdPtr->rZoom = 100;
-		rdPtr->rResX = 1;
-		rdPtr->rResY = 1;
-		rdPtr->rResMode = 1; // Full draw mode
-		rdPtr->rResModeParam = 128;
-		rdPtr->rThickness = 0;
-		rdPtr->rThicknessMode = 1; // Fill thickness mode
-		rdPtr->rZoom = 100;
-		rdPtr->rXOffset = -rdPtr->rImageWidth / 2;
-		rdPtr->rYOffset = -rdPtr->rImageHeight*2;
-		rdPtr->rElevation = 5000;
-		rdPtr->rFog = 0;
-		rdPtr->rFogColor = RGB(0,0,0);
-		rdPtr->rFogDistance = 1000;
-		rdPtr->rMipmap = true;
-		rdPtr->rMipmap2 = true;
-		rdPtr->rMipmapH = false;
-		rdPtr->rAutoRedraw = true;
-		rdPtr->rNeedRedraw = false;
-		rdPtr->rMipTrans = 0;
 		
-		
-		for (int i=12; --i>=0;) {
-			rdPtr->rMipmaps[i]=new cSurface;
-			rdPtr->rMipmaps2[i]=new cSurface;
-			rdPtr->rMipmapsH[i]=new cSurface;
+		// If height map image is set and is a valid id
+		if (edPtr->eImageHNum>=0 && edPtr->eImageHNum < rdPtr->rNImages) {
+			LPINTERNALIMAGE pii = (LPINTERNALIMAGE)((LPBYTE)rdPtr + sizeof(RUNDATA));
+			cSurface imageSurface;
+			if (::LockImageSurface (rhPtr->rhIdAppli, ((LPINTERNALIMAGE)(pii+(rdPtr->rImageHNum = edPtr->eImageHNum)))->cImg, imageSurface, LOCKIMAGE_READBLITONLY) &&
+					imageSurface.IsValid()) {
+				rdPtr->rImageH->Create(imageSurface.GetWidth(), imageSurface.GetHeight(), pProto!=NULL ? pProto : &imageSurface);
+				if (rdPtr->rImageH->IsValid()) {
+					imageSurface.Blit(*rdPtr->rImageH, 0, 0, BMODE_OPAQUE, BOP_COPY, 0);
+					rdPtr->rImageHWidth = rdPtr->rImageH->GetWidth();
+					rdPtr->rImageHHeight = rdPtr->rImageH->GetHeight();
+				}
+			}
+			::UnlockImageSurface (imageSurface);
 		}
-		UpdateMipMaps(rdPtr);
-		UpdateMipMaps2(rdPtr);
-		UpdateMipMapsH(rdPtr);
-		// Store dimensions
-		rdPtr->rHo.hoImgWidth = rdPtr->rSf->GetWidth();
-		rdPtr->rHo.hoImgHeight = rdPtr->rSf->GetHeight();
-
-		if (rdPtr->rSf != NULL)
-			RedrawScene(rdPtr,0);
 	}
 
+
+	if (edPtr->eAutoCamera) {
+		rdPtr->rAngle = 180;
+		rdPtr->rXOffset = rdPtr->rImageWidth >> 1;
+		rdPtr->rYOffset = rdPtr->rImageHeight + rdPtr->rImageWidth;
+	} else {
+		rdPtr->rAngle = 0;
+		rdPtr->rXOffset = 0;
+		rdPtr->rYOffset = 0;
+	}
+
+	for (int i=12; --i>=0;) {
+		rdPtr->rMipmaps[i]=new cSurface;
+		rdPtr->rMipmaps2[i]=new cSurface;
+		rdPtr->rMipmapsH[i]=new cSurface;
+	}
+
+
+	if (edPtr->eMipTrans) {
+		rdPtr->rMipTrans = rdPtr->rMipTrans2 = edPtr->eMipTransColor;
+		// Workaround due to color glitching
+		LPSURFACE dsf = new cSurface;
+		dsf->Create(4,4,rdPtr->rImage);
+		dsf->Fill(rdPtr->rMipTrans);
+		HDC ddc = dsf->GetDC();
+		SetStretchBltMode(ddc,HALFTONE);
+		SetBrushOrgEx(ddc,0,0,NULL);
+		StretchBlt(ddc, 0, 0, 1, 1, ddc, 1, 0, 3, 4, SRCCOPY);
+		dsf->GetPixel(0,0,rdPtr->rMipTrans2);
+		dsf->ReleaseDC(ddc);
+		delete dsf;
+	} else
+		rdPtr->rMipTrans = 0;
+		
+	UpdateMipMaps(rdPtr);
+	UpdateMipMaps2(rdPtr);
+	UpdateMipMapsH(rdPtr);
+	
+	// Store dimensions
+	rdPtr->rHo.hoImgWidth = edPtr->swidth;
+	rdPtr->rHo.hoImgHeight = edPtr->sheight;
+
+
+	DEBUGMSG("CreateRunObject() DONE");
 	// No errors
 	return 0;
 }
@@ -154,6 +252,7 @@ short WINAPI DLLExport CreateRunObject(LPRDATA rdPtr, LPEDATA edPtr, fpcob cobPt
 //
 short WINAPI DLLExport DestroyRunObject(LPRDATA rdPtr, long fast)
 {
+	DEBUGMSG("DestroyRunObject() INIT");
 
 	// Delete image surface
 	if (rdPtr->rSf != NULL)
@@ -174,7 +273,8 @@ short WINAPI DLLExport DestroyRunObject(LPRDATA rdPtr, long fast)
 	}
 
 	callRunTimeFunction(rdPtr, RFUNCTION_REDISPLAY, 0, 0);
-
+	
+	DEBUGMSG("DestroyRunObject() DONE");
 	// No errors
 	return 0;
 }
