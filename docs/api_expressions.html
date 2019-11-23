@@ -1,0 +1,169 @@
+<html><!-- #BeginTemplate "/Templates/temp.dwt" -->
+<head>
+<!-- #BeginEditable "doctitle" -->
+<title>mode 7 ex - documentation - api - expressions</title>
+<!-- #EndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="docs.css" type="text/css">
+</head>
+
+<body bgcolor="#333366" text="#FFFFFF" link="#DDEEFF" vlink="#DDEEFF" alink="#3366FF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><a href="index.html"><img src="images/logo.gif" width="300" height="100" border="0"></a></td>
+    <td width="100%" align="right" valign="bottom"><p><a href="http://cellosoft.com/">cellosoft.com</a><br>
+        <b>documentation:</b> <!-- #BeginEditable "page" --><a href="index.html">index</a> - <a href="api.html">api reference</a> -  expressions<!-- #EndEditable --></p>
+      </td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="5">
+  <tr>
+    <td><!-- #BeginEditable "body" -->
+      <p><b>Mode 7 ex API Reference: Expressions</b></p>
+      <ul>
+        <br>
+        <li><b>Size</b></li>
+        <ul>
+          <li><b>Get Width</b> - returns the mode 7 ex object's width on the screen</li>
+          <li><b>Get Height</b> - returns the mode 7 ex object's height on the screen</li>
+        </ul>
+        <br>
+        <li><b>Images</b></li>
+        <ul>
+            
+          <li><b>Main Image Map</b></li>
+          <ul>
+            <li><b>Get Image Width</b> - returns the actual width of the image loaded into the main surface</li>
+            <li><b>Get Image Height</b></li>
+            - returns the actual height of the image loaded into the main surface<b><br>
+                </b>
+            <li><b>Get Image Number</b> - returns the id number of the currently loaded image in the main surface, -1 for an external image</li>
+            <li><b>Get Image Name</b> - returns the internal image name or external file name depending on context</li>
+          </ul>
+          <br>
+          <li><b>Secondary Image Map</b></li>
+          <ul>
+            <li><b>Get Image Width</b> - returns the actual width of the image loaded into the secondary surface</li>
+            <li><b>Get Image Height</b> - returns the actual height of the image loaded into the secondary surface</li>
+            <li><b>Get Image Number</b> - returns the id number of the currently loaded image in the secondary surface, -1 for an external image, -2 for none</li>
+            <li><b>Get Image Name</b> - returns the internal image name or external file name depending on context</li>
+          </ul>
+          <br>
+          <li><b>Image Height Map</b></li>
+          <ul>
+            <li><b>Get Image Width</b> - returns the actual width of the image loaded as a height map</li>
+            <li><b>Get Image Height</b> - returns the actual height of the image loaded as a height map</li>
+            <li><b>Get Image Number</b> - returns the id number of the currently loaded image as a height map, -1 for an external image, -2 for none</li>
+            <li><b>Get Image Name</b> - returns the internal image name or external file name depending on context</li>
+            <li><b>Get Height At</b> - returns the height in mode 7 ex thickness units at a particular x,y point</li>
+          </ul>
+        </ul>
+        <br>
+        <li><b>Render Options</b> - <i>for more detailed explanations of the render options, refer to the <a href="api_actions.html">actions reference</a></i></li>
+        <ul>
+          <li><b>Display Resolution</b></li>
+          <ul>
+            <li><b>Get Horizontal Resolution</b></li>
+            <li><b>Get Vertical Resolution</b></li>
+            <li><b>Get Resolution Mode</b> - returns a number 0-3</li>
+            <li><b>Get Resolution Mode Parameter</b> - returns a number 0-255</li>
+          </ul>
+          <br>
+          <li><b>Transparency Mode</b></li>
+          <ul>  
+            <li><b>Get Enabled (1=on)</b> - returns 1 if transparency mode is enable, 0 if it's disabled</li>
+          </ul>
+          <br>
+          <li><b>Thickness and Height</b></li>
+          <ul>  
+            <li><b>Get Thickness</b> - returns the current thickness/maximum height</li>
+            <li><b>Get Thickness Mode</b> - returns a number 0-2</li>
+          </ul>
+          <br>
+          <li><b>Interpolation</b></li>
+          <ul>
+                
+            <li><b>Image Interpolation Mode (1=on)</b> - returns 1 if image interpolation is enabled, 0 if it's disabled</li>
+            <li><b>Elevation Interpolation Mode (1=on)</b> - returns 1 if elevation/height map interpolation is enabled, 0 if it's disabled</li>
+          </ul>
+          <br>
+          <li><b>Mip-Mapping</b></li>
+          <ul>  
+            <li><b>Get Image Mip-Mapping Mode (1=on)</b> - returns 1 if main surface mip-mapping is enabled, 0 if it's disabled</li>
+            <li><b>Get Secondary Image Mip-Mapping Mode (1=on)</b> - returns 1 if secondary surface mip-mapping is enabled, 0 if it's disabled</li>
+            <li><b>Get Image Height Map Mip-Mapping Mode (1=on)</b> - returns 1 if height map mip-mapping is enabled, 0 if it's disabled</li>
+          </ul>
+          <br>
+          <li><b>Wrap Mode</b></li>
+          <ul>  
+            <li><b>Get Horizontal (1=on)</b> - returns 1 if horizontal wrapping is enabled, 0 if it's disabled</li>
+            <li><b>Get Vertical (1=on)</b> - returns 1 if vertical wrapping is enabled, 0 if it's disabled</li>
+          </ul>
+          <br>
+          <li><b>Fog</b></li>
+          <ul>  
+            <li><b>Enabled Mode (1=on)</b> - returns 1 if fog is enabled, 0 if it's disabled</li>
+            <li><b>Color</b></li>
+            <ul>
+              <li><b>Get Red</b> - returns the red component of the fog color</li>
+              <li><b>Get Green</b> - returns the green component of the fog color</li>
+              <li><b>Get Blue</b> - returns the blue component of the fog color</li>
+            </ul>
+            <li><b>Get Amount</b> - returns the amount of fog</li>
+          </ul>
+          <br>
+          <li><b><i>Get Vanishing Point</i></b><i> - not used</i></li>
+          <li><b>Get Zoom factor</b> - returns the zoom factor as a percentage</li>
+        </ul>
+        <br>
+        <li><b>Rotation</b></li>
+        <ul>
+          <li><b><i>Get Tilt Angle (X)</i></b><i> - not used</i></li>
+          <li><b>Get Rotation Angle (Y)</b> - returns the current camera rotation angle in degrees</li>
+          <li><b><i>Get Roll (Z)</i></b><i> - not used</i></li>
+        </ul>
+        <br>
+        <li><b>Origin</b></li>
+        <ul>
+          <li><b>Get X</b> - returns the current horizontal camera position</li>
+          <li><b>Get Y</b> - returns the current vertical camera position</li>
+          <li><b>Get Z (Elevation)</b> - returns the current distance from the surface</li>
+        </ul>
+        <br>
+        <li><b>Secondary Layer</b></li>
+        <ul>
+          <li><b>Get X Origin</b> - returns the current horizontal position of the secondary surface</li>
+          <li><b>Get Y Origin </b> - returns the current vertical position of the secondary surface</li>
+          <li><b>Get Rotation Angle (Y) </b>- returns the current secondary angle in degrees</li>
+        </ul>
+        <br>
+        <li><b>Sprite Mapping</b></li>
+        <ul>
+          <li><b>Get on-screen X from X,Y</b> - returns the mapped onscreen X coordinate of a sprite at X,Y on the Mode 7 ex surface</li>
+          <li><b>Get on-screen Y from X,Y</b> - returns the mapped onscreen Y coordinate of a sprite at X,Y on the Mode 7 ex surface</li>
+          <li><b>Get on-screen width from X,Y,W,H</b> - returns the mapped width of a sprite at X,Y on the Mode 7 ex surface if it's 'true' width and height is WxH</li>
+          <li><b>Get on-screen height from X,Y,W,H</b> - returns the mapped height of a sprite at X,Y on the Mode 7 ex surface if it's 'true' width and height is WxH</li>
+          <li><b>Get on-screen X from X,Y,Z</b> - returns the mapped onscreen X coordinate of a sprite at X,Y with an elevation of Z on the Mode 7 ex surface</li>
+          <li><b>Get on-screen Y from X,Y,Z</b> - returns the mapped onscreen Y coordinate of a sprite at X,Y with an elevation of Z on the Mode 7 ex surface</li>
+          <li><b>Get on-screen angle from X,Y,A</b> - returns the mapped angle of a sprite at X,Y facing a direction with angle A</li>
+          <li><b>Visible at X,Y,W,H (1=visible)</b> - returns 1 if a sprite at X,Y with width and height of WxH should be visible on the screen, 0 if it shouldn't</li>
+          <li><b>Visible at X,Y,Z,W,H (1=visible)</b> - returns 1 if a sprite at X,Y with an elevation of Z, a width of W and height of H should be visible on the screen, 0 if it shouldn't</li>
+        </ul>
+        <br>
+        <li><b>Redraw</b></li>
+        <ul>
+          <li><b>Auto-Redraw Enabled (1=on)</b> - returns 1 if auto-redraw is enabled, 0 if it's disabled</li>
+        </ul>
+      </ul>
+      <!-- #EndEditable -->
+      </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <p><b class="copyright">mode 7 ex copyright &copy; 2000-2002 Marcello Bast&eacute;a-Forte and Cellosoft</b></p>
+      </td>
+  </tr>
+</table>
+<p class="copyright">&nbsp; </p>
+</body>
+<!-- #EndTemplate --></html>

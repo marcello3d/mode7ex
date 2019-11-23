@@ -1,0 +1,111 @@
+<html><!-- #BeginTemplate "/Templates/temp.dwt" -->
+<head>
+<!-- #BeginEditable "doctitle" -->
+<title>mode 7 ex - documentation - index</title>
+<!-- #EndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="docs.css" type="text/css">
+</head>
+
+<body bgcolor="#333366" text="#FFFFFF" link="#DDEEFF" vlink="#DDEEFF" alink="#3366FF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><a href="index.html"><img src="images/logo.gif" width="300" height="100" border="0"></a></td>
+    <td width="100%" align="right" valign="bottom"><p><a href="http://cellosoft.com/">cellosoft.com</a><br>
+        <b>documentation:</b> <!-- #BeginEditable "page" --><a href="index.html">index</a> - what's new<!-- #EndEditable --></p>
+      </td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="5">
+  <tr>
+    <td><!-- #BeginEditable "body" -->
+      <p>This is an overview of the new features in Mode 7 ex added since Mode 7 beta v0.82b.</p>
+      <table width="100%" border="0" cellspacing="0" cellpadding="5">
+        <tr>
+          <td>
+            <p><b>Rebuilt System Core</b></p>
+            <blockquote>
+              <p>Due to several implementation problems with the original Mode 7 extension, Mode 7 ex has been rebuilt from the ground up.  <br>
+    Likewise Mode 7 ex is not compatible with the Mode 7 beta extension, but the advantages of all the new features outweigh these minor glitches.</p>
+            </blockquote>
+            <p><b>Numerous Bug Fixes and Stability Improvements</b></p>
+            <blockquote>
+              <p>Along with the core rebuild, many previous bugs have been fixed.</p>
+              <p>No more do you have to disable DirectDraw simply to run the Mode 7 extension.  Mode 7 ex now supports DirectX imaging, allowing it to run at full speed with or without DirectX.</p>
+              <p>In addition, many other bugs and problems have been fixed, making Mode 7 ex all-around faster than the original.  Several new optimization routines have also been implemented to increase speed.</p>
+            </blockquote>
+            <p><b>New Setup Interface</b></p>
+            <blockquote>
+              <p>The new setup dialog in Mode 7 ex makes it easy to view and manipulate your image maps. It is also a great way to configure all your render options and the initial display settings for each Mode 7 ex object.</p>
+            </blockquote>
+            <p><b>Internal Image Support</b></p>
+            <blockquote>
+              <p>In Mode 7 ex you can import and edit all of your images directly in MMF, and they will be compiled into your application.  </p>
+              <p>Support for indexed and named images makes it easy to create fast texture animation or other cool effects.</p>
+            </blockquote>
+            <p><b>Auto-Redraw Support</b></p>
+            <blockquote>
+              <p>No longer are you required to manually redraw the screen.</p>
+              <p>Mode 7 ex's new 'smart' Auto-Redraw will decide when the screen needs to be redrawn.  This makes it easier to have an efficient drawing loop.  If the image hasn't changed, Mode 7 ex won't waste time  redrawing it!</p>
+            </blockquote>
+            <p><b>Height Map/Voxel Support</b></p>
+            <blockquote>
+              <p>One of the most exciting new features in Mode 7 ex is integrated Voxel support.</p>
+              <p>In Mode 7 ex you can load in a grayscale image (either internally stored or from a file) as a 'height map'.   This means you can create hills, mountains, valleys, rough terrain, slopes,  and more!</p>
+            </blockquote>
+            <p><b>Several New Render Options</b></p>
+            <blockquote>
+              <p>Mode 7 ex also features several new advanced render options. </p>
+              <p><b>Bi-directional Wrapping</b><br>
+                Now you can choose to wrap the main image horizontally and vertically, </p>
+              <p><b>Fog<br>
+    </b>This simple and fast effect creates a 3d gradient over your surface to create the illusion of fog.</p>
+              <p><b>Interpolation<br>
+    </b>This is the 21st century, and you shouldn't be limited by blocky pixels.  If you want to render high-quality images, interpolation is for you!</p>
+              <p>Using a pixel averaging algorithm, interpolation will make your maps as smooth as butter.  There is a noticeable speed hit with interpolation, but the results are rewarding.</p>
+              <p><b>Mip-Mapping</b><br>
+    Using a fancy technique usually limited to 3d hardware graphics, Mode 7 ex puts a powerful blending effect at your fingertips.  This speedy feature allows textures to blend as they vanish into the distance.</p>
+              <p><b>Thickness Modes<br>
+    </b>When you view a voxel terrain, Mode 7 ex will not automatically calculate  the voxels 'behind' the screen.  So, if you were 'inside' a mountain, it would appear to be 'sliced'.</p>
+              <p>By default Mode 7 ex will slice your mountain, but you also have the choice to calculate the extra voxels you wouldn't normally see.</p>
+              <p><b>Plus,</b> as always, you can change the resolution, wrap, and zoom modes.</p>
+            </blockquote>
+            <p><b>Secondary Layer</b></p>
+            <blockquote>
+              <p>New in Mode 7 ex, not only we're giving you a main and height map, but you get a secondary map layer, complete with independent rotation and x/y position.  </p>
+              <p>The secondary layer appears wherever the main layer does not.  This means you could create your race track on the main layer, then create grass that extends to infinity on the secondary layer.</p>
+            </blockquote>
+          </td>
+          <td align="center">
+            <p><img src="images/sample.gif" width="150" height="110"><br>
+        the new Mode 7 ex
+      </p>
+            <p><img src="images/voxels.gif" width="150" height="110"><br>
+        voxels</p>
+            <p><img src="images/fog.gif" width="150" height="110"><br>
+        3d fog
+      </p>
+            <p><img src="images/interpolation.gif" width="150" height="110"><br>
+        image interpolation
+      </p>
+            <p><img src="images/mipmap.gif" width="150" height="110"><br>
+        mip-mapping</p>
+            <p><img src="images/reflection.gif" width="150" height="110"><br>
+        secondary layer</p>
+            <p>&nbsp;</p>
+          </td>
+        </tr>
+      </table>
+      <p>So there you have it,  a summary of the new features in Mode 7 ex!</p>
+      <!-- #EndEditable -->
+      </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <p><b class="copyright">mode 7 ex copyright &copy; 2000-2002 Marcello Bast&eacute;a-Forte and Cellosoft</b></p>
+      </td>
+  </tr>
+</table>
+<p class="copyright">&nbsp; </p>
+</body>
+<!-- #EndTemplate --></html>

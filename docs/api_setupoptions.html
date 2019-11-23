@@ -1,0 +1,127 @@
+<html><!-- #BeginTemplate "/Templates/temp.dwt" -->
+<head>
+<!-- #BeginEditable "doctitle" -->
+<title>mode 7 ex - documentation - api - setup options</title>
+<!-- #EndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="docs.css" type="text/css">
+</head>
+
+<body bgcolor="#333366" text="#FFFFFF" link="#DDEEFF" vlink="#DDEEFF" alink="#3366FF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><a href="index.html"><img src="images/logo.gif" width="300" height="100" border="0"></a></td>
+    <td width="100%" align="right" valign="bottom"><p><a href="http://cellosoft.com/">cellosoft.com</a><br>
+        <b>documentation:</b> <!-- #BeginEditable "page" --><a href="index.html">index</a> - <a href="api.html">api reference</a> - setup options<!-- #EndEditable --></p>
+      </td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="5">
+  <tr>
+    <td><!-- #BeginEditable "body" -->
+      <p><b><img src="images/frameeditor.gif" width="249" height="173" align="left">Mode 7 ex API Reference: Setup Dialog and Object Options</b></p>
+      <p>Double-clicking a mode 7 ex object in the frame editor (as seen on the left) will bring up the main setup dialog.</p>
+      <p><b>Mode 7 ex options</b></p>
+      <p>Once the dialog opens, you should become aware of several sections for customizing your mode 7 ex object.</p>
+      <p><i><img src="images/setupdialog.gif" width="388" height="453" align="right">(Note: by default your options screen will most likely look different from the screen on the left.</i>)</p>
+      <p><b>Internal Images</b></p>
+      <p>Internal images allow you to store all you Mode 7 ex images for main surface, secondary surface, and height map internally.  You can store up to 200 different images in each Mode 7 ex object.  Multiple images can be used to create animations, different levels, or anything you can think of.</p>
+      <ul>
+        <li><b>Insert After</b> - creates a new internal image directly after the currently selected image.  It then opens up the image editor for the new image</li>
+        <li><b>Insert Before </b>- creates a new internal image at the current image spot, shifting the current image and all images after it.  It then opens up the image editor for the new image</li>
+        <li><b>ID #:</b> - displays the ID number of the currently selected image</li>
+        <li><b>&lt;</b> and <b>&gt;</b> - scrolls through the internal images</li>
+        <li><b>Name:</b> - allows you to edit the name of the current internal image for loading-by-name at runtime</li>
+        <li><b>Edit Image</b> - opens the currently select image in the Multimedia Fusion image editor</li>
+        <li><b>Delete Image</b> - deletes the currently selected image</li>
+        <li><b>Use this Image as:</b> - allows you to preselect image usage for the main surface, secondary surface, and height map</li>
+      </ul>
+      <p><b>Render Options</b></p>
+      <p>Render options control how the mode 7 ex render is created and displayed on the screen. Different options will create a different effect, and all options are not necessarily beneficial in all applications.</p>
+      <p>Several options may be displayed as a grayed check if they have been tweaked in the advanced settings dialog.  </p>
+      <ul>
+        <li><b>Wrap Image</b> - toggles horizontal and vertical wrap modes</li>
+        <li><b>Enable Fog </b>- with fog enabled, the image will 'fade' out in the distance</li>
+        <li><b>Enable Mip-Mapping</b> - with mip-mapping enabled, the image will be blended into solid color in the distance (helps prevent the moir&eacute; effect)</li>
+        <li><b>Use Black-Transparency</b> - with transparency mode enabled, any part of the Mode 7 ex render that is Black (0,0,0) will be displayed as transparent</li>
+        <li><b>Enable Interpolation</b> - interpolation will blend pixels that are close up to create a less blocky render</li>
+        <li><b>Advanced...</b> - options can be tweaked with more control in the advanced setup box</li>
+      </ul>
+      <p><b>Miscellaneous Options</b></p>
+      <ul>
+        <li><b>Enable Auto-Redraw</b> - Auto-redraw automatically decides when the mode 7 ex surface needs to be redrawn based on changing parameters (it is not recommended to disable auto-redraw)</li>
+        <li><b>Auto-Locate Camera</b> - This option will initialize the camera at a pre-calculated location based on the image specified for the main surface in the Internal Images section.  If this option is disabled, the camera is placed at 0,0.</li>
+      </ul>
+      <p><b>Mode 7 ex Advanced Options</b></p>
+      <p><b><img src="images/setupadvanced.gif" width="526" height="341" align="right"></b>The advanced options screen allows you to fine tune the Mode 7 ex render options.</p>
+      <ul>
+        <li><b>Interpolation</b>
+          <ul>
+            <li><b>Image</b> - interpolation on main surface</li>
+            <li><b>Height Map </b>- height map/elevation interpolation</li>
+          </ul>
+        </li>
+        <li><b>Mip-Mapping</b>
+          <ul>
+            <li><b>Main Image</b> - mip-mapping on the main surface</li>
+            <li><b>Secondary Image</b> - mip-mapping on the secondary surface</li>
+            <li><b>Height Mapping</b> - mip-mapping on the height map</li>
+            <li><b>Transparent Color:</b> - the color used in main surface blending</li>
+          </ul>
+        </li>
+        <li><b>Fog</b>
+          <ul>
+            <li><b>Enable Fog</b> - toggles fog (same as in the normal options screen)</li>
+            <li><b>Amount:</b> - the distance/amount of fog to use (0 is no fog, 50000 is a lot of fog)</li>
+            <li><b>Fog Color:</b> - choose the color of the fog</li>
+          </ul>
+        </li>
+        <li><b>Wrap</b>
+          <ul>
+            <li><b>Wrap Horizontally</b> - wrap the main image horizontally</li>
+            <li><b>Wrap Vertically</b> - wrap the main image vertically</li>
+          </ul>
+        </li>
+        <li><b>Height Mapping</b> - <i>height mapping allows you to use voxels in Mode 7 ex</i>
+          <ul>
+            <li><b>Thickness:</b> - the maximum height of voxels (uses the same unit as camera elevation)</li>
+            <li><b>Mode: </b>- controls how<b> </b>'hidden' pixels are calculated and drawn
+                  
+              <ul>
+                    
+                <li><b>Fast </b>- hidden pixels are ignored and can be seen through</li>
+                <li><b>Fill </b>- a 'slice' is created where hidden pixels would be</li>
+                <li><b>Full </b>- in this mode,<b> </b>the slowest,<b> </b>Mode 7 ex attempts to calculate as many hidden pixels as possible</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><b>Resolution</b> - resolution reduces the quality of the mode 7 ex render for higher speed by breaking it into chunks
+          <ul>
+            <li><b>Size:</b> - the size/spacing of each rendered pixel in Mode 7 ex (minimum 1x1, maximum 1000x1000)</li>
+            <li><b>Resolution Mode:</b>  - sets the resolution display type specified as a number and an optional parameter
+
+              <ul>
+                    
+                <li><b>Quick</b> - draws a single pixel for each rendered pixel</li>
+                <li><b>Full</b> - stretches each rendered pixel to fill the resolution size</li>
+                <li><b>Scanlines</b> - creates horizontal scanlines that only draws the first row of each  (use a 2x2 resolution)</li>
+                <li><b>% scanlines</b> - same as scanlines, but with blended lines (takes an opacity parameter of 0-255)</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <p>&nbsp;</p>
+      <!-- #EndEditable -->
+      </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <p><b class="copyright">mode 7 ex copyright &copy; 2000-2002 Marcello Bast&eacute;a-Forte and Cellosoft</b></p>
+      </td>
+  </tr>
+</table>
+<p class="copyright">&nbsp; </p>
+</body>
+<!-- #EndTemplate --></html>

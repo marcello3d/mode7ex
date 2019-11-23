@@ -1,0 +1,203 @@
+<html><!-- #BeginTemplate "/Templates/temp.dwt" -->
+<head>
+<!-- #BeginEditable "doctitle" -->
+<title>mode 7 ex - documentation - api - actions</title>
+<!-- #EndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="docs.css" type="text/css">
+</head>
+
+<body bgcolor="#333366" text="#FFFFFF" link="#DDEEFF" vlink="#DDEEFF" alink="#3366FF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><a href="index.html"><img src="images/logo.gif" width="300" height="100" border="0"></a></td>
+    <td width="100%" align="right" valign="bottom"><p><a href="http://cellosoft.com/">cellosoft.com</a><br>
+        <b>documentation:</b> <!-- #BeginEditable "page" --><a href="index.html">index</a> - <a href="api.html">api reference</a> -  actions<!-- #EndEditable --></p>
+      </td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="5">
+  <tr>
+    <td><!-- #BeginEditable "body" -->
+      <p><b>Mode 7 ex API Reference: Actions</b></p>
+      <p>The actions in Mode 7 ex are displayed here as they appear in the Mode 7 ex Actions menu within Multimedia Fusion.</p>
+      <ul>
+        <li><b>Size</b>
+          <ul>
+            <li><b>Set Width/Set Height </b>- sets the width and height of the mode 7 ex object on screen</li>
+          </ul>
+        </li>
+        <br>
+        <li><b>Images</b> - <i>note: image numbers use a zero index, the first image 0, second is 1, third is 2, and so on.</i>	
+          <ul>
+            <li><b>Main Image Map
+              </b>
+              <ul>
+                <li><b>Load File</b> - loads a new image (bmp, pcx, or gif) from a file into the main surface</li>
+                <li><b>Load Image number</b> - loads an internal image into the main surface </li>
+                <li><b>Load Image name</b> - loads an internal image into the main surface by name (specified in <a href="api_setupoptions.html">setup options</a>)</li>
+              </ul>
+            </li>
+            <br>
+            <li><b>Secondary Image Map
+              </b>
+              <ul>
+                <li><b>Load File</b> - loads a new image (bmp, pcx, or gif) from a file into the secondary surface</li>
+                <li><b>Load Image number</b> - loads an internal image into the secondary surface</li>
+                <li><b>Load Image name</b>- loads an internal image into the secondary surface by name (specified in <a href="api_setupoptions.html">setup options</a>) </li>
+                <li><b>Unload</b> - unloads and resets the current secondary image</li>
+              </ul>
+            </li>
+            <br>
+            <li><b>Image Height Map</b> - <i>note: you must specify a thickness before the height map will be used</i>
+              <ul>
+                <li><b>Load File</b> - loads a new image (bmp, pcx, or gif) from a file as a height map</li>
+                <li><b>Load Image number</b> - loads an internal image as a height map</li>
+                <li><b>Load Image name</b> - loads an internal image as a height map by name (specified in <a href="api_setupoptions.html">setup options</a>) </li>
+                <li><b>Unload</b> - unloads and resets the current height map</li>
+              </ul>
+            </li>
+          </ul>
+          <br>
+        </li>
+        <li><b>Render Options </b>- many of the render options can also be initialized from the <a href="api_setupoptions.html">setup options</a>
+          <ul>
+            <li><b>Display Resolution</b> - resolution reduces the quality of the mode 7 ex render for higher speed by breaking it into chunks
+              <ul>
+                <li><b>Set Resolution Size</b> - sets the horizontal and vertical resolution in one step, 1x1 is a full render</li>
+                <li><b>Set Resolution Mode</b>  - sets the resolution display type specified as a number and an optional parameter
+                  <ul>
+                    <li><b>0: quick</b> - draws a single pixel for each rendered pixel</li>
+                    <li><b>1: full</b> - stretches each rendered pixel to fill the resolution size</li>
+                    <li><b>2: scanlines</b> - creates horizontal scanlines that only draws the first row of each  (use a 2x2 resolution)</li>
+                    <li><b>3: % scanlines</b> - same as 2, but with blended lines (takes an opacity parameter of 0-255)</li>
+                  </ul>
+                </li>
+                <li><b>Set Horizontal Resolution</b></li>
+                <li><b>Set Vertical Resolution</b></li>
+              </ul>
+            </li>
+            <br>
+            <li><b>Transparency Mode
+              </b>
+              <ul>
+                <li><b>Enable/Disable</b> - toggles black-transparency  mode</li>
+              </ul>
+            </li>
+            <br>
+            <li><b>Thickness and Height</b> - <i>If no height map is loaded, the entire image will be set to the thickness.
+Thickness
+uses the same units as elevation.</i>
+<ul>
+                <li><b>Set Thickness</b> - specify the maximum thickness of the Mode 7 ex voxel support. If a height map is loaded, any black/0,0,0 will be flat, and any white/255,255,255 will reach the maximum thickness</li>
+                <li><b>Set Thickness Mode </b>- controls how<b> </b>'hidden' pixels are calculated and drawn
+                  <ul>
+                    <li><b>0: fast </b>- hidden pixels are ignored and can be seen through</li>
+                    <li><b>1: fill </b>- a 'slice' is created where hidden pixels would be</li>
+                    <li><b>2: full </b>- in this mode,<b> </b>the slowest,<b> </b>Mode 7 ex attempts to calculate as many hidden pixels as possible</li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <br>
+            <li><b>Interpolation</b> - <i>note: interpolation will slow down mode 7 ex considerably</i>
+              <ul>
+                <li><b>Enable/Disable Image Interpolation</b> - toggles interpolation/smoothing on main and secondary surfaces</li>
+                <li><b>Enable/Disable Elevation Interpolation </b>- toggles interpolation/smoothing on the height map</li>
+              </ul>
+            </li>
+            <br>
+            <li><b>Mip-Mapping</b> - <i>Mip-mapping does most of it's calculations when the image is loaded, making it a rather quick feature</i>
+              <ul>
+                <li><b>Enable/Disable Image Mip-Mapping</b> - toggles mip-mapping on the main surface</li>
+                <li><b>Set Mip-Map Transparent Color</b> - specify a color to use transparency in main surface mip-mapping</li>
+                <li><b>Clear Mip-Map Transparent Color</b> - resets transparency color to default</li>
+                <li><b>Enable/Disable Secondary Image Mip-Mapping</b> - toggles mip-mapping on the secondary image</li>
+                <li><b>Enable/Disable  Image Height Map Mip-Mapping</b> - toggles mip-mapping on the height map (may create undesired results)</li>
+              </ul>
+            </li>
+            <br>
+            <li><b>Wrap Mode</b>
+              <ul>
+                <li><b>Enable/Disable Horizontal Wrap</b> - enables/disables horizontal wrapping of the main surface image</li>
+                <li><b>Enable/Disable Vertical Wrap</b> - enables/disables vertical wrapping of the main surface image</li>
+              </ul>
+            </li>
+            <br>
+            <li><b>Fog</b>
+              <ul>
+                <li><b>Enable/Disable</b> - enables/disables fog</li>
+                <li><b>Color</b> - <i>Mode 7 ex provides several methods for adjusting the fog color</i>
+                  <ul>
+                    <li><b>Choose Color</b> - the standard Multimedia Fusion color selector</li>
+                    <li><b>Set Color</b> - Red, Green, and Blue components as numbers</li>
+                    <li><b>Set Red</b> - adjust just the red component</li>
+                    <li><b>Set Green</b> - adjust just the green component</li>
+                    <li><b>Set Blue</b> - adjust just the blue component</li>
+                  </ul>
+                </li>
+                <li><b>Set Amount</b> - the amount of fog on the screen, 0 is none, 50000 covers most or all of the screen</li>
+              </ul>
+            </li>
+            <li><i><b>Set Vanishing Point</b> - not used</i><b>              </b></li>
+            <li><b>Set Zoom factor</b> - a percentage (100 is default) affecting coordinates and image display</li>
+          </ul>
+        </li>
+        <br>
+        <li><b>Rotation</b>
+          <ul>
+            <li><b><i>Tilt Angle (X)</i></b><i> - not used</i></li>
+            <li><b>Rotation Angle (Y)</b> - set the angle in degrees  that the camera is facing</li>
+            <li><i><b>Roll (Z)</b> - not used</i></li>
+            <li><b><i>Adjust Tilt Angle (X)</i></b><i> - not used</i></li>
+            <li><b>Adjust Rotation Angle (Y)</b> - increases the angle in degrees that the camera is facing (or use a negative number to decrease)</li>
+            <li><b><i>Adjust Roll (Z)</i></b><i> - not used</i></li>
+          </ul>
+        </li>
+        <br>
+        <li><b>Set Origin</b> - the origin is the camera's/viewer's location on the Mode 7 ex surface          
+          <ul>
+            <li><b>X</b> - set the horizontal position</li>
+            <li><b>Y</b> - set the vertical position</li>
+            <li><b>Z (Elevation)</b> - set the distance from the surface.  a negative elevation will 'flip' the Mode 7 ex image for ceilings and clouds</li>
+            <li><b>Slide X</b> - increase the horizontal position (or use a negative number to decrease)</li>
+            <li><b>Slide Y</b> - increase the vertical position (or use a negative number to decrease)</li>
+            <li><b>Slide Z</b> - increase the distance from the surface (or use a negative number to decrease)</li>
+            <li><b>Walk Forward</b>  - moves the player 'forward' based on rotation angle (Y)</li>
+            <li><b>Walk Back</b>  - moves the player 'back' based on rotation angle (Y)</li>
+            <li><b>Walk Left (Strafe)</b>  - slides the player 'left' based on rotation angle (Y)</li>
+            <li><b>Walk Right (Strafe)</b> -   slides the player 'right' based on rotation angle (Y)</li>
+          </ul>
+        </li>
+        <br>
+        <li><b>Secondary Layer</b> - the secondary surface can have an independent position and angle from the main surface
+          <ul>
+            <li><b>Set X Origin</b> - set the horizontal position</li>
+            <li><b>Set Y Origin</b> - set the vertical position</li>
+            <li><b>Slide X Origin</b> - increase the horizontal position (or use a negative number to decrease)</li>
+            <li><b>Slide Y Origin</b> - increase the vertical position (or use a negative number to decrease)</li>
+            <li><b>Set Rotation Angle (Y)</b> - set the angle in degrees</li>
+            <li><b>Adjust Rotation Angle (Y)</b> - increase the angle in degrees (or use a negative number to decrease)</li>
+          </ul>
+        </li>
+        <br>
+        <li><b>Redraw</b> - <i> in general you will not need to touch these options</i>
+          <ul>
+            <li><b>Enable/Disable Auto Redraw</b> - enables/disables automatic screen redraw. with this option disabled you will need to use force redraw</li>
+            <li><b>Force Redraw</b> - forces Mode 7 ex to redraw the screen the next frame</li>
+          </ul>
+        </li>
+      </ul>
+      <p>&nbsp;</p>
+      <!-- #EndEditable -->
+      </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <p><b class="copyright">mode 7 ex copyright &copy; 2000-2002 Marcello Bast&eacute;a-Forte and Cellosoft</b></p>
+      </td>
+  </tr>
+</table>
+<p class="copyright">&nbsp; </p>
+</body>
+<!-- #EndTemplate --></html>

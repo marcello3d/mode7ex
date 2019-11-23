@@ -1,0 +1,49 @@
+<html><!-- #BeginTemplate "/Templates/temp.dwt" -->
+<head>
+<!-- #BeginEditable "doctitle" -->
+<title>mode 7 ex - documentation - moving to mode 7 ex</title>
+<!-- #EndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="docs.css" type="text/css">
+</head>
+
+<body bgcolor="#333366" text="#FFFFFF" link="#DDEEFF" vlink="#DDEEFF" alink="#3366FF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><a href="index.html"><img src="images/logo.gif" width="300" height="100" border="0"></a></td>
+    <td width="100%" align="right" valign="bottom"><p><a href="http://cellosoft.com/">cellosoft.com</a><br>
+        <b>documentation:</b> <!-- #BeginEditable "page" --><a href="index.html">index</a> - moving to mode 7 ex<!-- #EndEditable --></p>
+      </td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="5">
+  <tr>
+    <td><!-- #BeginEditable "body" -->
+      <p><b>Moving to Mode 7 ex from Mode 7 (v0.82b)</b></p>
+      <p>First off, it is important to understand that Mode 7 ex is not backward-compatible with mode 7 beta versions.  As the extension has a new name, you may concurrently use new and old versions.</p>
+      <p>If you are converting a Mode 7 program to Mode 7 ex, there are several things you should be aware of.</p>
+      <p><b>Coordinate system<br>
+        </b>In Mode 7 ex, the x and y origins are now reverse from Mode 7.  Using a more logical system, the position is relative to the actual image.  If you use an image size 200x200, setting the origin to 200,200 will position the camera at the bottom right corner of the image. This does not affect sprite mapping, which will maintain the proper coordinate system.</p>
+      <p><b>Sprite Mapping<br>
+        </b>The width and height calculation in Mode 7 ex now takes into account actual ground coordinates.  This means if you map a sprite to have a width and height of 50, the sprite will approximately match a 50 pixel length on your image map.</p>
+      <p><b>External Images<br>
+        </b>One<b>
+</b>of Mode 7 ex's new key features is the support for internal images.  This means that you don't need to include any external image with your game project.  Due to MMF's somewhat glitchy image loading methods, it is recommended to only use internal images.  Mode 7 ex can still load external images at runtime.</p>
+      <p><b>Camera Auto-Location</b><br>
+        By default, Mode 7 ex positions the camera an approximate distance to view the entire map at once.  You may disable this option in the object options to position the camera at 0,0.</p>
+      <p><b>Mip-Mapping<br>
+        </b>Also by default, Mode 7 ex enables mip-mapping on the main and secondary images.  In some cases this option does not yield the desired results.  If you find this so, you may disable the option in the object options.</p>
+      <p>&nbsp;</p>
+      <p>These are the key changes with the interface, but conversion should not be too difficult.</p>
+      <!-- #EndEditable -->
+      </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <p><b class="copyright">mode 7 ex copyright &copy; 2000-2002 Marcello Bast&eacute;a-Forte and Cellosoft</b></p>
+      </td>
+  </tr>
+</table>
+<p class="copyright">&nbsp; </p>
+</body>
+<!-- #EndTemplate --></html>
