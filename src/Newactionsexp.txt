@@ -1,0 +1,83 @@
+"Enable Image Interpolation",  		IDMN_ACTION_INTERPOL_ON
+"Disable Image Interpolation", 		IDMN_ACTION_INTERPOL_OFF
+"Enable Elevation Interpolation", 	IDMN_ACTION_HINTERPOL_ON
+"Disable Elevation Interpolation",	IDMN_ACTION_HINTERPOL_OFF
+"Image Interpolation Mode (1=on)", 	IDMN_EXP_GET_INTERPOL
+"Elevation Interpolation Mode (1=on)",	IDMN_EXP_GET_HINTERPOL
+
+
+
+
+
+"Set Thickness Mode",          IDMN_ACTION_SET_THICKNESSMODE
+"Set X Origin",                IDMN_ACTION_SET_XOFFSET2
+"Set Y Origin",                IDMN_ACTION_SET_YOFFSET2
+"Slide X Origin",              IDMN_ACTION_ADJUST_XOFFSET2
+"Slide Y Origin",              IDMN_ACTION_ADJUST_YOFFSET2
+"Set Rotation Angle (Y)",      IDMN_ACTION_SET_ANGLE2
+"Adjust Rotation Angle (Y)",   IDMN_ACTION_ADJUST_ANGLE2
+"Get Thickness Mode",          IDMN_EXP_GET_THICKNESSMODE
+"Get X Origin",                IDMN_EXP_GET_XOFFSET2
+"Get Y Origin",                IDMN_EXP_GET_YOFFSET2
+"Get Rotation Angle (Y)",      IDMN_EXP_GET_ANGLE2
+
+
+
+
+
+
+
+
+
+"Unload"				IDMN_ACTION_UNLOAD_IMAGE2
+"Unload"				IDMN_ACTION_UNLOAD_IMAGEH
+"Enable"				IDMN_ACTION_FOG_ON
+"Disable"				IDMN_ACTION_FOG_OFF
+"Choose Color"				IDMN_ACTION_CHOOSEFOGCOLOR
+"Set Color"				IDMN_ACTION_SETFOGCOLOR
+"Set Red"				IDMN_ACTION_SETFOGRED
+"Set Green"				IDMN_ACTION_SETFOGGREEN
+"Set Blue"				IDMN_ACTION_SETFOGBLUE
+"Set Distance"				IDMN_ACTION_SETFOGDISTANCE
+"Enabled Mode"				IDMN_EXP_GET_FOG
+"Get Red"				IDMN_EXP_GET_FOGRED
+"Get Green"				IDMN_EXP_GET_FOGGREEN
+"Get Blue"				IDMN_EXP_GET_FOGBLUE
+"Get Distance"				IDMN_EXP_GET_FOGDISTANCE
+
+
+
+
+
+
+
+
+
+
+"Adjust Tilt Angle (X)",       IDMN_ACTION_ADJUST_TILT
+"Adjust Roll (Z)",             IDMN_ACTION_ADJUST_ROLL
+"Set Horizontal Resolution",   IDMN_ACTION_SET_XRES
+"Set Vertical Resolution",     IDMN_ACTION_SET_YRES
+"Load Image number",           IDMN_ACTION_LOAD_IMAGENUM
+"Load Image name",             IDMN_ACTION_LOAD_IMAGENAME
+"Load File",                   IDMN_ACTION_LOAD_IMAGE2
+"Load Image number",           IDMN_ACTION_LOAD_IMAGE2NUM
+"Load Image name",             IDMN_ACTION_LOAD_IMAGE2NAME
+"Load File",                   IDMN_ACTION_LOAD_IMAGEH
+"Load Image number",           IDMN_ACTION_LOAD_IMAGEHNUM
+"Load Image name",             IDMN_ACTION_LOAD_IMAGEHNAME
+
+
+"Get Image Number",            	IDMN_EXP_GET_IMAGE_NUM
+"Get Image Name",              	IDMN_EXP_GET_IMAGE_NAME
+"Get Image Width",             	IDMN_EXP_GET_IMAGE2_WIDTH
+"Get Image Height",            	IDMN_EXP_GET_IMAGE2_HEIGHT
+"Get Image Number",            	IDMN_EXP_GET_IMAGE2_NUM
+"Get Image Name",              	IDMN_EXP_GET_IMAGE2_NAME
+"Get Image Filename",  		IDMN_EXP_GET_IMAGE2_FILE
+"Get Image Width",             	IDMN_EXP_GET_IMAGEH_WIDTH
+"Get Image Height",            	IDMN_EXP_GET_IMAGEH_HEIGHT
+"Get Image Number",            	IDMN_EXP_GET_IMAGEH_NUM
+"Get Image Name",              	IDMN_EXP_GET_IMAGEH_NAME
+"Get Image Filename", 		IDMN_EXP_GET_IMAGEH_FILE
+"Get Height At",  		IDMN_EXP_GET_IMAGE_HEIGHT_AT

@@ -1,0 +1,92 @@
+// ------------------------------------------------------------
+// CREATED BY CHRISTOPHER LIGHTFOOT
+// NEMONIX
+// http://www.nemonix.btinternet.co.uk
+// ------------------------------------------------------------
+
+// NOTE:
+// Remeber to include the following for common controls!
+
+#include <commctrl.h>
+
+// NOTE:
+
+// ID_TABS is the identifier for my tab control , change this as nessasery
+
+
+// --------------------
+// SetupProc
+// --------------------
+// This routine is yours. You may even not need a setup dialog box.
+// I have put it as an example...
+
+BOOL CALLBACK DLLExport setupProc(HWND hDlg,uint msgType,WPARAM wParam,LPARAM lParam)
+{
+	TCITEM				tabStruct;		
+	NMHDR*				msgHeader;
+
+	switch (msgType)
+	{
+	case WM_INITDIALOG: // Init dialog
+		SetWindowLong(hDlg, DWL_USER, lParam);
+		spa = (setupParams far *)GetWindowLong(hDlg, DWL_USER);
+		edPtr = spa->edpt;
+	
+		// Create the tabs
+		tabStruct.mask = TCIF_TEXT;
+		tabStruct.pszText = "Tab 1";
+		TabCtrl_InsertItem( GetDlgItem(hDlg, ID_TABS), 0, &tabStruct);
+		tabStruct.pszText = "Tab 2";
+		TabCtrl_InsertItem( GetDlgItem(hDlg, ID_TABS), 1, &tabStruct);
+		tabStruct.pszText = "Tab 3";
+		TabCtrl_InsertItem( GetDlgItem(hDlg, ID_TABS), 2, &tabStruct);
+		
+		int controls[][] = {
+			{ ID_CONTROL, ID_CONTROL2, 0 },
+			{ ID_CONTROL3, ID_CONTROL4, ID_CONTROL5, 0 },
+			{ ID_CONTROL6, 0 }
+				};
+				
+		RECT clientrc,controlrc;
+		GetClientRect(hDlg, &clientrc);
+		for (int tab=3; --tab>=0;) {
+			int i=0;
+			while (controls[tab][i]!=0) {
+				GetWindowRect(GetDlgItem(hDlg, controls[tab][i]), &controlrc);
+				SetWindowPos(GetDlgItem(hDlg, controls[tab][i]), 0, controlrc.left%(clientrc.right-clientrc.left), controlrc.top%(clientrc.bottom-clientrc.top), 0, 0, SWP_NOSIZE|SWP_NOZORDER|SWP_HIDEWINDOW|SWP_NOACTIVATE);
+				i++;
+			}
+		}
+			
+
+		return TRUE;
+
+	case WM_NOTIFY:
+		{
+		// Get the common controls message
+		msgHeader = (LPNMHDR)lParam;
+		// Test for our conteol
+		if( msgHeader->idFrom == ID_TABS)
+		{
+			// Switch tab messages
+			switch( msgHeader->code )
+			{
+			case TCN_SELCHANGE:
+				{
+					// Get the page
+					int iPage = TabCtrl_GetCurSel( GetDlgItem(hDlg, ID_TABS) ); 
+						
+					// Just some stuff to see the tab selected
+					char temp[8];
+					ltoa(iPage, temp, 10);
+
+					MessageBox(hDlg, temp, "Value", 0);
+
+					return 0;
+				}
+			}
+		}
+		return 0;
+	}
+	return FALSE;
+}
